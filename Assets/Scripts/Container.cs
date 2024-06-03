@@ -1,37 +1,24 @@
-using EasyButtons;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
-public class Container : BaseContainer<Transform>
+public enum ContainerType
+{
+    Resource,
+    Container
+}
+public class Container : MonoBehaviour
 {
     public Transform PlaceTransform;
-    [Button]
-    public override void SetItemInPlace(Transform item)
+    public Transform Item;
+    [SerializeField] private ContainerType type;
+    public ContainerType GetType() => type;
+    private void OnDrawGizmos()
     {
-        this.item = item;
-        item.SetParent(PlaceTransform);
-        item.transform.position = Vector3.zero;
-        item.transform.position = PlaceTransform.position;
-    }
-
-
-    public override Transform TryGetItem()
-    {
-        if (item != null)
+        if(PlaceTransform != null)
         {
-            item.parent = null;
-            return item;
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(PlaceTransform.position, .2f);
         }
-        return null;
     }
-}
 
-public abstract class BaseContainer<T> : MonoBehaviour
-{
-    public T item;
 
-    public abstract void SetItemInPlace(T item);
-    public abstract T TryGetItem();
 }

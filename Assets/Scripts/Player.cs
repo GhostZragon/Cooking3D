@@ -5,37 +5,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public CharacterController controller;
-    public float speed = 5;
-    public float rotateSpeed = 3;
-    public Vector3 direction;
-    public float angle = 0;
-    public int obstacleLayerMask;
-
+    [SerializeField] private PlayerMovement playerMovement;
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        playerMovement = GetComponent<PlayerMovement>();
         InputManager.OnMove += Move;
     }
     private void OnDestroy()
     {
         InputManager.OnMove -= Move;
     }
-    private void Move(Vector3 direction)
-    {
-        direction.x = Input.GetAxisRaw("Horizontal");
-        direction.z = Input.GetAxisRaw("Vertical");
 
-        controller.Move(direction.normalized * speed * Time.deltaTime);
-        Rotate(direction);
-    }
-
-    private void Rotate(Vector3 direction)
+    private void Move(Vector3 vector)
     {
-        if (direction == Vector3.zero)
-        {
-            return;
-        }
-        transform.forward = direction;
+        playerMovement.Move(vector);
     }
 }

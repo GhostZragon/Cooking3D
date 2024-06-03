@@ -6,10 +6,13 @@ using static UnityEditor.Progress;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public Transform Item;
-    public Transform ParentItemTransform;
+    public Transform PlayerItem;
+    public Transform Container;
     public Vector3 size;
     public Transform interactTransform;
+
+    [SerializeField] private float timer = 0;
+    
 
     private void Awake()
     {
@@ -21,20 +24,42 @@ public class PlayerInteract : MonoBehaviour
     }
     private void Update()
     {
+        Timer();
         Debug.DrawRay(transform.position, (interactTransform.position - transform.position).normalized, Color.red);
     }
+
+    private void Timer()
+    {
+        timer += Time.deltaTime;
+        if (timer >= 0.1f) timer = .1f;
+    }
+
     [Button]
     private void OnInteract()
     {
+        if (timer < 0.1f) return;
+        timer = 0;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit, 5))
         {
             if(hit.collider.TryGetComponent(out Container container))
             {
-                GetItemFromContainer(container);
+                if(container.GetType() == ContainerType.Container)
+                    GetItemFromContainer(container);
+                else
+                {
+                    GetItemFromSource(container);
+                }
             }
+
         }
     }
+
+    private void GetItemFromSource(Container component)
+    {
+      
+    }
+
     private void GetItemFromContainer(Container container)
     {
         if (container == null)
@@ -43,25 +68,13 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
 
-        if (Item == null)
-        {
-            // pickup
-            Debug.Log("On change");
-            var _Item = container.TryGetItem();
-            if(_Item != null)
-            {
-                Item = _Item;
-                Item.transform.SetParent(ParentItemTransform);
-                Item.localPosition = Vector3.zero;
-                Item.transform.position = ParentItemTransform.position;
-            }
-           
-        }
-        else
-        {
-            Debug.Log("On Drop");
-            container.SetItemInPlace(Item);
-            Item = null;
-        }
+
+        var currentItem = PlayerItem;
+        var containerItem = container.Item;
+
+        container.Item = currentItem;
+        PlayerItem = containerItem;
     }
+
+   
 }

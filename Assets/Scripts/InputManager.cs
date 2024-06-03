@@ -17,8 +17,8 @@ public class InputManager : MonoBehaviour
 
     private void OnMoveInput()
     {
-        moveDirection.x = Input.GetAxis("Horizontal");
-        moveDirection.z = Input.GetAxis("Vertical");
+        moveDirection.x = Input.GetAxisRaw("Horizontal");
+        moveDirection.z = Input.GetAxisRaw("Vertical");
 
         if (moveDirection != Vector3.zero)
         {
