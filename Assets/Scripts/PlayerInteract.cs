@@ -44,12 +44,8 @@ public class PlayerInteract : MonoBehaviour
         {
             if(hit.collider.TryGetComponent(out Container container))
             {
-                if(container.GetType() == ContainerType.Container)
-                    GetItemFromContainer(container);
-                else
-                {
-                    GetItemFromSource(container);
-                }
+                GetItemFromContainer(container);
+
             }
 
         }
@@ -67,13 +63,24 @@ public class PlayerInteract : MonoBehaviour
             Debug.Log("this null, pls check it", gameObject);
             return;
         }
-
+        Debug.Log(container.name);
 
         var currentItem = PlayerItem;
         var containerItem = container.Item;
 
         container.Item = currentItem;
         PlayerItem = containerItem;
+
+        if(PlayerItem != null)
+        {
+            PlayerItem.SetParent(Container);
+            PlayerItem.localPosition = Vector3.zero;
+        }
+        if (container.Item != null)
+        {
+            container.Item.SetParent(container.PlaceTransform);
+            container.Item.localPosition = Vector3.zero;
+        }
     }
 
    

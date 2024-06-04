@@ -2,15 +2,14 @@ using UnityEngine;
 
 public enum ContainerType
 {
-    Resource,
-    Container
+    Container,
+    Resource
 }
 public class Container : MonoBehaviour
 {
     public Transform PlaceTransform;
     public Transform Item;
-    [SerializeField] private ContainerType type;
-    public ContainerType GetType() => type;
+
     private void OnDrawGizmos()
     {
         if(PlaceTransform != null)

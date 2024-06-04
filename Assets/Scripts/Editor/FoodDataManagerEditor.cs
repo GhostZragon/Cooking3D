@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
+using UnityEditor.Rendering;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 [CustomEditor(typeof(FoodDataManager))]
 public class FoodDataManagerEditor : Editor
 {
     private List<FoodData> list;
-
     public override void OnInspectorGUI()
     {
         FoodDataManager foodDataManager = (FoodDataManager)target;
@@ -19,7 +21,14 @@ public class FoodDataManagerEditor : Editor
         {
             foodDataManager.List = LoadAllData(foodDataManager.List);
             list = foodDataManager.List;
+            //var path = AssetDatabase.GUIDToAssetPath(this.GetInstanceID().ToString());
+            //AssetDatabase.RenameAsset(path, $"{type.ToString() 1}");
+
+            //Debug.Log(path);
+
         }
+
+
 
         int size = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
         foodDataManager.show = EditorGUILayout.Foldout(foodDataManager.show, "Data", true);
@@ -52,9 +61,24 @@ public class FoodDataManagerEditor : Editor
         // Draw FoodType
         EditorGUI.indentLevel++;
         foodData.type = (FoodType)EditorGUILayout.EnumPopup("Type", foodData.type);
+        foodData.show = EditorGUILayout.Foldout(foodData.show, "Data", true);
+        if (foodData.show)
+        {
+            EditorGUI.indentLevel+=2;
+            for (int i = 0; i < foodData.FoodStructs.Count; i++)
+            {
+                var foodStruct = foodData.FoodStructs[i];
+                foodStruct.PrepareTechniques = (PrepareTechniques)EditorGUILayout.EnumPopup("Prepare Tenchiques", foodStruct.PrepareTechniques);
+                foodStruct.Model = 
+                    EditorGUILayout.ObjectField("Model " + foodStruct.PrepareTechniques.ToString()
+                    , foodStruct.Model, typeof(GameObject), false) as GameObject;
+            }
+            EditorGUI.indentLevel-=2;
+        }
+    
         EditorGUI.indentLevel--;
     }
-
+        
     private List<FoodData> LoadAllData(List<FoodData> foodsData)
     {
         foodsData.Clear();
