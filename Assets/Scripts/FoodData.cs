@@ -11,5 +11,6 @@ public struct FoodStruct
 [CreateAssetMenu(fileName = "FoodData_1",menuName = "FoodData")]
 public class FoodData : ScriptableObject
 {
+    public FoodType type;
     public List<FoodStruct> FoodStructs;
 }

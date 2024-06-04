@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80e60c68a446ddc4a96a31e9e44f311f, type: 3}
-  m_Name: FoodData_1
+  m_Script: {fileID: 11500000, guid: 2f8ecf253751fbb45a935e7c04ae7d81, type: 3}
+  m_Name: FoodDataManager
   m_EditorClassIdentifier: 
-  FoodStructs:
-  - PrepareTechniques: 3
-    Model: {fileID: 0}
-  - PrepareTechniques: 2
-    Model: {fileID: 0}
+  List: []

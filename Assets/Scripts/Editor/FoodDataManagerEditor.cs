@@ -3,91 +3,89 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class FoodDataManagerEditor : EditorWindow
+[CustomEditor(typeof(FoodDataManager))]
+public class FoodDataManagerEditor : Editor
 {
-    private List<FoodData> foodsData = new List<FoodData>();
-    private Vector2 scrollPos;
+    private List<FoodData> list;
 
-    [MenuItem("ToolsTip/Food Data Manager")]
-    static void ShowWindow()
+    public override void OnInspectorGUI()
     {
-        GetWindow<FoodDataManagerEditor>("Food Data Manager");
-    }
+        FoodDataManager foodDataManager = (FoodDataManager)target;
 
-    private void OnGUI()
-    {
-        GUILayout.Label("Food Data Manager",EditorStyles.boldLabel);
 
-        if (GUILayout.Button("Load All FoodData"))
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Food Data", EditorStyles.boldLabel);
+        if (GUILayout.Button("Refresh"))
         {
-            LoadAllData();
+            foodDataManager.List = LoadAllData(foodDataManager.List);
+            list = foodDataManager.List;
         }
-        
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-        foreach (var foodData in foodsData)
+        int size = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
+        foodDataManager.show = EditorGUILayout.Foldout(foodDataManager.show, "Data", true);
+        if (foodDataManager.show)
         {
-            EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.LabelField(foodData.name, EditorStyles.boldLabel);
-            for (int i = 0; i < foodData.FoodStructs.Count; i++)
+            EditorGUI.indentLevel++;
+            while (size > list.Count)
             {
-                var foodStruct = foodData.FoodStructs[i];
-                EditorGUILayout.BeginHorizontal();
-                foodStruct.PrepareTechniques = (PrepareTechniques)EditorGUILayout.EnumPopup("Prepare Technique", foodStruct.PrepareTechniques);
-                foodStruct.Model = (GameObject)EditorGUILayout.ObjectField("Model", foodStruct.Model, typeof(GameObject), false);
-                EditorGUILayout.EndHorizontal();
-                foodData.FoodStructs[i] = foodStruct;
+                list.Add(null);
             }
-            if (HasDuplicatePrepareTechniques(foodData.FoodStructs, out List<PrepareTechniques> duplicates))
+
+            while (size < list.Count)
             {
-                string duplicateMessage = "Duplicate PrepareTechniques found: " + string.Join(", ", duplicates);
-                EditorGUILayout.HelpBox(duplicateMessage, MessageType.Error);
+                list.RemoveAt(list.Count - 1);
             }
-            else
+
+            for (int i = 0; i < list.Count; i++)
             {
-                EditorGUILayout.HelpBox("No duplicate PrepareTechniques found.", MessageType.Info);
+                list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(FoodData), true) as FoodData;
+                DrawDetail(list[i]);
             }
-            EditorGUILayout.EndVertical();
-        }
-        GUILayout.EndScrollView();
-        if (GUI.changed)
-        {
-            foreach (var foodData in foodsData)
-            {
-                EditorUtility.SetDirty(foodData);
-            }
+
+            EditorGUI.indentLevel--;
         }
     }
 
-        private void LoadAllData()
+    private void DrawDetail(FoodData foodData)
+    {
+        if (foodData == null) return;
+        // Draw FoodType
+        EditorGUI.indentLevel++;
+        foodData.type = (FoodType)EditorGUILayout.EnumPopup("Type", foodData.type);
+        EditorGUI.indentLevel--;
+    }
+
+    private List<FoodData> LoadAllData(List<FoodData> foodsData)
+    {
+        foodsData.Clear();
+        string[] guids = AssetDatabase.FindAssets("t:FoodData", null);
+        foreach (var guid in guids)
         {
-            foodsData.Clear();
-            string[] guids = AssetDatabase.FindAssets("t:FoodData", null);
-            string path = null;
-            foreach (var guid in guids)
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            FoodData foodData = AssetDatabase.LoadAssetAtPath<FoodData>(path);
+            Debug.Log("Path " + path);
+            if (foodData != null)
             {
-                path = AssetDatabase.GUIDToAssetPath(guid);
-                FoodData foodData = AssetDatabase.LoadAssetAtPath<FoodData>(path);
-                Debug.Log("Path " + path);
-                if (foodData != null)
-                {
-                    foodsData.Add(foodData);
-                }
+                foodsData.Add(foodData);
             }
         }
-        private bool HasDuplicatePrepareTechniques(List<FoodStruct> foodStructs, out List<PrepareTechniques> duplicates)
+
+        return foodsData;
+    }
+
+    private bool HasDuplicatePrepareTechniques(List<FoodStruct> foodStructs, out List<PrepareTechniques> duplicates)
+    {
+        HashSet<PrepareTechniques> uniqueTechniques = new HashSet<PrepareTechniques>();
+        duplicates = new List<PrepareTechniques>();
+
+        foreach (var foodStruct in foodStructs)
         {
-            HashSet<PrepareTechniques> uniqueTechniques = new HashSet<PrepareTechniques>();
-            duplicates = new List<PrepareTechniques>();
-
-            foreach (var foodStruct in foodStructs)
+            if (!uniqueTechniques.Add(foodStruct.PrepareTechniques))
             {
-                if (!uniqueTechniques.Add(foodStruct.PrepareTechniques))
-                {
-                    duplicates.Add(foodStruct.PrepareTechniques);
-                }
+                duplicates.Add(foodStruct.PrepareTechniques);
             }
-
-            return duplicates.Count > 0;
         }
+
+        return duplicates.Count > 0;
+    }
 }
