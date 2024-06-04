@@ -1,4 +1,5 @@
 using EasyButtons;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,18 +43,29 @@ public class PlayerInteract : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit, 5))
         {
+            if (hit.collider.TryGetComponent(out SourceContainer sourceContainer))
+            {
+                GetInfinityItem(sourceContainer);
+                return;
+            }
+
             if(hit.collider.TryGetComponent(out Container container))
             {
                 GetItemFromContainer(container);
-
             }
 
         }
     }
 
-    private void GetItemFromSource(Container component)
+    private void GetInfinityItem(SourceContainer sourceContainer)
     {
-      
+        if (PlayerItem != null)
+        {
+            Debug.Log("You allready have item");
+            return;
+        }
+        PlayerItem = sourceContainer.RetrieveRawFood().transform;
+        SetItemParent(PlayerItem, Container);
     }
 
     private void GetItemFromContainer(Container container)
@@ -68,20 +80,21 @@ public class PlayerInteract : MonoBehaviour
         var currentItem = PlayerItem;
         var containerItem = container.Item;
 
+        // Swap
         container.Item = currentItem;
         PlayerItem = containerItem;
+        Debug.Log("Container item: "+ container.Item, container.gameObject);
+        // Set parent
+        SetItemParent(PlayerItem, Container);
 
-        if(PlayerItem != null)
-        {
-            PlayerItem.SetParent(Container);
-            PlayerItem.localPosition = Vector3.zero;
-        }
-        if (container.Item != null)
-        {
-            container.Item.SetParent(container.PlaceTransform);
-            container.Item.localPosition = Vector3.zero;
-        }
+        SetItemParent(container.Item, container.PlaceTransform);
+
     }
-
+    private void SetItemParent(Transform item,Transform parent)
+    {
+        if (item == null) return;
+        item.parent = parent;
+        item.localPosition = Vector3.zero;
+    }
    
 }

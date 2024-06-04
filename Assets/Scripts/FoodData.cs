@@ -5,18 +5,10 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using static UnityEditor.Progress;
-[Serializable]
-public struct FoodStruct
-{
-    public PrepareTechniques PrepareTechniques;
-    public GameObject Model;
-}
-[CreateAssetMenu(fileName = "FoodData_1",menuName = "FoodData")]
+[CreateAssetMenu(fileName ="FoodData",menuName ="Food Data")]
 public class FoodData : ScriptableObject
 {
     public FoodType type;
-    public List<FoodStruct> FoodStructs;
-    public bool show;
-
-
+    public RuntimeFoodData rawFoodState;
+    public List<RuntimeFoodData> TransformFoods;
 }

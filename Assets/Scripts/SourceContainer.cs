@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class SourceContainer : MonoBehaviour
 {
-
+    public Food prefab;
+    public Food RetrieveRawFood()
+    {
+        var food = Instantiate(prefab);
+        return food;
+    }
 }
