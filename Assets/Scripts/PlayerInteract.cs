@@ -9,6 +9,7 @@ public class PlayerInteract : MonoBehaviour
 {
     public Transform PlayerItem;
     public Transform Container;
+    public Plate plate;
     public Vector3 size;
     public Transform interactTransform;
 
@@ -45,13 +46,33 @@ public class PlayerInteract : MonoBehaviour
         {
             if (hit.collider.TryGetComponent(out SourceContainer sourceContainer))
             {
+                // get infinity item if player not have item in hand
+                if (PlayerItem != null)
+                {
+                    Debug.Log("You allready have item");
+                    return;
+                }
                 GetInfinityItem(sourceContainer);
                 return;
             }
-
+            // 1. container have plate and player have item (put item in plate)
+            // 2. container have plate and player not have item (swap both of this)
+            // 3. container have plate and plate not contain item
+            // USE FOR NULL AND NOT NULL PLAYER ITEM
             if(hit.collider.TryGetComponent(out Container container))
             {
-                GetItemFromContainer(container);
+                if (container.IsContainPlate())
+                {
+                    
+                }
+                else // 2. player have plate and collider is container, 
+                {
+                    // Work with:
+                    // 1. Player have item, container have item
+                    // 2. Player not have item, container have item
+                    // 3. Player have item, container not have item
+                    GetItemFromContainer(container);
+                }
             }
 
         }
@@ -59,22 +80,12 @@ public class PlayerInteract : MonoBehaviour
 
     private void GetInfinityItem(SourceContainer sourceContainer)
     {
-        if (PlayerItem != null)
-        {
-            Debug.Log("You allready have item");
-            return;
-        }
         PlayerItem = sourceContainer.RetrieveRawFood().transform;
         SetItemParent(PlayerItem, Container);
     }
 
     private void GetItemFromContainer(Container container)
     {
-        if (container == null)
-        {
-            Debug.Log("this null, pls check it", gameObject);
-            return;
-        }
         Debug.Log(container.name);
 
         var currentItem = PlayerItem;

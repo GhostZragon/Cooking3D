@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum FoodType
 {
@@ -26,17 +27,41 @@ public struct RuntimeFoodData
 }
 public class Food : MonoBehaviour
 {
+    [SerializeField] private List<RuntimeFoodData> TransformFoods;
     public FoodType type;
-    public List<RuntimeFoodData> TransformFoods;
-
+    public int enumIndex;
     private void Awake()
     {
-        foreach(var item in TransformFoods)
+        ChangePrepareTechniques(0);
+    }
+
+    public PrepareTechniques GetPrepareTech()
+    {
+        return (PrepareTechniques)enumIndex;
+    }
+    public void ChangePrepareTechniques(PrepareTechniques prepareTechniques)
+    {
+        foreach (var item in TransformFoods)
         {
-            if(item.prepareTechniques != PrepareTechniques.Raw)
+            if (item.prepareTechniques == prepareTechniques)
+            {
+                Debug.Log("Food contain "+prepareTechniques.ToString());
+                break;
+            }
+        }
+        for (int i = 0; i < TransformFoods.Count; i++)
+        {
+            var item = TransformFoods[i];
+            if (prepareTechniques == item.prepareTechniques)
+            {
+                item.Model.SetActive(true);
+                enumIndex = (int)item.prepareTechniques;
+            }
+            else
             {
                 item.Model.SetActive(false);
             }
         }
+
     }
 }
