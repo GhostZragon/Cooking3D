@@ -8,7 +8,7 @@ public enum ContainerType
 public class Container : MonoBehaviour
 {
     public Transform PlaceTransform;
-    public Transform Item;
+    public Food Item;
     public Plate plate;
 
     public bool IsContainPlate() => plate != null;

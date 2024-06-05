@@ -7,7 +7,7 @@ using static UnityEditor.Progress;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public Transform PlayerItem;
+    public Food PlayerItem;
     public Transform Container;
     public Plate plate;
     public Vector3 size;
@@ -80,7 +80,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void GetInfinityItem(SourceContainer sourceContainer)
     {
-        PlayerItem = sourceContainer.RetrieveRawFood().transform;
+        PlayerItem = sourceContainer.RetrieveRawFood();
         SetItemParent(PlayerItem, Container);
     }
 
@@ -101,11 +101,11 @@ public class PlayerInteract : MonoBehaviour
         SetItemParent(container.Item, container.PlaceTransform);
 
     }
-    private void SetItemParent(Transform item,Transform parent)
+    private void SetItemParent(Food item,Transform parent)
     {
         if (item == null) return;
-        item.parent = parent;
-        item.localPosition = Vector3.zero;
+        item.transform.parent = parent;
+        item.transform.localPosition = Vector3.zero;
     }
    
 }
