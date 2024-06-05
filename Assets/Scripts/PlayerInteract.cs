@@ -42,7 +42,9 @@ public class PlayerInteract : MonoBehaviour
     {
         return playerPlate != null;
     }
-    private bool swapFoodAndPlate = true;
+
+    public bool swapFoodAndPlate = true;
+
     [Button]
     private void OnInteract()
     {
@@ -73,7 +75,6 @@ public class PlayerInteract : MonoBehaviour
             if (hit.collider.TryGetComponent(out Container container))
             {
                 // swap plate and food (custom)
-                
 
 
                 if (container.IsContainPlate() || PlayerIsContainPlate())
@@ -82,62 +83,12 @@ public class PlayerInteract : MonoBehaviour
 
                     if (isContainFood)
                     {
-                        Plate plate = playerPlate != null ? playerPlate : container.plate;
-                        Food food = PlayerItem != null ? PlayerItem : container.Item;
-
-                        PlayerItem = null;
-                        container.Item = null;
-                        // swap plate and food logic
-                        if (swapFoodAndPlate)
-                        {
-                            
-                            var foodParent = food.transform.parent;
-                            var plateParent = plate.transform.parent;
-
-                            if(foodParent == transform)
-                            {
-                                PlayerItem = null;
-                                container.Item = food;
-                            }
-                            else
-                            {
-                                PlayerItem = food;
-                                container.Item = null;
-                            }
-
-                            if(plateParent == transform)
-                            {
-                                playerPlate = null;
-                                container.plate = plate;
-                            }
-                            else
-                            {
-                                playerPlate = plate;
-                                container.plate = null;
-                            }
-
-
-                            UpdateFoodParent(food, plateParent);
-                            UpdatePlateParent(plate, foodParent);
-
-                            return;
-                        }
-
-                        plate.Add(food);
-                        UpdateFoodParent(food, plate.PlaceTransform);
-                        return;
+                        PutFoodIntoPlate(container);
                     }
-
-
-                    Debug.Log("Bat dau swap dia");
-                    var tempPlayerPlate = playerPlate;
-                    var tempContainerPlate = container.plate;
-
-                    playerPlate = tempContainerPlate;
-                    container.plate = tempPlayerPlate;
-
-                    UpdatePlateParent(playerPlate, Container);
-                    UpdatePlateParent(container.plate,container.PlaceTransform);
+                    else
+                    {
+                        SwapPlate(container);
+                    }
                 }
                 else // 2. player have item and collider is container, 
                 {
@@ -145,14 +96,46 @@ public class PlayerInteract : MonoBehaviour
                     // 1. Player have item, container have item
                     // 2. Player not have item, container have item
                     // 3. Player have item, container not have item
-                    GetItemFromContainer(container);
+                    TradeFood(container);
                 }
             }
         }
     }
 
+    private void SwapPlate(Container container)
+    {
+        Debug.Log("Bat dau swap dia");
+        var tempPlayerPlate = playerPlate;
+        var tempContainerPlate = container.plate;
 
-    private void GetItemFromContainer(Container container)
+        playerPlate = tempContainerPlate;
+        container.plate = tempPlayerPlate;
+
+        UpdatePlateParent(playerPlate, Container);
+        UpdatePlateParent(container.plate, container.PlaceTransform);
+    }
+    
+    private void PutFoodIntoPlate(Container container)
+    {
+        Plate plate = playerPlate != null ? playerPlate : container.plate;
+        Food food = PlayerItem != null ? PlayerItem : container.Item;
+
+        PlayerItem = null;
+        container.Item = null;
+        // swap plate and food logic
+
+        // if (SwapPlateAndFood(food, plate, container)) return;
+
+        plate.Add(food);
+        UpdateFoodParent(food, plate.PlaceTransform);
+    }
+
+
+    /// <summary>
+    /// Swap food of player and food of container
+    /// </summary>
+    /// <param name="container"></param>
+    private void TradeFood(Container container)
     {
         Debug.Log(container.name);
 
@@ -174,15 +157,55 @@ public class PlayerInteract : MonoBehaviour
         if (item == null) return;
         SetItemParent(item.transform, parent);
     }
+
     private void UpdatePlateParent(Plate item, Transform parent)
     {
         if (item == null) return;
         SetItemParent(item.transform, parent);
     }
+
     private void SetItemParent(Transform item, Transform parent)
     {
         if (item == null) return;
         item.parent = parent;
         item.localPosition = Vector3.zero;
+    }
+    private bool SwapPlateAndFood(Food food, Plate plate, Container container)
+    {
+        if (swapFoodAndPlate)
+        {
+            var foodParent = food.transform.parent;
+            var plateParent = plate.transform.parent;
+
+            if (foodParent == transform)
+            {
+                PlayerItem = null;
+                container.Item = food;
+            }
+            else
+            {
+                PlayerItem = food;
+                container.Item = null;
+            }
+
+            if (plateParent == transform)
+            {
+                playerPlate = null;
+                container.plate = plate;
+            }
+            else
+            {
+                playerPlate = plate;
+                container.plate = null;
+            }
+
+
+            UpdateFoodParent(food, plateParent);
+            UpdatePlateParent(plate, foodParent);
+
+            return true;
+        }
+
+        return false;
     }
 }

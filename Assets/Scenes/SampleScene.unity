@@ -368,6 +368,7 @@ MonoBehaviour:
   size: {x: 1, y: 1, z: 1}
   interactTransform: {fileID: 80659185}
   timer: 0
+  swapFoodAndPlate: 1
 --- !u!114 &70691135
 MonoBehaviour:
   m_ObjectHideFlags: 0

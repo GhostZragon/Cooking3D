@@ -1,5 +1,13 @@
 using UnityEngine;
-
+public interface IHolder
+{
+    IItem item { get; set; }
+}
+public interface IItem
+{
+    void SetParent(IHolder holder);
+    void RemoveParent();
+}
 public enum ContainerType
 {
     Container,
