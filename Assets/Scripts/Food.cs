@@ -25,7 +25,7 @@ public struct RuntimeFoodData
     public PrepareTechniques prepareTechniques;
     public GameObject Model;
 }
-public class Food : MonoBehaviour
+public class Food : PickUpAbtract
 {
     [SerializeField] private List<RuntimeFoodData> TransformFoods;
     public FoodType type;

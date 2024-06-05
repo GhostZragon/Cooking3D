@@ -362,9 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beebdc6fd2ac19d4fba6245e2ea77576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerItem: {fileID: 0}
-  Container: {fileID: 556291406}
-  playerPlate: {fileID: 0}
+  placeTransform: {fileID: 556291406}
   size: {x: 1, y: 1, z: 1}
   interactTransform: {fileID: 80659185}
   timer: 0
@@ -4726,6 +4724,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1435583965}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1440485162 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 958568279101847637, guid: 69df2d6d38b6c6749b22db0b126856bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1634039395}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1485775833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5229,6 +5233,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 2791434728908388140, guid: 69df2d6d38b6c6749b22db0b126856bc,
+        type: 3}
+      propertyPath: placeTransform
+      value: 
+      objectReference: {fileID: 1440485162}
     - target: {fileID: 5781748473056860544, guid: 69df2d6d38b6c6749b22db0b126856bc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5906,6 +5915,11 @@ PrefabInstance:
       propertyPath: plate
       value: 
       objectReference: {fileID: 599577670}
+    - target: {fileID: 2791434728908388140, guid: 69df2d6d38b6c6749b22db0b126856bc,
+        type: 3}
+      propertyPath: placeTransform
+      value: 
+      objectReference: {fileID: 617876441}
     - target: {fileID: 5781748473056860544, guid: 69df2d6d38b6c6749b22db0b126856bc,
         type: 3}
       propertyPath: m_LocalPosition.x
