@@ -10,7 +10,7 @@ public class PlayerInteract : MonoBehaviour
 {
     public Food PlayerItem;
     public Transform Container;
-    [FormerlySerializedAs("plate")] public Plate playerPlate;
+    [FormerlySerializedAs("item")] public Plate playerPlate;
     public Vector3 size;
     public Transform interactTransform;
 
@@ -61,29 +61,31 @@ public class PlayerInteract : MonoBehaviour
                     return;
                 }
 
-                GetInfinityItem(sourceContainer);
+                PlayerItem = sourceContainer.RetrieveRawFood();
+                UpdateContainerItemParent(PlayerItem, Container);
                 return;
             }
 
-            // 1. container have plate and player have item (put item in plate)
-            // 2. container have plate and player not have item (swap both of this)
-            // 3. container have plate and plate not contain item
+            // 1. container have item and player have item (put item in item)
+            // 2. container have item and player not have item (swap both of this)
+            // 3. container have item and item not contain item
             // USE FOR NULL AND NOT NULL PLAYER ITEM
             if (hit.collider.TryGetComponent(out Container container))
             {
                 if (container.IsContainPlate() || PlayerIsContainPlate())
                 {
-                    var _playerPlate = playerPlate;
-                    var containerPlate = container.plate;
+                    Debug.Log("Bat dau swap dia");
+                    var tempPlayerPlate = playerPlate;
+                    var tempContainerPlate = container.plate;
 
-                    playerPlate = containerPlate;
-                    container.plate = playerPlate;
+                    playerPlate = tempContainerPlate;
+                    container.plate = tempPlayerPlate;
 
-                    SetItemParent(playerPlate, Container);
-                    SetItemParent(container.plate,container.PlaceTransform);
+                    UpdatePlateParent(playerPlate, Container);
+                    UpdatePlateParent(container.plate,container.PlaceTransform);
 
                 }
-                else // 2. player have plate and collider is container, 
+                else // 2. player have item and collider is container, 
                 {
                     // Work with:
                     // 1. Player have item, container have item
@@ -95,11 +97,6 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    private void GetInfinityItem(SourceContainer sourceContainer)
-    {
-        PlayerItem = sourceContainer.RetrieveRawFood();
-        SetItemParent(PlayerItem, Container);
-    }
 
     private void GetItemFromContainer(Container container)
     {
@@ -113,27 +110,25 @@ public class PlayerInteract : MonoBehaviour
         PlayerItem = containerItem;
         Debug.Log("Container item: " + container.Item, container.gameObject);
         // Set parent
-        SetItemParent(PlayerItem, Container);
+        UpdateContainerItemParent(PlayerItem, Container);
 
-        SetItemParent(container.Item, container.PlaceTransform);
+        UpdateContainerItemParent(container.Item, container.PlaceTransform);
     }
 
-    private void SetItemParent(Food item, Transform parent)
+    private void UpdateContainerItemParent(Food item, Transform parent)
     {
         if (item == null) return;
-        item.transform.parent = parent;
-        item.transform.localPosition = Vector3.zero;
+        SetItemParent(item.transform, parent);
+    }
+    private void UpdatePlateParent(Plate item, Transform parent)
+    {
+        if (item == null) return;
+        SetItemParent(item.transform, parent);
     }
     private void SetItemParent(Transform item, Transform parent)
     {
         if (item == null) return;
         item.parent = parent;
         item.localPosition = Vector3.zero;
-    }
-    private void SetItemParent(Plate plate, Transform parent)
-    {
-        if (plate == null) return;
-        plate.transform.parent = parent;
-        plate.transform.localPosition = Vector3.zero;
     }
 }
