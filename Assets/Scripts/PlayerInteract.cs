@@ -62,7 +62,7 @@ public class PlayerInteract : MonoBehaviour
                 }
 
                 PlayerItem = sourceContainer.RetrieveRawFood();
-                UpdateContainerItemParent(PlayerItem, Container);
+                UpdateFoodParent(PlayerItem, Container);
                 return;
             }
 
@@ -74,6 +74,20 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (container.IsContainPlate() || PlayerIsContainPlate())
                 {
+                    bool isContainFood = PlayerItem != null || container.Item != null;
+                    if (isContainFood)
+                    {
+                        Plate plate = playerPlate != null ? playerPlate : container.plate;
+                        Food food = PlayerItem != null ? PlayerItem : container.Item;
+                        PlayerItem = null;
+                        container.Item = null;
+
+                        plate.Add(food);
+                        UpdateFoodParent(food, plate.PlaceTransform);
+                        return;
+                    }
+
+
                     Debug.Log("Bat dau swap dia");
                     var tempPlayerPlate = playerPlate;
                     var tempContainerPlate = container.plate;
@@ -83,7 +97,6 @@ public class PlayerInteract : MonoBehaviour
 
                     UpdatePlateParent(playerPlate, Container);
                     UpdatePlateParent(container.plate,container.PlaceTransform);
-
                 }
                 else // 2. player have item and collider is container, 
                 {
@@ -110,12 +123,12 @@ public class PlayerInteract : MonoBehaviour
         PlayerItem = containerItem;
         Debug.Log("Container item: " + container.Item, container.gameObject);
         // Set parent
-        UpdateContainerItemParent(PlayerItem, Container);
+        UpdateFoodParent(PlayerItem, Container);
 
-        UpdateContainerItemParent(container.Item, container.PlaceTransform);
+        UpdateFoodParent(container.Item, container.PlaceTransform);
     }
 
-    private void UpdateContainerItemParent(Food item, Transform parent)
+    private void UpdateFoodParent(Food item, Transform parent)
     {
         if (item == null) return;
         SetItemParent(item.transform, parent);

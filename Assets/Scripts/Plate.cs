@@ -12,6 +12,7 @@ public class Plate : MonoBehaviour
     private void Awake()
     {
         DirtyModel.SetActive(false);
+        FoodInPlates = new List<FoodInPlate>();
     }
 
     public void Add(Food food)
