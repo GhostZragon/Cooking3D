@@ -3,27 +3,30 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UnityEditor.Progress;
 
 public class PlayerInteract : MonoBehaviour
 {
     public Food PlayerItem;
     public Transform Container;
-    public Plate plate;
+    [FormerlySerializedAs("plate")] public Plate playerPlate;
     public Vector3 size;
     public Transform interactTransform;
 
     [SerializeField] private float timer = 0;
-    
+
 
     private void Awake()
     {
         InputManager.OnInteract += OnInteract;
     }
+
     private void OnDestroy()
     {
         InputManager.OnInteract -= OnInteract;
     }
+
     private void Update()
     {
         Timer();
@@ -36,13 +39,18 @@ public class PlayerInteract : MonoBehaviour
         if (timer >= 0.1f) timer = .1f;
     }
 
+    private bool PlayerIsContainPlate()
+    {
+        return playerPlate != null;
+    }
     [Button]
     private void OnInteract()
     {
         if (timer < 0.1f) return;
         timer = 0;
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit, 5))
+        if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit,
+                5))
         {
             if (hit.collider.TryGetComponent(out SourceContainer sourceContainer))
             {
@@ -52,18 +60,28 @@ public class PlayerInteract : MonoBehaviour
                     Debug.Log("You allready have item");
                     return;
                 }
+
                 GetInfinityItem(sourceContainer);
                 return;
             }
+
             // 1. container have plate and player have item (put item in plate)
             // 2. container have plate and player not have item (swap both of this)
             // 3. container have plate and plate not contain item
             // USE FOR NULL AND NOT NULL PLAYER ITEM
-            if(hit.collider.TryGetComponent(out Container container))
+            if (hit.collider.TryGetComponent(out Container container))
             {
-                if (container.IsContainPlate())
+                if (container.IsContainPlate() || PlayerIsContainPlate())
                 {
-                    
+                    var _playerPlate = playerPlate;
+                    var containerPlate = container.plate;
+
+                    playerPlate = containerPlate;
+                    container.plate = playerPlate;
+
+                    SetItemParent(playerPlate, Container);
+                    SetItemParent(container.plate,container.PlaceTransform);
+
                 }
                 else // 2. player have plate and collider is container, 
                 {
@@ -74,7 +92,6 @@ public class PlayerInteract : MonoBehaviour
                     GetItemFromContainer(container);
                 }
             }
-
         }
     }
 
@@ -94,18 +111,29 @@ public class PlayerInteract : MonoBehaviour
         // Swap
         container.Item = currentItem;
         PlayerItem = containerItem;
-        Debug.Log("Container item: "+ container.Item, container.gameObject);
+        Debug.Log("Container item: " + container.Item, container.gameObject);
         // Set parent
         SetItemParent(PlayerItem, Container);
 
         SetItemParent(container.Item, container.PlaceTransform);
-
     }
-    private void SetItemParent(Food item,Transform parent)
+
+    private void SetItemParent(Food item, Transform parent)
     {
         if (item == null) return;
         item.transform.parent = parent;
         item.transform.localPosition = Vector3.zero;
     }
-   
+    private void SetItemParent(Transform item, Transform parent)
+    {
+        if (item == null) return;
+        item.parent = parent;
+        item.localPosition = Vector3.zero;
+    }
+    private void SetItemParent(Plate plate, Transform parent)
+    {
+        if (plate == null) return;
+        plate.transform.parent = parent;
+        plate.transform.localPosition = Vector3.zero;
+    }
 }

@@ -29,4 +29,6 @@ public class Plate : MonoBehaviour
         public FoodType type;
         public PrepareTechniques PrepareTechniques;
     }
+
+    public bool CanAddFoodToPlate() => true;
 }
