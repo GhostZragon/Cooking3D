@@ -362,6 +362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beebdc6fd2ac19d4fba6245e2ea77576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  food: {fileID: 0}
+  plate: {fileID: 0}
   placeTransform: {fileID: 556291406}
   size: {x: 1, y: 1, z: 1}
   interactTransform: {fileID: 80659185}

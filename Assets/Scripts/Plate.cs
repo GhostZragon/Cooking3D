@@ -17,9 +17,7 @@ public class Plate : PickUpAbtract
 
     public void Add(Food food)
     {
-        food.transform.parent = PlaceTransform;
-        food.transform.localPosition = Vector3.zero;
-        
+        food.SetToParentAndPosition(PlaceTransform);
         var foodInPlate = new FoodInPlate();
         foodInPlate.type = food.type;
         foodInPlate.PrepareTechniques = food.GetPrepareTech();

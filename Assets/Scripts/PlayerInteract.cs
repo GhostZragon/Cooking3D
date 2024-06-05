@@ -63,8 +63,7 @@ public class PlayerInteract : HolderAbstract
             
             if (hit.collider.TryGetComponent(out HolderAbstract holder))
             {
-
-                
+                ExchangeItems(holder);
             }
 
 
@@ -153,7 +152,7 @@ public class PlayerInteract : HolderAbstract
     //
     //
     // /// <summary>
-    // /// Swap food of player and food of container
+    // /// ExchangeItems food of player and food of container
     // /// </summary>
     // /// <param name="container"></param>
     // private void TradeFood(Container container)
@@ -163,7 +162,7 @@ public class PlayerInteract : HolderAbstract
     //     var currentItem = PlayerItem;
     //     var containerItem = container.Item;
     //
-    //     // Swap
+    //     // ExchangeItems
     //     container.Item = currentItem;
     //     PlayerItem = containerItem;
     //     Debug.Log("Container item: " + container.Item, container.gameObject);
