@@ -16,7 +16,6 @@ public class PlayerInteract : MonoBehaviour
 
     [SerializeField] private float timer = 0;
 
-
     private void Awake()
     {
         InputManager.OnInteract += OnInteract;
@@ -43,6 +42,7 @@ public class PlayerInteract : MonoBehaviour
     {
         return playerPlate != null;
     }
+    private bool swapFoodAndPlate = true;
     [Button]
     private void OnInteract()
     {
@@ -72,15 +72,56 @@ public class PlayerInteract : MonoBehaviour
             // USE FOR NULL AND NOT NULL PLAYER ITEM
             if (hit.collider.TryGetComponent(out Container container))
             {
+                // swap plate and food (custom)
+                
+
+
                 if (container.IsContainPlate() || PlayerIsContainPlate())
                 {
                     bool isContainFood = PlayerItem != null || container.Item != null;
+
                     if (isContainFood)
                     {
                         Plate plate = playerPlate != null ? playerPlate : container.plate;
                         Food food = PlayerItem != null ? PlayerItem : container.Item;
+
                         PlayerItem = null;
                         container.Item = null;
+                        // swap plate and food logic
+                        if (swapFoodAndPlate)
+                        {
+                            
+                            var foodParent = food.transform.parent;
+                            var plateParent = plate.transform.parent;
+
+                            if(foodParent == transform)
+                            {
+                                PlayerItem = null;
+                                container.Item = food;
+                            }
+                            else
+                            {
+                                PlayerItem = food;
+                                container.Item = null;
+                            }
+
+                            if(plateParent == transform)
+                            {
+                                playerPlate = null;
+                                container.plate = plate;
+                            }
+                            else
+                            {
+                                playerPlate = plate;
+                                container.plate = null;
+                            }
+
+
+                            UpdateFoodParent(food, plateParent);
+                            UpdatePlateParent(plate, foodParent);
+
+                            return;
+                        }
 
                         plate.Add(food);
                         UpdateFoodParent(food, plate.PlaceTransform);
