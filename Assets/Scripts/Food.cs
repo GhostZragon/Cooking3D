@@ -10,7 +10,8 @@ public enum FoodType
     Tomato,
     Chesse,
     Buns,
-    BurgerMeet
+    BurgerMeet,
+    Steak
 }
 
 

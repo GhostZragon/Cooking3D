@@ -1,3 +1,4 @@
+using EasyButtons;
 using UnityEngine;
 
 public class BaseContainer<T> : MonoBehaviour where T : PickUpAbtract
@@ -8,5 +9,5 @@ public class BaseContainer<T> : MonoBehaviour where T : PickUpAbtract
         var pickUpAbtract = Instantiate(prefab);
         return pickUpAbtract;
     }
-    
+
 }
