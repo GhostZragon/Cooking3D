@@ -8,4 +8,5 @@ public class BaseContainer<T> : MonoBehaviour where T : PickUpAbtract
         var pickUpAbtract = Instantiate(prefab);
         return pickUpAbtract;
     }
+    
 }

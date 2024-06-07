@@ -13,6 +13,7 @@ public enum FoodType
     BurgerMeet
 }
 
+
 public enum PrepareTechniques
 {
     Raw,
