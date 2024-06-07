@@ -51,16 +51,23 @@ public class PlayerInteract : HolderAbstract
         if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit,
                 5))
         {
-
-            if (hit.collider.TryGetComponent(out SourceContainer sourceContainer))
+            if (hit.collider.TryGetComponent(out SourceFoodContainer sourceFoodContainer))
             {
                 if (food != null) return;
-                var sourceFood = sourceContainer.RetrieveRawFood();
+                var sourceFood = sourceFoodContainer.RetrieveRawFood();
                 this.food = sourceFood;
                 food.SetToParentAndPosition(placeTransform);
                 return;
             }
-            
+            else if (hit.collider.TryGetComponent(out SourcePlateContainer sourcePlateContainer))
+            {
+                if (plate != null) return;
+                var sourcePlate = sourcePlateContainer.RetrieveRawFood();
+                this.plate = sourcePlate;
+                plate.SetToParentAndPosition(placeTransform);
+                return;
+            }
+
             // if (hit.collider.TryGetComponent(out HolderAbstract holder))
             // {
             //     holder.ExchangeItems(this);
@@ -68,16 +75,10 @@ public class PlayerInteract : HolderAbstract
             if (hit.collider.TryGetComponent(out IHolder holder))
             {
                 holder.ExchangeItems(this);
-            }  
+            }
 
 
-
-
-
-
-
-
-            // if (hit.collider.TryGetComponent(out SourceContainer sourceContainer))
+            // if (hit.collider.TryGetComponent(out SourceFoodContainer sourceContainer))
             // {
             //     // get infinity item if player not have item in hand
             //     if (PlayerItem != null)
