@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class Plate : PickUpAbtract
 {
-    public GameObject RawModel;
-    public GameObject DirtyModel;
-    public Transform PlaceTransform;
-    public List<FoodInPlate> FoodInPlates;
+    [SerializeField] private GameObject RawModel;
+    [SerializeField] private GameObject DirtyModel;
+    [SerializeField] private Transform PlaceTransform;
+    [SerializeField] private List<FoodInPlate> FoodInPlates;
     private void Awake()
     {
         DirtyModel.SetActive(false);
         FoodInPlates = new List<FoodInPlate>();
     }
 
+    public bool HasFoodInPlate() => FoodInPlates != null && FoodInPlates.Count > 0;
     public void Add(Food food)
     {
         food.SetToParentAndPosition(PlaceTransform);

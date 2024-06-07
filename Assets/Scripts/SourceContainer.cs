@@ -11,3 +11,8 @@ public class SourceContainer : MonoBehaviour
         return food;
     }
 }
+
+public interface IHolder
+{
+    void ExchangeItems(HolderAbstract holder);
+}

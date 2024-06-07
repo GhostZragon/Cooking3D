@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class HolderAbstract : MonoBehaviour
+public abstract class HolderAbstract : MonoBehaviour , IHolder
 {
     [SerializeField] protected PickUpAbtract food;
     [SerializeField] protected PickUpAbtract plate;
@@ -19,7 +19,7 @@ public abstract class HolderAbstract : MonoBehaviour
         }
     }
 
-    protected void ExchangeItems(HolderAbstract holder)
+    public void ExchangeItems(HolderAbstract holder)
     {
         if (plate != null || holder.GetPlate() != null)
         {
@@ -37,7 +37,7 @@ public abstract class HolderAbstract : MonoBehaviour
     {
         if (food != null || holder.GetFood() != null)
         {
-            var plate = (this.plate != null ? this.plate : holder.GetPlate()).GetComponent<Plate>();
+            var plate = (this.plate != null ? this.plate : holder.GetFood()).GetComponent<Plate>();
             var food = (this.food != null ? this.food : holder.GetFood()).GetComponent<Food>();
             plate.Add(food);
             holder.SetFood(null);

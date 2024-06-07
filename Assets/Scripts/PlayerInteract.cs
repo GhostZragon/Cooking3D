@@ -61,11 +61,14 @@ public class PlayerInteract : HolderAbstract
                 return;
             }
             
-            if (hit.collider.TryGetComponent(out HolderAbstract holder))
+            // if (hit.collider.TryGetComponent(out HolderAbstract holder))
+            // {
+            //     holder.ExchangeItems(this);
+            // }
+            if (hit.collider.TryGetComponent(out IHolder holder))
             {
-                ExchangeItems(holder);
-            }
-
+                holder.ExchangeItems(this);
+            }  
 
 
 
