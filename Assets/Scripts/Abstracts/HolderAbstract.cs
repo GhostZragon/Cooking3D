@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class HolderAbstract : MonoBehaviour
@@ -39,25 +40,31 @@ public abstract class HolderAbstract : MonoBehaviour
             var plate = (this.plate != null ? this.plate : holder.GetPlate()).GetComponent<Plate>();
             var food = (this.food != null ? this.food : holder.GetFood()).GetComponent<Food>();
             plate.Add(food);
+            holder.SetFood(null);
             SetFood(null);
             return true;
         }
         return false;
     }
+  
     private void SwapFood(HolderAbstract holder)
     {
-        var myFood = food;
-        var holderFood = holder.GetFood();
-        holder.SetFood(myFood);
-        SetFood(holderFood);
+        SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item));
     }
 
     private void SwapPlate(HolderAbstract holder)
     {
-        var myPlate = plate;
-        var holderPlate = holder.GetPlate();
-        holder.SetPlate(myPlate);
-        SetPlate(holderPlate);
+        SwapItems(holder, h => h.GetPlate(), (h, item) => h.SetPlate(item));
+    }
+    
+    private void SwapItems(HolderAbstract holder, 
+        Func<HolderAbstract, PickUpAbtract> getItem, 
+        Action<HolderAbstract, PickUpAbtract> setItem)
+    {
+        var myItem = getItem(this);
+        var holderItem = getItem(holder);
+        setItem(holder, myItem);
+        setItem(this, holderItem);
     }
 
     public void SetFood(PickUpAbtract newFood) => ResetUltis(newFood, ref this.food);
