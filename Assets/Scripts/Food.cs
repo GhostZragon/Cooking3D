@@ -66,4 +66,9 @@ public class Food : PickUpAbtract
         }
 
     }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
+    }
 }

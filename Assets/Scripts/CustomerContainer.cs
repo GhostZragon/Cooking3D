@@ -9,9 +9,8 @@ public class CustomerContainer : MonoBehaviour , IHolder
             Debug.Log("jja");
         }
         var plate = holder.GetPlate();
-        if (plate == null || plate.GetComponent<Plate>().HasFoodInPlate() == false) return;
-        Debug.Log("You can put food to customer");
-        Destroy(plate.gameObject);
+        if (plate == null || plate.GetComponent<Plate>().IsContainFoodInPlate() == false) return;
+        plate.Delete();
         holder.SetPlate(null);
     }
 }
