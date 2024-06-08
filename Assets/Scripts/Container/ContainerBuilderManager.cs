@@ -9,28 +9,38 @@ using UnityEngine;
 public class ContainerBuilderManager : ScriptableObject
 {
     public List<FoodContainer> foodList;
+#if UNITY_EDITOR
     [Button]
     private void LoadAllFoodPrefab()
     {
         string[] guids = AssetDatabase.FindAssets("l:food");
+        foodList.Clear();
         foreach (var guid in guids)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
             var food = AssetDatabase.LoadAssetAtPath<Food>(path);
-            Debug.Log(food.name);
-            Debug.Log("Path " + path);
-            // if (foodData != null)
-            // {
-            //     foodsData.Add(foodData);
-            // }
+            foodList.Add(InitFoodContainer(food));
         }
     }
+    private FoodContainer InitFoodContainer(Food prefab)
+    {
+        var foodContainer = new FoodContainer
+        {
+            Prefab = prefab,
+            spawnScale = 1,
+            foodType = prefab.GetFoodType()
+        };
+        return foodContainer;
+    }
+#endif
+    
+
+
     [Serializable]
     public struct FoodContainer
     {
         public float spawnScale;
         public Food Prefab;
-        public GameObject Model;
         public FoodType foodType;
     }
 }
