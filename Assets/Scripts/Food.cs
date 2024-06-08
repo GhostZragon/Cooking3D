@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -30,10 +31,14 @@ public struct RuntimeFoodData
 public class Food : PickUpAbtract
 {
     [SerializeField] private List<RuntimeFoodData> TransformFoods;
-    public FoodType type;
-    public int enumIndex;
+    [SerializeField] private  FoodType type;
+    [SerializeField] private  int enumIndex;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Collider Collider;
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+        Collider = GetComponent<Collider>();
         ChangePrepareTechniques(0);
     }
 
@@ -41,19 +46,16 @@ public class Food : PickUpAbtract
     {
         return (PrepareTechniques)enumIndex;
     }
-    public void ChangePrepareTechniques(PrepareTechniques prepareTechniques)
+
+    private void ChangePrepareTechniques(PrepareTechniques prepareTechniques)
     {
+        // if (TransformFoods.Any(item => item.prepareTechniques == prepareTechniques))
+        // {
+        //     Debug.Log("Food contain "+prepareTechniques.ToString());
+        // }
+
         foreach (var item in TransformFoods)
         {
-            if (item.prepareTechniques == prepareTechniques)
-            {
-                Debug.Log("Food contain "+prepareTechniques.ToString());
-                break;
-            }
-        }
-        for (int i = 0; i < TransformFoods.Count; i++)
-        {
-            var item = TransformFoods[i];
             if (prepareTechniques == item.prepareTechniques)
             {
                 item.Model.SetActive(true);
@@ -64,11 +66,21 @@ public class Food : PickUpAbtract
                 item.Model.SetActive(false);
             }
         }
-
     }
 
     public void Delete()
     {
         Destroy(gameObject);
+    }
+
+    public void SetStateRb_Col(bool enable)
+    {
+        rb.useGravity = enable;
+        Collider.enabled = enable;
+    }
+
+    public FoodType GetFoodType()
+    {
+        return type;
     }
 }

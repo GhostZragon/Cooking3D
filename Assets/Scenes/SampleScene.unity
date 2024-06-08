@@ -5548,7 +5548,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SourceFoodContainer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8292459233412347543, guid: e5c735f26842e6a4982699329a53be44, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

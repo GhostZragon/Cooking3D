@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8670650115416320229}
   - component: {fileID: 1948034540251572194}
   - component: {fileID: 567159880188519737}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 976262655906617902}
   - component: {fileID: 396363747371293478}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Food
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,5 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624c0026e0fedd446b1be4b67c741f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TransformFoods: []
   type: 0
-  currentPrepareTechniques: 0
+  enumIndex: 0
+  rb: {fileID: 0}
+  Collider: {fileID: 0}
