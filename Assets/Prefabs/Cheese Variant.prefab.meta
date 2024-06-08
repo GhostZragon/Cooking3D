@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 676db11a861d4c343a7d3f5434b43103
+labels:
+- Food
 PrefabImporter:
   externalObjects: {}
   userData: 
