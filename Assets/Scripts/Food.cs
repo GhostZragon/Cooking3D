@@ -77,6 +77,7 @@ public class Food : PickUpAbtract
     {
         rb.useGravity = enable;
         Collider.enabled = enable;
+        transform.rotation =Quaternion.Euler(0,0,0);
     }
 
     public FoodType GetFoodType()

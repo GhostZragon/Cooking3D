@@ -3,15 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using EasyButtons;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SourceFoodContainer : BaseContainer<Food>
 {
-    public FoodType FoodType;
-    public ContainerBuilderManager builder;
-    public GameObject baseModel;
-
+    private BoxCollider BoxCollider;
+    [SerializeField] private FoodType FoodType;
+    [SerializeField] private ContainerBuilderManager builder;
+    [SerializeField] private GameObject baseModel;
+    [SerializeField] private List<Food> foodInCrate = new List<Food>();
+    [SerializeField] private int maxCount = 5;
     private void Awake()
     {
+        BoxCollider = GetComponent<BoxCollider>();
         Init();
     }
 
@@ -22,10 +26,6 @@ public class SourceFoodContainer : BaseContainer<Food>
         {
             if (container.foodType == FoodType)
             {
-                // baseModel.SetActive(false);
-                // var containerGo = Instantiate(container.Model);
-                // containerGo.transform.SetParent(transform);
-                // containerGo.transform.localPosition = Vector3.zero;
                 prefab = container.Prefab;
                 break;
             }
@@ -35,14 +35,14 @@ public class SourceFoodContainer : BaseContainer<Food>
     [Button]
     private void SpawnFood()
     {
+        if (foodInCrate.Count == maxCount) return;
         var food = RetrieveRawFood();
         food.transform.SetParent(transform);
         food.transform.localPosition = Vector3.zero;
-        food.transform.localPosition += Vector3.up;
+        food.transform.localPosition = GetRandomSpawnsPosition();
         foodInCrate.Add(food);
     }
-    [SerializeField] private List<Food> foodInCrate = new List<Food>();
-    [SerializeField] private int maxCount = 5;
+  
     public override void ExchangeItems(HolderAbstract holder)
     {
         if (foodInCrate.Count == 0) return;
@@ -54,5 +54,10 @@ public class SourceFoodContainer : BaseContainer<Food>
         Debug.Log("Set food to holder");
     }
 
-  
+    private Vector3 GetRandomSpawnsPosition()
+    {
+        var minX = BoxCollider.size.x / 2 -.1f;
+        var minZ = BoxCollider.size.z / 2 -.1f;
+        return new Vector3(Random.Range(-minX, minX), Random.Range(1, 1.3f), Random.Range(-minZ, minZ));
+    }
 }
