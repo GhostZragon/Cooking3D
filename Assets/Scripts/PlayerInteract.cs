@@ -51,33 +51,6 @@ public class PlayerInteract : HolderAbstract
         if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit,
                 5))
         {
-            if (plate == null)
-            {
-                if (hit.collider.TryGetComponent(out SourceFoodContainer sourceFoodContainer))
-                {
-                    if (food != null) return;
-                    var sourceFood = sourceFoodContainer.RetrieveRawFood();
-                    this.food = sourceFood;
-                    food.SetToParentAndPosition(placeTransform);
-                    Debug.Log("Get Food");
-                    return;
-                }
-                else if (hit.collider.TryGetComponent(out SourcePlateContainer sourcePlateContainer))
-                {
-                    if (plate != null) return;
-                    var sourcePlate = sourcePlateContainer.RetrieveRawFood();
-                    this.plate = sourcePlate;
-                    plate.SetToParentAndPosition(placeTransform);
-                    Debug.Log("Get Plate");
-                    return;
-                }
-            }
-            
-
-            // if (hit.collider.TryGetComponent(out HolderAbstract holder))
-            // {
-            //     holder.ExchangeItems(this);
-            // }
             if (hit.collider.TryGetComponent(out IHolder holder))
             {
                 holder.ExchangeItems(this);

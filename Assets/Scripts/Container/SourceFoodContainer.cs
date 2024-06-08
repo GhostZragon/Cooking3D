@@ -31,4 +31,10 @@ public class SourceFoodContainer : BaseContainer<Food>
             }
         }
     }
+
+    public override void ExchangeItems(HolderAbstract holder)
+    {
+        if (holder.IsContainFood() || holder.IsContainPlate()) return;
+        holder.SetFood(RetrieveRawFood());
+    }
 }

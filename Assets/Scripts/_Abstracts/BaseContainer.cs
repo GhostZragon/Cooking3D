@@ -1,7 +1,7 @@
 using EasyButtons;
 using UnityEngine;
 
-public class BaseContainer<T> : MonoBehaviour where T : PickUpAbtract
+public abstract class BaseContainer<T> : MonoBehaviour, IHolder where T : PickUpAbtract
 {
     public T prefab;
     public T RetrieveRawFood()
@@ -10,4 +10,5 @@ public class BaseContainer<T> : MonoBehaviour where T : PickUpAbtract
         return pickUpAbtract;
     }
 
+    public abstract void ExchangeItems(HolderAbstract holder);
 }
