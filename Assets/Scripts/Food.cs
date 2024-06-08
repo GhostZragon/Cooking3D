@@ -35,10 +35,12 @@ public class Food : PickUpAbtract
     [SerializeField] private  int enumIndex;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider Collider;
+    [SerializeField] private PhysicMaterial foodPhyicsMaterial;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         Collider = GetComponent<Collider>();
+        Collider.material = foodPhyicsMaterial;
         ChangePrepareTechniques(0);
     }
 

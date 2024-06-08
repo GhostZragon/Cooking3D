@@ -134,6 +134,7 @@ MonoBehaviour:
   enumIndex: 0
   rb: {fileID: 0}
   Collider: {fileID: 0}
+  foodPhyicsMaterial: {fileID: 13400000, guid: 4acc876682b501a449855e4f1db434a4, type: 2}
 --- !u!54 &3537572709713350506
 Rigidbody:
   m_ObjectHideFlags: 0
