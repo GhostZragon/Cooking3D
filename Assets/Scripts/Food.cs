@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -30,30 +31,50 @@ public struct RuntimeFoodData
 public class Food : PickUpAbtract
 {
     [SerializeField] private List<RuntimeFoodData> TransformFoods;
-    public FoodType type;
-    public int enumIndex;
+    [SerializeField] private  FoodType type;
+    [SerializeField] private  int enumIndex;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Collider[] Colliders;
+    [SerializeField] private PhysicMaterial foodPhyicsMaterial;
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+        Colliders = GetComponentsInChildren<Collider>();
+        AddPhycsMaterial();
         ChangePrepareTechniques(0);
+        transform.localScale = Vector3.one * .7f;
     }
 
+    private void AddPhycsMaterial()
+    {
+        if (Colliders == null) return;
+        foreach (var col in Colliders)
+        {
+            col.material = foodPhyicsMaterial;
+        }
+    }
+
+    private void ChangeCollidersState(bool enable)
+    {
+        foreach (var col in Colliders)
+        {
+            col.enabled = enable;
+        }
+    }
     public PrepareTechniques GetPrepareTech()
     {
         return (PrepareTechniques)enumIndex;
     }
-    public void ChangePrepareTechniques(PrepareTechniques prepareTechniques)
+
+    private void ChangePrepareTechniques(PrepareTechniques prepareTechniques)
     {
+        // if (TransformFoods.Any(item => item.prepareTechniques == prepareTechniques))
+        // {
+        //     Debug.Log("Food contain "+prepareTechniques.ToString());
+        // }
+
         foreach (var item in TransformFoods)
         {
-            if (item.prepareTechniques == prepareTechniques)
-            {
-                Debug.Log("Food contain "+prepareTechniques.ToString());
-                break;
-            }
-        }
-        for (int i = 0; i < TransformFoods.Count; i++)
-        {
-            var item = TransformFoods[i];
             if (prepareTechniques == item.prepareTechniques)
             {
                 item.Model.SetActive(true);
@@ -64,11 +85,23 @@ public class Food : PickUpAbtract
                 item.Model.SetActive(false);
             }
         }
-
     }
 
     public void Delete()
     {
         Destroy(gameObject);
+    }
+
+    public void SetStateRb_Col(bool enable)
+    {
+        rb.useGravity = enable;
+        ChangeCollidersState(enable);
+        transform.rotation = Quaternion.Euler(0,0,0);
+        transform.localScale = Vector3.one;
+    }
+
+    public FoodType GetFoodType()
+    {
+        return type;
     }
 }

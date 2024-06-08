@@ -20,7 +20,7 @@ public class Plate : PickUpAbtract
     {
         food.SetToParentAndPosition(PlaceTransform);
         var foodInPlate = new FoodInPlate();
-        foodInPlate.type = food.type;
+        foodInPlate.type = food.GetFoodType();
         foodInPlate.PrepareTechniques = food.GetPrepareTech();
         foodInPlate.foodGameObject = food.gameObject;
         FoodInPlates.Add(foodInPlate);

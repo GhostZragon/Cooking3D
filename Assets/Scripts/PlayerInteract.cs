@@ -1,4 +1,4 @@
-using EasyButtons;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
