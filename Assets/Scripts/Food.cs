@@ -34,16 +34,33 @@ public class Food : PickUpAbtract
     [SerializeField] private  FoodType type;
     [SerializeField] private  int enumIndex;
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private Collider Collider;
+    [SerializeField] private Collider[] Colliders;
     [SerializeField] private PhysicMaterial foodPhyicsMaterial;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        Collider = GetComponent<Collider>();
-        Collider.material = foodPhyicsMaterial;
+        Colliders = GetComponentsInChildren<Collider>();
+        AddPhycsMaterial();
         ChangePrepareTechniques(0);
+        transform.localScale = Vector3.one * .7f;
     }
 
+    private void AddPhycsMaterial()
+    {
+        if (Colliders == null) return;
+        foreach (var col in Colliders)
+        {
+            col.material = foodPhyicsMaterial;
+        }
+    }
+
+    private void ChangeCollidersState(bool enable)
+    {
+        foreach (var col in Colliders)
+        {
+            col.enabled = enable;
+        }
+    }
     public PrepareTechniques GetPrepareTech()
     {
         return (PrepareTechniques)enumIndex;
@@ -78,8 +95,9 @@ public class Food : PickUpAbtract
     public void SetStateRb_Col(bool enable)
     {
         rb.useGravity = enable;
-        Collider.enabled = enable;
-        transform.rotation =Quaternion.Euler(0,0,0);
+        ChangeCollidersState(enable);
+        transform.rotation = Quaternion.Euler(0,0,0);
+        transform.localScale = Vector3.one;
     }
 
     public FoodType GetFoodType()

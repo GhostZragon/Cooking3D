@@ -63,10 +63,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: food_ingredient_tomato
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7b2e273ba04caba44913c5f31ed3b939,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7b2e273ba04caba44913c5f31ed3b939,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5895840828174034487}
   m_SourcePrefab: {fileID: 100100000, guid: 7b2e273ba04caba44913c5f31ed3b939, type: 3}
 --- !u!4 &228665922760296332 stripped
 Transform:
@@ -80,6 +89,28 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 335196069101052007}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &5895840828174034487
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605649338788289846}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5321038836818693795, guid: 7b2e273ba04caba44913c5f31ed3b939, type: 3}
 --- !u!1001 &5063476656270059067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106,6 +137,21 @@ PrefabInstance:
     - target: {fileID: 396363747371293478, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
         type: 3}
       propertyPath: TransformFoods.Array.data[1].prepareTechniques
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 976262655906617902, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 976262655906617902, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 976262655906617902, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
+        type: 3}
+      propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 976262655906617902, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
@@ -158,6 +204,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 976262655906617902, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3926320563048713987, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
         type: 3}
       propertyPath: m_IsActive
@@ -179,39 +230,8 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7883824010083373477}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7304156824255229851, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6610116127973925991}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6fdd5cb105cdf842be9d4049cbeacdc, type: 3}
---- !u!1 &2528919486259513760 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7304156824255229851, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
-    type: 3}
-  m_PrefabInstance: {fileID: 5063476656270059067}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &6610116127973925991
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2528919486259513760}
-  m_Material: {fileID: 13400000, guid: 4acc876682b501a449855e4f1db434a4, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.14
-  m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!4 &5461024148710931477 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 976262655906617902, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
@@ -281,10 +301,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: food_ingredient_tomato_slices
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ec0121486a1d0fb46808e37afd3f31e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ec0121486a1d0fb46808e37afd3f31e7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6553433511787057642}
   m_SourcePrefab: {fileID: 100100000, guid: ec0121486a1d0fb46808e37afd3f31e7, type: 3}
 --- !u!1 &7359770772615154463 stripped
 GameObject:
@@ -292,6 +321,28 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7701790157997504078}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &6553433511787057642
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7359770772615154463}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8183966572487801318, guid: ec0121486a1d0fb46808e37afd3f31e7, type: 3}
 --- !u!4 &7883824010083373477 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ec0121486a1d0fb46808e37afd3f31e7,

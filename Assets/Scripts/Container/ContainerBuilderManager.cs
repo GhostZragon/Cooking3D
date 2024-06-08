@@ -11,6 +11,7 @@ public class ContainerBuilderManager : ScriptableObject
     [Serializable]
     public struct FoodContainer
     {
+        public float spawnScale;
         public Food Prefab;
         public GameObject Model;
         public FoodType foodType;

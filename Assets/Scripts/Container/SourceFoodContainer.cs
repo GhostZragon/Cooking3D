@@ -56,8 +56,8 @@ public class SourceFoodContainer : BaseContainer<Food>
 
     private Vector3 GetRandomSpawnsPosition()
     {
-        var minX = BoxCollider.size.x / 2 -.1f;
-        var minZ = BoxCollider.size.z / 2 -.1f;
+        var minX = BoxCollider.size.x / 2 -.15f;
+        var minZ = BoxCollider.size.z / 2 -.15f;
         return new Vector3(Random.Range(-minX, minX), Random.Range(1, 1.3f), Random.Range(-minZ, minZ));
     }
 }
