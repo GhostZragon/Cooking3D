@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using EasyButtons;
+using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 // [FilePath("SomeSubFolder/StateFile.foo", FilePathAttribute.Location.PreferencesFolder)]

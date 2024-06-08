@@ -1,10 +1,10 @@
-using EasyButtons;
 using UnityEngine;
 
 public abstract class BaseContainer<T> : MonoBehaviour, IHolder where T : PickUpAbtract
 {
     public T prefab;
-    public T RetrieveRawFood()
+
+    protected T RetrieveRawFood()
     {
         var pickUpAbtract = Instantiate(prefab);
         return pickUpAbtract;
