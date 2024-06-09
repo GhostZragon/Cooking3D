@@ -85,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 1799882126267427027, guid: 69df2d6d38b6c6749b22db0b126856bc,
         type: 3}
       propertyPath: m_Name
-      value: SourcePlateContainer Variant
+      value: SourcePlateContainer
       objectReference: {fileID: 0}
     - target: {fileID: 5781748473056860544, guid: 69df2d6d38b6c6749b22db0b126856bc,
         type: 3}
