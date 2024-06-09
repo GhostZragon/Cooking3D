@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class Plate : PickUpAbtract
 {
+    public struct FoodInPlate
+    {
+        public FoodType type;
+        public PrepareTechniques PrepareTechniques;
+        public GameObject foodGameObject;
+    }
+
     [SerializeField] private GameObject RawModel;
     [SerializeField] private GameObject DirtyModel;
     [SerializeField] private Transform PlaceTransform;
@@ -24,12 +31,6 @@ public class Plate : PickUpAbtract
         foodInPlate.PrepareTechniques = food.GetPrepareTech();
         foodInPlate.foodGameObject = food.gameObject;
         FoodInPlates.Add(foodInPlate);
-    }
-    public struct FoodInPlate
-    {
-        public FoodType type;
-        public PrepareTechniques PrepareTechniques;
-        public GameObject foodGameObject;
     }
 
     public bool IsContainFoodInPlate() => FoodInPlates != null && FoodInPlates.Count > 0;
