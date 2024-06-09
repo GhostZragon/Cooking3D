@@ -47,12 +47,14 @@ public class PlayerInteract : HolderAbstract
     {
         if (timer < 0.1f) return;
         timer = 0;
+        Debug.Log("Interact");
         RaycastHit hit;
         if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit,
-                5))
+                10))
         {
             if (hit.collider.TryGetComponent(out IHolder holder))
             {
+                Debug.Log(hit.collider.name);
                 holder.ExchangeItems(this);
             }
         }

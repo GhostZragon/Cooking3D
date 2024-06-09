@@ -1,21 +1,18 @@
 using System;
 using NaughtyAttributes;
 using UnityEngine;
-[DisallowMultipleComponent]
-[RequireComponent(typeof(BoxCollider))]
 public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
     [SerializeField] protected Food food;
     [SerializeField] protected Plate plate;
     [SerializeField] protected Transform placeTransform;
 
-    private BoxCollider containerCollider;
-    
+  
+
     public Food GetFood() => food;
     public Plate GetPlate() => plate;
     public bool IsContainPlate() => plate != null;
     public bool IsContainFood() => food != null;
-    public Transform GetPlaceTransform() => placeTransform;
     
     private void OnDrawGizmos()
     {
@@ -120,26 +117,5 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
             plate.Delete();
         }
     }
-#if UNITY_EDITOR
-    [Button]
-    private void LoadPlaceTransform()
-    {
-        if (placeTransform == null)
-        {
-            var newPlaceTransform = new GameObject();
-            newPlaceTransform.name = "PlaceTransform";
-            newPlaceTransform.transform.localPosition = new Vector3(0, .5f, 0);
-        }
 
-        if (containerCollider != null)
-        {
-            containerCollider.center = new Vector3(0, .25f, 0);
-            containerCollider.size = new Vector3(1, 0.5f, 1);
-        }
-        else
-        {
-            containerCollider = GetComponent<BoxCollider>();
-        }
-    }
-#endif
 }
