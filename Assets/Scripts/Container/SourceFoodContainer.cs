@@ -13,6 +13,9 @@ public class SourceFoodContainer : BaseContainer<Food>
     [SerializeField] private GameObject baseModel;
     [SerializeField] private List<Food> foodInCrate = new List<Food>();
     [SerializeField] private int maxCount = 5;
+
+    [SerializeField] private float timer;
+    private float timeToSpawn = 1;
     private void Awake()
     {
         BoxCollider = GetComponent<BoxCollider>();
@@ -31,7 +34,22 @@ public class SourceFoodContainer : BaseContainer<Food>
             }
         }
     }
-    
+
+    private void Update()
+    {
+        if (NeedSpawnItem())
+        {
+            timer = 0;
+            SpawnFood();
+        }
+
+        if (timer <= timeToSpawn)
+        {
+            timer += Time.deltaTime;
+        }
+        
+    }
+
     [Button]
     private void SpawnFood()
     {
@@ -41,6 +59,7 @@ public class SourceFoodContainer : BaseContainer<Food>
         food.transform.localPosition = Vector3.zero;
         food.transform.localPosition = GetRandomSpawnsPosition();
         foodInCrate.Add(food);
+
     }
   
     public override void ExchangeItems(HolderAbstract holder)
@@ -54,7 +73,8 @@ public class SourceFoodContainer : BaseContainer<Food>
         Debug.Log("Set food to holder");
     }
 
-  
+    private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;
+
 
     private Vector3 GetRandomSpawnsPosition()
     {
