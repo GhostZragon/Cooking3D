@@ -13,7 +13,6 @@ public class SourceFoodContainer : BaseContainer<Food>
     [SerializeField] private GameObject baseModel;
     [SerializeField] private List<Food> foodInCrate = new List<Food>();
     [SerializeField] private int maxCount = 5;
-
     [SerializeField] private float timer;
     private float timeToSpawn = 1;
     private void Awake()
@@ -42,7 +41,7 @@ public class SourceFoodContainer : BaseContainer<Food>
             timer = 0;
             SpawnFood();
         }
-
+        
         if (timer <= timeToSpawn)
         {
             timer += Time.deltaTime;

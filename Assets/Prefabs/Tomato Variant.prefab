@@ -121,6 +121,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 396363747371293478, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
         type: 3}
+      propertyPath: foodPhyicsMaterial
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 396363747371293478, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
+        type: 3}
       propertyPath: TransformFoods.Array.size
       value: 2
       objectReference: {fileID: 0}
