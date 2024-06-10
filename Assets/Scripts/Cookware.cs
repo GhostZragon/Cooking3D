@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Plate : PickUpAbtract
+public class Cookware : PickUpAbtract
 {
     public struct FoodInPlate
     {

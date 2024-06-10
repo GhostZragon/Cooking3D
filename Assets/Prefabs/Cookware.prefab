@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 180703311335173306}
   - component: {fileID: 778369934136711356}
   m_Layer: 0
-  m_Name: Plate
+  m_Name: Cookware
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

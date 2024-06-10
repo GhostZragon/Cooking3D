@@ -1,4 +1,4 @@
-public class SourcePlateContainer : BaseContainer<Plate>
+public class SourcePlateContainer : BaseContainer<Cookware>
 {
     public override void ExchangeItems(HolderAbstract holder)
     {

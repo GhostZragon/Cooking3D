@@ -7,7 +7,7 @@ public class PlayerInteract : HolderAbstract
 {
     // public Food PlayerItem;
     // public Transform Container;
-    // [FormerlySerializedAs("item")] public Plate playerPlate;
+    // [FormerlySerializedAs("item")] public Cookware playerPlate;
     public Vector3 size;
     public Transform interactTransform;
 

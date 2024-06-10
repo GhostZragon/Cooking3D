@@ -1,17 +1,19 @@
 using System;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
     [SerializeField] protected Food food;
-    [SerializeField] protected Plate plate;
+    [FormerlySerializedAs("plate")] [SerializeField] protected Cookware cookware;
     [SerializeField] protected Transform placeTransform;
 
   
 
     public Food GetFood() => food;
-    public Plate GetPlate() => plate;
-    public bool IsContainPlate() => plate != null;
+    public Cookware GetPlate() => cookware;
+    public bool IsContainPlate() => cookware != null;
     public bool IsContainFood() => food != null;
     
     private void OnDrawGizmos()
@@ -23,12 +25,16 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public void ExchangeItems(HolderAbstract holder)
     {
+        // 1. handle player have plate
+        // 2. Put food in plate
+        // 2.5 Swap plate if can put food in plate
+        // 3. swap food
         var isHavePlate = IsContainPlate() || holder.IsContainPlate();
         if (isHavePlate)
         {
             if (PutFoodInPlate(holder) != false) return;
             SwapPlate(holder);
-            Debug.Log("Swap plate", holder.gameObject);
+            Debug.Log("Swap cookware", holder.gameObject);
         }
         else
         {
@@ -41,8 +47,8 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         // Just swap when have food in one of holder
         if (!IsContainFood() && !holder.IsContainFood()) return false;
-        Debug.Log("Put food in plate", holder.gameObject);
-        var plate = (this.plate != null ? this.plate : holder.GetPlate());
+        Debug.Log("Put food in cookware", holder.gameObject);
+        var plate = (this.cookware != null ? this.cookware : holder.GetPlate());
         var food = (this.food != null ? this.food : holder.GetFood());
         if (plate.CanPutFoodIn(food) == false) return false;
 
@@ -59,14 +65,14 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     private void SwapPlate(HolderAbstract holder)
     {
-        SwapItems(holder, h => h.GetPlate(), (h, item) => h.SetPlate(item as Plate));
+        SwapItems(holder, h => h.GetPlate(), (h, item) => h.SetPlate(item as Cookware));
     }
 
     private void SwapItems(HolderAbstract holder,
         Func<HolderAbstract, PickUpAbtract> getItem,
         Action<HolderAbstract, PickUpAbtract> setItem)
     {
-        // generic method for swap plate and food
+        // generic method for swap cookware and food
         // 1. Get current item in holder 1
         // 2. Get item in holder 2
         // 3. Assign item of holder 1 to holder 2,
@@ -78,7 +84,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     }
 
     public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
-    public void SetPlate(Plate newPlate) => ResetItem<Plate>(newPlate, ref this.plate);
+    public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
 
     private void ResetItem<T>(T newItem, ref T item) where T : PickUpAbtract
     {
@@ -92,11 +98,11 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     public void DiscardInHandItem()
     {
         // priority in discard (use case)
-        // 1. Food in plate
-        // 2. Plate
-        // 2.5 Cannot have food and plate in same time
+        // 1. Food in cookware
+        // 2. Cookware
+        // 2.5 Cannot have food and cookware in same time
         // 3. Food
-        if (plate != null)
+        if (cookware != null)
         {
             DiscardPlate();
         }
@@ -108,13 +114,13 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     private void DiscardPlate()
     {
-        if (plate.IsContainFoodInPlate())
+        if (cookware.IsContainFoodInPlate())
         {
-            plate.DeleteAllFood();
+            cookware.DeleteAllFood();
         }
         else
         {
-            plate.Delete();
+            cookware.Delete();
         }
     }
 

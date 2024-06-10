@@ -142,7 +142,7 @@ PrefabInstance:
     - target: {fileID: 396363747371293478, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
         type: 3}
       propertyPath: TransformFoods.Array.data[1].prepareTechniques
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 976262655906617902, guid: c6fdd5cb105cdf842be9d4049cbeacdc,
         type: 3}
