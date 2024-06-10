@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
-using UnityEditor.Rendering;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 //[CustomEditor(typeof(FoodDataManager))]
