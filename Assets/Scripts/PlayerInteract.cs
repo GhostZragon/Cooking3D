@@ -11,6 +11,7 @@ public class PlayerInteract : HolderAbstract
     public Vector3 size;
     public Transform interactTransform;
 
+
     [SerializeField] private float timer = 0;
 
     private void Awake()
@@ -60,5 +61,5 @@ public class PlayerInteract : HolderAbstract
         }
     }
 
-  
+
 }
