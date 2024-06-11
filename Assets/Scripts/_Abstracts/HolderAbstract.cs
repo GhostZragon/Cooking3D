@@ -29,20 +29,24 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         // 2. Put food in plate
         // 2.5 Swap plate if can put food in plate
         // 3. swap food
-        int plateCount = 0;
-        if (cookware.IsPlate()) plateCount++;
-        if (holder.GetPlate().IsPlate()) plateCount++;
-        int foodCount = 0;
-        if (food != null) foodCount++;
-        if (holder.IsContainFood()) foodCount++;
-        
+        // int plateCount = 0;
+        // if (cookware.IsPlate()) plateCount++;
+        // if (holder.GetPlate().IsPlate()) plateCount++;
+        // int foodCount = 0;
+        // if (food != null) foodCount++;
+        // if (holder.IsContainFood()) foodCount++;
+        //
         var isHavePlate = IsContainPlate() || holder.IsContainPlate();
         if (isHavePlate)
         {
-            if (plateCount == 1)
-            {
-                Debug.Log("Just swap food");
-            }
+            // if (plateCount == 1)
+            // {
+            //     Debug.Log("Just swap food");
+            // }
+            // else
+            // {
+            //     
+            // }
             if (PutFoodInPlate(holder) != false) return;
             SwapCookware(holder);
             Debug.Log("Swap cookware", holder.gameObject);
@@ -74,11 +78,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         SetFood(null);
         return true;
     }
-
-    private bool GetPlateInBothOfHolder()
-    {
-        
-    }
+    
     private void SwapFood(HolderAbstract holder)
     {
         SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item as Food));
