@@ -21,7 +21,7 @@ public class Cookware : PickUpAbtract
 
     public void Add(Food food)
     {
-        if(food.GetCurrentFoodState() == FoodState.Raw) return;
+        // if(food.GetCurrentFoodState() == FoodState.Raw) return;
         food.SetToParentAndPosition(PlaceTransform);
         FoodInPlates.Add(food);
     }

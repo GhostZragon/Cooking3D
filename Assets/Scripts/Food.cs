@@ -95,6 +95,8 @@ public class Food : PickUpAbtract
     public void SetStateRb_Col(bool enable)
     {
         rb.useGravity = enable;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero; 
         ChangeCollidersState(enable);
         transform.rotation = Quaternion.Euler(0,0,0);
         transform.localScale = Vector3.one;
