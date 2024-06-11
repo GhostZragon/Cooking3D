@@ -12,4 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8ecf253751fbb45a935e7c04ae7d81, type: 3}
   m_Name: FoodDataManager
   m_EditorClassIdentifier: 
-  List: []
+  FoodInGamePrefabs:
+  - {fileID: 6568569786753327103, guid: f5b83f4853a398d4f8486dabf1ee4409, type: 3}
+  - {fileID: 8279966421599689422, guid: 1b3c237f4f96f364ebfbefbb87e2e1c3, type: 3}
+  - {fileID: 2382468149352183693, guid: 676db11a861d4c343a7d3f5434b43103, type: 3}
+  - {fileID: 4883379238974864669, guid: b9623ac50e8481248b1fecef74400e9e, type: 3}
+  FoodDatas:
+  - {fileID: 11400000, guid: acb070068ae4e0d4bbe96f0be1e2c294, type: 2}
+  - {fileID: 11400000, guid: 830d3514a0bacb54bbd3bda220a146b8, type: 2}

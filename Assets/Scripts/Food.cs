@@ -105,8 +105,13 @@ public class Food : PickUpAbtract
         return type;
     }
 
-    public List<RuntimeFoodData> GetRuntimeFoodData()
+    public List<PrepareTechniques> GetPrepareTechList()
     {
-        return TransformFoods;
+        var list = new List<PrepareTechniques>();
+        foreach (var item in TransformFoods)
+        {
+            list.Add(item.prepareTechniques);
+        }
+        return list;
     }
 }
