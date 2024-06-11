@@ -29,9 +29,20 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         // 2. Put food in plate
         // 2.5 Swap plate if can put food in plate
         // 3. swap food
+        int plateCount = 0;
+        if (cookware.IsPlate()) plateCount++;
+        if (holder.GetPlate().IsPlate()) plateCount++;
+        int foodCount = 0;
+        if (food != null) foodCount++;
+        if (holder.IsContainFood()) foodCount++;
+        
         var isHavePlate = IsContainPlate() || holder.IsContainPlate();
         if (isHavePlate)
         {
+            if (plateCount == 1)
+            {
+                Debug.Log("Just swap food");
+            }
             if (PutFoodInPlate(holder) != false) return;
             SwapCookware(holder);
             Debug.Log("Swap cookware", holder.gameObject);
@@ -46,9 +57,15 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     private bool PutFoodInPlate(HolderAbstract holder)
     {
         // Just swap when have food in one of holder
-        if (!IsContainFood() && !holder.IsContainFood()) return false;
-        Debug.Log("Put food in cookware", holder.gameObject);
+        if (!IsContainFood() && !holder.IsContainFood())
+        {
+            // problem here: if holder container food, it will not swap
+            // how to reslove: if 1 one holder is plate put food in that
+            // if not have plate in both holder return
+            return false;
+        }
         var plate = this.cookware != null ? this.cookware : holder.GetPlate();
+        Debug.Log("Put food in cookware", holder.gameObject);
         var food = this.food != null ? this.food : holder.GetFood();
         if (plate.CanPutFoodIn(food) == false) return false;
 
@@ -58,6 +75,10 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         return true;
     }
 
+    private bool GetPlateInBothOfHolder()
+    {
+        
+    }
     private void SwapFood(HolderAbstract holder)
     {
         SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item as Food));

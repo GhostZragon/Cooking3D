@@ -8,12 +8,12 @@ public enum CookwareType
     Plate,
     Pot,
     Pan,
-    All
 }
 public class Cookware : PickUpAbtract
 {
     [SerializeField] private Transform PlaceTransform;
     [SerializeField] private List<Food> FoodInPlates;
+    [SerializeField] private CookwareType type;
     private void Awake()
     {
         FoodInPlates = new List<Food>();
@@ -53,5 +53,10 @@ public class Cookware : PickUpAbtract
     public void Delete()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsPlate()
+    {
+        return type == CookwareType.Pan;
     }
 }
