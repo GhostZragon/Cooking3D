@@ -6,31 +6,26 @@ using UnityEngine;
 
 public class Cookware : PickUpAbtract
 {
-    public struct FoodInPlate
-    {
-        public FoodType type;
-        public PrepareTechniques PrepareTechniques;
-        public GameObject foodGameObject;
-    }
+
 
     [SerializeField] private GameObject RawModel;
     [SerializeField] private GameObject DirtyModel;
     [SerializeField] private Transform PlaceTransform;
-    [SerializeField] private List<FoodInPlate> FoodInPlates;
+    [SerializeField] private List<Food> FoodInPlates;
     private void Awake()
     {
         DirtyModel.SetActive(false);
-        FoodInPlates = new List<FoodInPlate>();
+        FoodInPlates = new List<Food>();
     }
 
     public void Add(Food food)
     {
         food.SetToParentAndPosition(PlaceTransform);
-        var foodInPlate = new FoodInPlate();
-        foodInPlate.type = food.GetFoodType();
-        foodInPlate.PrepareTechniques = food.GetPrepareTech();
-        foodInPlate.foodGameObject = food.gameObject;
-        FoodInPlates.Add(foodInPlate);
+        // var foodInPlate = new FoodInPlate();
+        // foodInPlate.type = food.GetFoodType();
+        // foodInPlate.PrepareTechniques = food.GetPrepareTech();
+        // foodInPlate.foodGameObject = food.gameObject;
+        FoodInPlates.Add(food);
     }
 
     public bool IsContainFoodInPlate() => FoodInPlates != null && FoodInPlates.Count > 0;
@@ -38,7 +33,7 @@ public class Cookware : PickUpAbtract
     {
         foreach (var _food in FoodInPlates)
         {
-            if (_food.type == food.GetFoodType())
+            if (_food.GetFoodType() == food.GetFoodType())
             {
                 Debug.Log("Same");
                 return false;
@@ -52,7 +47,7 @@ public class Cookware : PickUpAbtract
     {
         foreach (var item in FoodInPlates)
         {
-            Destroy(item.foodGameObject);
+            Destroy(item.gameObject);
         }
         FoodInPlates.Clear();
     }
