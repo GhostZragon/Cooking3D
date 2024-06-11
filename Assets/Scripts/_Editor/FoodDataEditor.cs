@@ -15,30 +15,30 @@ using UnityEngine;
 
 //        FoodData foodData = (FoodData)target;
 
-//        // Check for duplicate PrepareTechniques
-//        if (HasDuplicatePrepareTechniques(foodData.FoodStructs, out List<PrepareTechniques> duplicates))
+//        // Check for duplicate FoodState
+//        if (HasDuplicatePrepareTechniques(foodData.FoodStructs, out List<FoodState> duplicates))
 //        {
 //            // Display warning if duplicates are found
-//            string duplicateMessage = "Duplicate PrepareTechniques found: " + string.Join(", ", duplicates);
+//            string duplicateMessage = "Duplicate FoodState found: " + string.Join(", ", duplicates);
 //            EditorGUILayout.HelpBox(duplicateMessage, MessageType.Error);
 //        }
 //        else
 //        {
 //            // Display success message if no duplicates
-//            EditorGUILayout.HelpBox("No duplicate PrepareTechniques found.", MessageType.Info);
+//            EditorGUILayout.HelpBox("No duplicate FoodState found.", MessageType.Info);
 //        }
 //    }
 
-//    private bool HasDuplicatePrepareTechniques(List<FoodStruct> foodStructs, out List<PrepareTechniques> duplicates)
+//    private bool HasDuplicatePrepareTechniques(List<FoodStruct> foodStructs, out List<FoodState> duplicates)
 //    {
-//        HashSet<PrepareTechniques> uniqueTechniques = new HashSet<PrepareTechniques>();
-//        duplicates = new List<PrepareTechniques>();
+//        HashSet<FoodState> uniqueTechniques = new HashSet<FoodState>();
+//        duplicates = new List<FoodState>();
 
 //        foreach (var foodStruct in foodStructs)
 //        {
-//            if (!uniqueTechniques.Add(foodStruct.PrepareTechniques))
+//            if (!uniqueTechniques.Add(foodStruct.FoodState))
 //            {
-//                duplicates.Add(foodStruct.PrepareTechniques);
+//                duplicates.Add(foodStruct.FoodState);
 //            }
 //        }
 

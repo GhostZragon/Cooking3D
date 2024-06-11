@@ -3,28 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+public enum CookwareType
+{
+    Plate,
+    Pot,
+    Pan,
+    All
+}
 public class Cookware : PickUpAbtract
 {
-
-
-    [SerializeField] private GameObject RawModel;
-    [SerializeField] private GameObject DirtyModel;
     [SerializeField] private Transform PlaceTransform;
     [SerializeField] private List<Food> FoodInPlates;
     private void Awake()
     {
-        DirtyModel.SetActive(false);
         FoodInPlates = new List<Food>();
     }
 
     public void Add(Food food)
     {
+        if(food.GetCurrentFoodState() == FoodState.Raw) return;
         food.SetToParentAndPosition(PlaceTransform);
-        // var foodInPlate = new FoodInPlate();
-        // foodInPlate.type = food.GetFoodType();
-        // foodInPlate.PrepareTechniques = food.GetPrepareTech();
-        // foodInPlate.foodGameObject = food.gameObject;
         FoodInPlates.Add(food);
     }
 

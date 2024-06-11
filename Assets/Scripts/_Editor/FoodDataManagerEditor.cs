@@ -65,9 +65,9 @@ using UnityEngine;
 //            for (int i = 0; i < foodData.FoodStructs.Count; i++)
 //            {
 //                var foodStruct = foodData.FoodStructs[i];
-//                foodStruct.PrepareTechniques = (PrepareTechniques)EditorGUILayout.EnumPopup("Prepare Tenchiques", foodStruct.PrepareTechniques);
+//                foodStruct.FoodState = (FoodState)EditorGUILayout.EnumPopup("Prepare Tenchiques", foodStruct.FoodState);
 //                foodStruct.Model = 
-//                    EditorGUILayout.ObjectField("Model " + foodStruct.PrepareTechniques.ToString()
+//                    EditorGUILayout.ObjectField("Model " + foodStruct.FoodState.ToString()
 //                    , foodStruct.Model, typeof(GameObject), false) as GameObject;
 //            }
 //            EditorGUI.indentLevel-=2;
@@ -94,16 +94,16 @@ using UnityEngine;
 //        return foodsData;
 //    }
 
-//    private bool HasDuplicatePrepareTechniques(List<FoodStruct> foodStructs, out List<PrepareTechniques> duplicates)
+//    private bool HasDuplicatePrepareTechniques(List<FoodStruct> foodStructs, out List<FoodState> duplicates)
 //    {
-//        HashSet<PrepareTechniques> uniqueTechniques = new HashSet<PrepareTechniques>();
-//        duplicates = new List<PrepareTechniques>();
+//        HashSet<FoodState> uniqueTechniques = new HashSet<FoodState>();
+//        duplicates = new List<FoodState>();
 
 //        foreach (var foodStruct in foodStructs)
 //        {
-//            if (!uniqueTechniques.Add(foodStruct.PrepareTechniques))
+//            if (!uniqueTechniques.Add(foodStruct.FoodState))
 //            {
-//                duplicates.Add(foodStruct.PrepareTechniques);
+//                duplicates.Add(foodStruct.FoodState);
 //            }
 //        }
 

@@ -1,9 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-[CreateAssetMenu(fileName = "FoodData", menuName = "Food Data")]
+[Serializable]
 public struct FoodData
 {
-    public FoodType type;
-    public List<Food>
+
 }

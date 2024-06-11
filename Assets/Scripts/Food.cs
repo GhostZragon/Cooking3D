@@ -16,16 +16,17 @@ public enum FoodType
 }
 
 
-public enum PrepareTechniques
+public enum FoodState
 {
     Raw,
     Fry,
-    Chop
+    Slice,
+    Cooked
 }
 [Serializable]
 public struct RuntimeFoodData
 {
-    public PrepareTechniques prepareTechniques;
+    [FormerlySerializedAs("prepareTechniques")] public FoodState foodState;
     public GameObject Model;
 }
 public class Food : PickUpAbtract
@@ -41,7 +42,7 @@ public class Food : PickUpAbtract
         rb = GetComponent<Rigidbody>();
         Colliders = GetComponentsInChildren<Collider>();
         AddPhycsMaterial();
-        ChangePrepareTechniques(0);
+        ChangeFoodState(0);
         transform.localScale = Vector3.one * .7f;
     }
 
@@ -61,24 +62,23 @@ public class Food : PickUpAbtract
             col.enabled = enable;
         }
     }
-    public PrepareTechniques GetPrepareTech()
+    public FoodState GetCurrentFoodState()
     {
-        return (PrepareTechniques)enumIndex;
+        return (FoodState)enumIndex;
     }
 
-    private void ChangePrepareTechniques(PrepareTechniques prepareTechniques)
+    private void ChangeFoodState(FoodState foodState)
     {
-        // if (TransformFoods.Any(item => item.prepareTechniques == prepareTechniques))
+        // if (TransformFoods.Any(item => item.foodState == foodState))
         // {
-        //     Debug.Log("Food contain "+prepareTechniques.ToString());
+        //     Debug.Log("Food contain "+foodState.ToString());
         // }
-
         foreach (var item in TransformFoods)
         {
-            if (prepareTechniques == item.prepareTechniques)
+            if (foodState == item.foodState)
             {
                 item.Model.SetActive(true);
-                enumIndex = (int)item.prepareTechniques;
+                enumIndex = (int)item.foodState;
             }
             else
             {
@@ -105,12 +105,12 @@ public class Food : PickUpAbtract
         return type;
     }
 
-    public List<PrepareTechniques> GetPrepareTechList()
+    public List<FoodState> GetFoodStateList()
     {
-        var list = new List<PrepareTechniques>();
+        var list = new List<FoodState>();
         foreach (var item in TransformFoods)
         {
-            list.Add(item.prepareTechniques);
+            list.Add(item.foodState);
         }
         return list;
     }

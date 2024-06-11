@@ -22,3 +22,14 @@ public class Container : HolderAbstract
     }
 #endif
 }
+
+public class ProcessorContainer : HolderAbstract
+{
+    public FoodState FoodStateToConvert;
+    public bool canSwap = false;
+    private Food currentFood;
+    public override void ExchangeItems(HolderAbstract holder)
+    {
+        
+    }
+}

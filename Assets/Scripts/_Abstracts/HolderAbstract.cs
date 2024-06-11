@@ -8,7 +8,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     [SerializeField] protected Food food;
     [FormerlySerializedAs("plate")] [SerializeField] protected Cookware cookware;
     [SerializeField] protected Transform placeTransform;
-
+    protected CookwareType CookwareTypeCanPut;
   
 
     public Food GetFood() => food;
@@ -23,7 +23,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         Gizmos.DrawWireSphere(placeTransform.position, .2f);
     }
 
-    public void ExchangeItems(HolderAbstract holder)
+    public virtual void ExchangeItems(HolderAbstract holder)
     {
         // 1. handle player have plate
         // 2. Put food in plate
@@ -33,7 +33,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         if (isHavePlate)
         {
             if (PutFoodInPlate(holder) != false) return;
-            SwapPlate(holder);
+            SwapCookware(holder);
             Debug.Log("Swap cookware", holder.gameObject);
         }
         else
@@ -63,7 +63,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item as Food));
     }
 
-    private void SwapPlate(HolderAbstract holder)
+    private void SwapCookware(HolderAbstract holder)
     {
         SwapItems(holder, h => h.GetPlate(), (h, item) => h.SetPlate(item as Cookware));
     }
