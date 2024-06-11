@@ -6,16 +6,19 @@ using UnityEngine.Serialization;
 public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
     [SerializeField] protected Food food;
-    [FormerlySerializedAs("plate")] [SerializeField] protected Cookware cookware;
+
+    [FormerlySerializedAs("plate")] [SerializeField]
+    protected Cookware cookware;
+
     [SerializeField] protected Transform placeTransform;
     protected CookwareType CookwareTypeCanPut;
-  
+
 
     public Food GetFood() => food;
     public Cookware GetPlate() => cookware;
-    public bool IsContainPlate() => cookware != null;
+    public bool IsContainCookware() => cookware != null;
     public bool IsContainFood() => food != null;
-    
+
     private void OnDrawGizmos()
     {
         if (placeTransform == null) return;
@@ -25,31 +28,20 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public virtual void ExchangeItems(HolderAbstract holder)
     {
-        // 1. handle player have plate
-        // 2. Put food in plate
-        // 2.5 Swap plate if can put food in plate
-        // 3. swap food
-        // int plateCount = 0;
-        // if (cookware.IsPlate()) plateCount++;
-        // if (holder.GetPlate().IsPlate()) plateCount++;
-        // int foodCount = 0;
-        // if (food != null) foodCount++;
-        // if (holder.IsContainFood()) foodCount++;
-        //
-        var isHavePlate = IsContainPlate() || holder.IsContainPlate();
-        if (isHavePlate)
+        var isContainCookware = IsContainCookware() || holder.IsContainCookware();
+        bool bothIsNotHaveFood = this.food == null && holder.IsContainFood() == false;
+        if (isContainCookware)
         {
-            // if (plateCount == 1)
-            // {
-            //     Debug.Log("Just swap food");
-            // }
-            // else
-            // {
-            //     
-            // }
-            if (PutFoodInPlate(holder) != false) return;
-            SwapCookware(holder);
-            Debug.Log("Swap cookware", holder.gameObject);
+            // need swap food in cookware if it is plate type
+            if (bothIsNotHaveFood)
+            {
+                SwapCookware(holder);
+                Debug.Log("Swap cookware", holder.gameObject);
+            }
+            else
+            {
+                PutFoodInCookware(holder);
+            }
         }
         else
         {
@@ -58,27 +50,21 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         }
     }
 
-    private bool PutFoodInPlate(HolderAbstract holder)
+    private void PutFoodInCookware(HolderAbstract holder)
     {
         // Just swap when have food in one of holder
-        if (!IsContainFood() && !holder.IsContainFood())
-        {
-            // problem here: if holder container food, it will not swap
-            // how to reslove: if 1 one holder is plate put food in that
-            // if not have plate in both holder return
-            return false;
-        }
-        var plate = this.cookware != null ? this.cookware : holder.GetPlate();
-        Debug.Log("Put food in cookware", holder.gameObject);
-        var food = this.food != null ? this.food : holder.GetFood();
-        if (plate.CanPutFoodIn(food) == false) return false;
 
-        plate.Add(food);
+        var _plate = this.cookware != null ? this.cookware : holder.GetPlate();
+        Debug.Log("Put food in cookware", holder.gameObject);
+        var _food = this.food != null ? this.food : holder.GetFood();
+
+        if (_plate.CanPutFoodIn(_food) == false) return;
+
+        _plate.Add(_food);
         holder.SetFood(null);
         SetFood(null);
-        return true;
     }
-    
+
     private void SwapFood(HolderAbstract holder)
     {
         SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item as Food));
@@ -144,5 +130,4 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
             cookware.Delete();
         }
     }
-
 }
