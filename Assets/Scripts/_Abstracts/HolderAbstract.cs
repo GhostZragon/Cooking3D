@@ -48,8 +48,8 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         // Just swap when have food in one of holder
         if (!IsContainFood() && !holder.IsContainFood()) return false;
         Debug.Log("Put food in cookware", holder.gameObject);
-        var plate = (this.cookware != null ? this.cookware : holder.GetPlate());
-        var food = (this.food != null ? this.food : holder.GetFood());
+        var plate = this.cookware != null ? this.cookware : holder.GetPlate();
+        var food = this.food != null ? this.food : holder.GetFood();
         if (plate.CanPutFoodIn(food) == false) return false;
 
         plate.Add(food);

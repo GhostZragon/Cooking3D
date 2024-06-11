@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: {fileID: 0}
-  plate: {fileID: 0}
+  cookware: {fileID: 0}
   placeTransform: {fileID: 556291406}
   size: {x: 1, y: 1, z: 1}
   interactTransform: {fileID: 80659185}
@@ -7965,7 +7965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: {fileID: 0}
-  plate: {fileID: 0}
+  cookware: {fileID: 0}
   placeTransform: {fileID: 164093220}
 --- !u!65 &1311361003
 BoxCollider:
@@ -8605,7 +8605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: {fileID: 0}
-  plate: {fileID: 0}
+  cookware: {fileID: 0}
   placeTransform: {fileID: 829727281}
 --- !u!65 &1398148980
 BoxCollider:
@@ -13194,7 +13194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: {fileID: 0}
-  plate: {fileID: 0}
+  cookware: {fileID: 0}
   placeTransform: {fileID: 269746251}
 --- !u!65 &2135318467
 BoxCollider:

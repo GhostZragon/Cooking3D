@@ -104,4 +104,9 @@ public class Food : PickUpAbtract
     {
         return type;
     }
+
+    public List<RuntimeFoodData> GetRuntimeFoodData()
+    {
+        return TransformFoods;
+    }
 }

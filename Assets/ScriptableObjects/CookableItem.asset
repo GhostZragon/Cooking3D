@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f17e8f1879832f4cb23b4643b901df8, type: 3}
+  m_Name: CookableItem
+  m_EditorClassIdentifier: 
+  FoodStates:
+  - type: 2
+    RuntimeFoodData:
+    - prepareTechniques: 0
+      Model: {fileID: 4758328398783229082, guid: f5b83f4853a398d4f8486dabf1ee4409,
+        type: 3}
+  - type: 3
+    RuntimeFoodData:
+    - prepareTechniques: 0
+      Model: {fileID: 7100637895831689130, guid: 1b3c237f4f96f364ebfbefbb87e2e1c3,
+        type: 3}
+    - prepareTechniques: 1
+      Model: {fileID: 9200891327683969453, guid: 1b3c237f4f96f364ebfbefbb87e2e1c3,
+        type: 3}
+  - type: 1
+    RuntimeFoodData:
+    - prepareTechniques: 0
+      Model: {fileID: 7209355612600973309, guid: 676db11a861d4c343a7d3f5434b43103,
+        type: 3}
+    - prepareTechniques: 2
+      Model: {fileID: 6515609832755568550, guid: 676db11a861d4c343a7d3f5434b43103,
+        type: 3}
+  - type: 0
+    RuntimeFoodData:
+    - prepareTechniques: 0
+      Model: {fileID: 605649338788289846, guid: b9623ac50e8481248b1fecef74400e9e,
+        type: 3}
+    - prepareTechniques: 2
+      Model: {fileID: 7359770772615154463, guid: b9623ac50e8481248b1fecef74400e9e,
+        type: 3}
