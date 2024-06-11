@@ -30,24 +30,23 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         var isContainCookware = IsContainCookware() || holder.IsContainCookware();
         bool bothIsNotHaveFood = this.food == null && holder.IsContainFood() == false;
+
         if (isContainCookware)
         {
-            // need swap food in cookware if it is plate type
             if (bothIsNotHaveFood)
             {
+                // what condition need to swap cookware ?
+                // 2 cookware have food in cookware
+                // need to swap food in cookware
                 SwapCookware(holder);
-                Debug.Log("Swap cookware", holder.gameObject);
+                return;
             }
-            else
-            {
-                PutFoodInCookware(holder);
-            }
+
+            PutFoodInCookware(holder);
+            return;
         }
-        else
-        {
-            SwapFood(holder);
-            Debug.Log("Swap food", holder.gameObject);
-        }
+
+        SwapFood(holder);
     }
 
     private void PutFoodInCookware(HolderAbstract holder)
@@ -115,7 +114,11 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         }
         else
         {
-            food?.Delete();
+            if (food != null)
+            {
+                food.Delete();
+                food = null;
+            }
         }
     }
 
@@ -128,6 +131,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         else
         {
             cookware.Delete();
+            this.cookware = null;
         }
     }
 }
