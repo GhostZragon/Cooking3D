@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,15 +9,15 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
     [SerializeField] protected Food food;
 
-    [FormerlySerializedAs("plate")] [SerializeField]
+    [FormerlySerializedAs("plate")]
+    [SerializeField]
     protected Cookware cookware;
 
     [SerializeField] protected Transform placeTransform;
     [SerializeField] protected ContainerType type;
-    
 
     public Food GetFood() => food;
-    public Cookware GetPlate() => cookware;
+    public Cookware GetCookware() => cookware;
 
     private void OnDrawGizmos()
     {
@@ -23,49 +25,66 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(placeTransform.position, .2f);
     }
-
     public virtual void ExchangeItems(HolderAbstract holder)
     {
-        // int cookwareCount = 0;
-        // int foodCount = 0;
-        // var food1 = holder.GetFood();
-        // var food2 = food;
-        // var cookware1 = holder.GetPlate();
-        // var cookware2 = cookware;
-        //
-        // if (food1 != null) foodCount++;
-        // if (food2 != null) foodCount++;
-        // if (cookware1 != null) cookwareCount++;
-        // if (cookware2 != null) cookwareCount++;
-
-        // holder.SetFood(food2);
-        // SetFood(food1);
-        SwapFoodTwoWay(holder);
+        Debug.Log("On Swap");
+        ExchangeManager.Exchange(this, holder);
     }
-
-    private void SwapFoodTwoWay(HolderAbstract holder)
+    private void AddFoodToCookware(Food food, Cookware cookware)
     {
-        bool holder1CanPutFood = CanPutFoodIn();
-        bool holder2CanPutFood = holder.CanPutFoodIn();
-        if (holder1CanPutFood && holder2CanPutFood)
+        cookware.Add(food);
+    }
+    public void SwapFoodAndCookware(HolderAbstract holder)
+    {
+        var food1 = holder.GetFood();
+        var food2 = food;
+        var cookware1 = holder.GetCookware();
+        var cookware2 = cookware;
+        if (cookware1 != null && cookware1.CanPutFoodIn(food2))
+        {
+            AddFoodToCookware(food2, cookware1);
+            SetFood(null);
+        }
+        else if (cookware2 != null && cookware2.CanPutFoodIn(food1))
+        {
+            AddFoodToCookware(food1, cookware2);
+            holder.SetFood(null);
+        }
+    }
+    public void SwapCookwareTwoWay(HolderAbstract holder)
+    {
+        if (CanPutCookwareIn() && holder.CanPutCookwareIn())
+        {
+            var cookware1 = holder.GetCookware();
+            var cookware2 = cookware;
+
+            holder.SetPlate(cookware2);
+            SetPlate(cookware1);
+        }
+
+    }
+    public void SwapFoodTwoWay(HolderAbstract holder)
+    {
+        if (CanPutFoodIn() && holder.CanPutFoodIn())
         {
             var food1 = holder.GetFood();
             var food2 = food;
-            
+
             holder.SetFood(food2);
             SetFood(food1);
         }
     }
 
     public bool CanPutFoodIn() => type == ContainerType.Food || type == ContainerType.All;
+    public bool CanPutCookwareIn() => type == ContainerType.Cookware || type == ContainerType.All;
     public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
     public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
 
     private void ResetItem<T>(T newItem, ref T item) where T : PickUpAbtract
     {
         // 1. check if new item is valid, set it to new position
-        // 2. assign references in holder
-        // 2.1 if item new is null, then this item of that holder is null        
+        // 2. assign references in currentHolder
+        // 2.1 if item new is null, then this item of that currentHolder is null        
         newItem?.SetToParentAndPosition(placeTransform);
         item = newItem;
     }

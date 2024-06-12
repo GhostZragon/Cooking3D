@@ -607,6 +607,7 @@ MonoBehaviour:
   food: {fileID: 0}
   cookware: {fileID: 0}
   placeTransform: {fileID: 556291406}
+  type: 0
   size: {x: 1, y: 1, z: 1}
   interactTransform: {fileID: 80659185}
   timer: 0
@@ -7950,6 +7951,7 @@ MonoBehaviour:
   food: {fileID: 0}
   cookware: {fileID: 0}
   placeTransform: {fileID: 164093220}
+  type: 2
 --- !u!65 &1311361003
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8631,6 +8633,7 @@ MonoBehaviour:
   food: {fileID: 1331902299}
   cookware: {fileID: 0}
   placeTransform: {fileID: 829727281}
+  type: 0
 --- !u!65 &1398148980
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13158,6 +13161,7 @@ MonoBehaviour:
   food: {fileID: 0}
   cookware: {fileID: 598210891}
   placeTransform: {fileID: 269746251}
+  type: 0
 --- !u!65 &2135318467
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class CustomerContainer : MonoBehaviour , IHolder
         // {
         //     Debug.Log("jja");
         // }
-        // var plate = holder.GetPlate();
+        // var plate = holder.GetCookware();
         // if (plate == null || plate.GetComponent<Cookware>().IsContainFoodInPlate() == false) return;
         // plate.Delete();
         // holder.SetPlate(null);

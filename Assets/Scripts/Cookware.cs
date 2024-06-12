@@ -26,14 +26,6 @@ public class Cookware : PickUpAbtract
     public bool IsContainFoodInPlate() => FoodInPlates != null && FoodInPlates.Count > 0;
     public bool CanPutFoodIn(Food food)
     {
-        foreach (var _food in FoodInPlates)
-        {
-            if (_food.GetFoodType() == food.GetFoodType())
-            {
-                Debug.Log("Same");
-                return false;
-            }
-        }
         // TODO: Need to check food is valid in here
         return true;
     }
