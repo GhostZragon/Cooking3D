@@ -18,7 +18,11 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     public Cookware GetPlate() => cookware;
     public bool IsContainCookware() => cookware != null;
     public bool IsContainFood() => food != null;
-
+    public bool IsContainFoodInCookware()
+    {
+        if (cookware == null) return false;
+        return cookware.IsContainFoodInPlate();
+    }
     private void OnDrawGizmos()
     {
         if (placeTransform == null) return;
@@ -28,27 +32,46 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public virtual void ExchangeItems(HolderAbstract holder)
     {
+        // TODO: Swap food if
+        // Have two cookware
+        // 1.cookware type: Plate
+        // 2. Plate non of food
+        // 3. 
+        if (IsContainFoodInCookware() && holder.IsContainFoodInCookware())
+        {
+            if(cookware.GetCookwareType() == CookwareType.Plate)
+                Debug.Log("This is plate");
+            SwapCookwareTwoWay(holder);
+            Debug.Log("Both of these have food in cookware");
+            return;
+        }
+        
+        
+        
         var isContainCookware = IsContainCookware() || holder.IsContainCookware();
-        bool bothIsNotHaveFood = this.food == null && holder.IsContainFood() == false;
+        bool bothIsNotHaveFoodInHolder = this.food == null && holder.IsContainFood() == false;
 
         if (isContainCookware)
         {
-            if (bothIsNotHaveFood)
+            if (bothIsNotHaveFoodInHolder)
             {
                 // what condition need to swap cookware ?
                 // 2 cookware have food in cookware
                 // need to swap food in cookware
-                SwapCookware(holder);
+                Debug.Log("Swap cook ware two way");
+                SwapCookwareTwoWay(holder);
                 return;
             }
-
+            // one way swap
+            Debug.Log("Swap food in cookware one way");
             PutFoodInCookware(holder);
             return;
         }
-
-        SwapFood(holder);
+        SwapFoodTwoWay(holder);
+        Debug.Log("Swap food two way");
     }
 
+ 
     private void PutFoodInCookware(HolderAbstract holder)
     {
         // Just swap when have food in one of holder
@@ -64,12 +87,12 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         SetFood(null);
     }
 
-    private void SwapFood(HolderAbstract holder)
+    private void SwapFoodTwoWay(HolderAbstract holder)
     {
         SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item as Food));
     }
 
-    private void SwapCookware(HolderAbstract holder)
+    private void SwapCookwareTwoWay(HolderAbstract holder)
     {
         SwapItems(holder, h => h.GetPlate(), (h, item) => h.SetPlate(item as Cookware));
     }

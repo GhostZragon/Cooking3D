@@ -14,10 +14,6 @@ public class Cookware : PickUpAbtract
     [SerializeField] private Transform PlaceTransform;
     [SerializeField] private List<Food> FoodInPlates;
     [SerializeField] private CookwareType type;
-    private void Awake()
-    {
-        FoodInPlates = new List<Food>();
-    }
 
     public void Add(Food food)
     {
@@ -55,8 +51,5 @@ public class Cookware : PickUpAbtract
         Destroy(gameObject);
     }
 
-    public bool IsPlate()
-    {
-        return type == CookwareType.Pan;
-    }
+    public CookwareType GetCookwareType() => type;
 }

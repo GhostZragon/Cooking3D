@@ -57,6 +57,7 @@ public class SourceFoodContainer : BaseContainer<Food>
         food.transform.SetParent(transform);
         food.transform.localPosition = Vector3.zero;
         food.transform.localPosition = GetRandomSpawnsPosition();
+        food.SetStateRb_Col(true,.7f);
         foodInCrate.Add(food);
 
     }
