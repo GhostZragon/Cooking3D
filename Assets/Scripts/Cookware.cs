@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 public enum CookwareType
 {
+    None,
     Plate,
     Pot,
     Pan,

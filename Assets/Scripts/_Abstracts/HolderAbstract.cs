@@ -11,18 +11,12 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     protected Cookware cookware;
 
     [SerializeField] protected Transform placeTransform;
-    protected CookwareType CookwareTypeCanPut;
-
+    [SerializeField] protected ContainerType type;
+    
 
     public Food GetFood() => food;
     public Cookware GetPlate() => cookware;
-    public bool IsContainCookware() => cookware != null;
-    public bool IsContainFood() => food != null;
-    public bool IsContainFoodInCookware()
-    {
-        if (cookware == null) return false;
-        return cookware.IsContainFoodInPlate();
-    }
+
     private void OnDrawGizmos()
     {
         if (placeTransform == null) return;
@@ -32,86 +26,38 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public virtual void ExchangeItems(HolderAbstract holder)
     {
-        // TODO: Swap food if
-        // Have two cookware
-        // 1.cookware type: Plate
-        // 2. Plate non of food
-        // 3. 
-        if (IsContainFoodInCookware() && holder.IsContainFoodInCookware())
-        {
-            if(cookware.GetCookwareType() == CookwareType.Plate)
-                Debug.Log("This is plate");
-            SwapCookwareTwoWay(holder);
-            Debug.Log("Both of these have food in cookware");
-            return;
-        }
-        
-        
-        
-        var isContainCookware = IsContainCookware() || holder.IsContainCookware();
-        bool bothIsNotHaveFoodInHolder = this.food == null && holder.IsContainFood() == false;
+        // int cookwareCount = 0;
+        // int foodCount = 0;
+        // var food1 = holder.GetFood();
+        // var food2 = food;
+        // var cookware1 = holder.GetPlate();
+        // var cookware2 = cookware;
+        //
+        // if (food1 != null) foodCount++;
+        // if (food2 != null) foodCount++;
+        // if (cookware1 != null) cookwareCount++;
+        // if (cookware2 != null) cookwareCount++;
 
-        if (isContainCookware)
-        {
-            if (bothIsNotHaveFoodInHolder)
-            {
-                // what condition need to swap cookware ?
-                // 2 cookware have food in cookware
-                // need to swap food in cookware
-                Debug.Log("Swap cook ware two way");
-                SwapCookwareTwoWay(holder);
-                return;
-            }
-            // one way swap
-            Debug.Log("Swap food in cookware one way");
-            PutFoodInCookware(holder);
-            return;
-        }
+        // holder.SetFood(food2);
+        // SetFood(food1);
         SwapFoodTwoWay(holder);
-        Debug.Log("Swap food two way");
-    }
-
- 
-    private void PutFoodInCookware(HolderAbstract holder)
-    {
-        // Just swap when have food in one of holder
-
-        var _plate = this.cookware != null ? this.cookware : holder.GetPlate();
-        Debug.Log("Put food in cookware", holder.gameObject);
-        var _food = this.food != null ? this.food : holder.GetFood();
-
-        if (_plate.CanPutFoodIn(_food) == false) return;
-
-        _plate.Add(_food);
-        holder.SetFood(null);
-        SetFood(null);
     }
 
     private void SwapFoodTwoWay(HolderAbstract holder)
     {
-        SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item as Food));
+        bool holder1CanPutFood = CanPutFoodIn();
+        bool holder2CanPutFood = holder.CanPutFoodIn();
+        if (holder1CanPutFood && holder2CanPutFood)
+        {
+            var food1 = holder.GetFood();
+            var food2 = food;
+            
+            holder.SetFood(food2);
+            SetFood(food1);
+        }
     }
 
-    private void SwapCookwareTwoWay(HolderAbstract holder)
-    {
-        SwapItems(holder, h => h.GetPlate(), (h, item) => h.SetPlate(item as Cookware));
-    }
-
-    private void SwapItems(HolderAbstract holder,
-        Func<HolderAbstract, PickUpAbtract> getItem,
-        Action<HolderAbstract, PickUpAbtract> setItem)
-    {
-        // generic method for swap cookware and food
-        // 1. Get current item in holder 1
-        // 2. Get item in holder 2
-        // 3. Assign item of holder 1 to holder 2,
-        // 3.1then repeat it with item of holder 2 to holder 1
-        var myItem = getItem(this);
-        var holderItem = getItem(holder);
-        setItem(holder, myItem);
-        setItem(this, holderItem);
-    }
-
+    public bool CanPutFoodIn() => type == ContainerType.Food || type == ContainerType.All;
     public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
     public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
 
@@ -122,39 +68,5 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         // 2.1 if item new is null, then this item of that holder is null        
         newItem?.SetToParentAndPosition(placeTransform);
         item = newItem;
-    }
-
-    public void DiscardInHandItem()
-    {
-        // priority in discard (use case)
-        // 1. Food in cookware
-        // 2. Cookware
-        // 2.5 Cannot have food and cookware in same time
-        // 3. Food
-        if (cookware != null)
-        {
-            DiscardPlate();
-        }
-        else
-        {
-            if (food != null)
-            {
-                food.Delete();
-                food = null;
-            }
-        }
-    }
-
-    private void DiscardPlate()
-    {
-        if (cookware.IsContainFoodInPlate())
-        {
-            cookware.DeleteAllFood();
-        }
-        else
-        {
-            cookware.Delete();
-            this.cookware = null;
-        }
     }
 }
