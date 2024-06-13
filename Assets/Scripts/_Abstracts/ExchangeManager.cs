@@ -55,7 +55,7 @@ public class CookwareExchangeStrategy : IExchangeStrategy
     {
         var cookware1 = holder1.GetCookware();
         var cookware2 = holder2.GetCookware();
-        if(cookware1 == null || cookware2 == null)
+        if (cookware1 == null || cookware2 == null)
         {
             holder1.SwapCookwareTwoWay(holder2);
             return;
@@ -70,10 +70,12 @@ public class CookwareExchangeStrategy : IExchangeStrategy
         if (bothHaveFoodInCookware && noPlateTypeCookware && canExchangeFoodBetweenCookware)
         {
             Debug.Log("Swap food in both cookware");
+            Cookware.Ultis.SwapFood(cookware1, cookware2);
         }
         else if (cookware1.IsContainFoodInPlate() || cookware2.IsContainFoodInPlate())
         {
             Debug.Log("some cookware have food and need exchange");
+            Cookware.Ultis.SwapFood(cookware1, cookware2);
         }
         else if (cookware1.IsContainFoodInPlate() == false && cookware2.IsContainFoodInPlate() == false)
         {
@@ -89,10 +91,50 @@ public class CookwareAndFoodExchangeStrategy : IExchangeStrategy
         return (holder1.GetCookware() != null || holder2.GetCookware() != null) &&
             (holder1.GetFood() == null || holder2.GetFood() == null);
     }
-
+    private bool GetHolderHaveCookwareContainFood(HolderAbstract holder1, HolderAbstract holder2)
+    {
+        if (holder1.IsContainFoodInCookware())
+            return true;
+        if (holder2.IsContainFoodInCookware())
+            return true;
+        return false;
+    }
     public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
     {
+        var holderContainFood = GetHolderHaveCookwareContainFood(holder1, holder2);
 
-        holder1.SwapFoodAndCookware(holder2);
+        if (holderContainFood)
+        {
+            
+            Debug.Log("holder contain food");
+            if (holder1.GetCookware() != null && holder2.GetFood() != null)
+            {
+                NewMethod(holder1, holder2);
+            }
+            else if (holder1.GetFood() != null && holder2.GetCookware() != null)
+            {
+                NewMethod(holder2, holder1);
+            }
+        }
+        else
+        {
+            // need to swap food here
+            Debug.Log("put food in cookware");
+            holder1.SwapFoodAndCookware(holder2);
+        }
+    }
+
+    private static void NewMethod(HolderAbstract holder1, HolderAbstract holder2)
+    {
+        Cookware cookware = null;
+        Food food = null;
+        cookware = holder1.GetCookware();
+        var foodInCookware = cookware.GetFood();
+        food = holder2.GetFood();
+        if (cookware.CanPutFoodIn(food) && holder2.CanPutFoodIn())
+        {
+            cookware.Add(food);
+            holder2.SetFood(foodInCookware);
+        }
     }
 }
