@@ -29,6 +29,7 @@ public partial class CookwareAndFoodExchangeStrategy
         }
         private void SwapFoodAndCookwareContents(HolderAbstract holder1, HolderAbstract holder2)
         {
+            // TODO: Combine food feature here
             Cookware targetCookware = holder1.GetCookware();
             Food targetFood = holder2.GetFood();
             Food foodInCookware = targetCookware.GetFood();

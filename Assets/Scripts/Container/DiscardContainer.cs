@@ -4,6 +4,9 @@ public class DiscardContainer : MonoBehaviour, IHolder
 {
     public void ExchangeItems(HolderAbstract holder)
     {
-        // holder.DiscardInHandItem();
+        if (holder.IsContainFoodInCookware())
+        {
+            holder.GetCookware().DiscardFood();
+        }
     }
 }
