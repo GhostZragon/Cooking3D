@@ -64,13 +64,13 @@ public class SourceFoodContainer : BaseContainer<Food>
   
     public override void ExchangeItems(HolderAbstract holder)
     {
-        // if (foodInCrate.Count == 0) return;
-        // if (CanStopContinueSwap(holder)) return;
-        // var food = foodInCrate[foodInCrate.Count - 1];
-        // food.SetStateRb_Col(false);
-        // holder.SetFood(food);
-        // foodInCrate.Remove(food);
-        // Debug.Log("Set food to holder");
+        if (foodInCrate.Count == 0) return;
+        if (CanStopContinueSwap(holder) == false) return;
+        var food = foodInCrate[foodInCrate.Count - 1];
+        food.SetStateRb_Col(false);
+        holder.SetFood(food);
+        foodInCrate.Remove(food);
+        Debug.Log("Set food to holder");
     }
 
     private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;

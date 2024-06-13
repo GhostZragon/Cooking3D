@@ -21,7 +21,7 @@ public static class ExchangeManager
         {
             if (strategy.CanExchange(currentHolder, holderWantToChange))
             {
-                Debug.Log("Can Exchange");
+                Debug.Log("Type Exchange is " + strategy.ToString());
                 strategy.Exchange(currentHolder, holderWantToChange);
                 break;
             }
@@ -53,7 +53,33 @@ public class CookwareExchangeStrategy : IExchangeStrategy
 
     public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
     {
-        holder1.SwapCookwareTwoWay(holder2);
+        var cookware1 = holder1.GetCookware();
+        var cookware2 = holder2.GetCookware();
+        if(cookware1 == null || cookware2 == null)
+        {
+            holder1.SwapCookwareTwoWay(holder2);
+            return;
+        }
+        bool bothHaveFoodInCookware = cookware1.IsContainFoodInPlate() &&
+                                      cookware2.IsContainFoodInPlate();
+        bool noPlateTypeCookware = cookware1.IsEqualCookwareType(CookwareType.Plate) == false &&
+                                   cookware2.IsEqualCookwareType(CookwareType.Plate) == false;
+        bool canExchangeFoodBetweenCookware = cookware1.CanPutFoodIn(cookware2.GetFood()) &&
+                                              cookware2.CanPutFoodIn(cookware1.GetFood());
+        // Scenario 1
+        if (bothHaveFoodInCookware && noPlateTypeCookware && canExchangeFoodBetweenCookware)
+        {
+            Debug.Log("Swap food in both cookware");
+        }
+        else if (cookware1.IsContainFoodInPlate() || cookware2.IsContainFoodInPlate())
+        {
+            Debug.Log("some cookware have food and need exchange");
+        }
+        else if (cookware1.IsContainFoodInPlate() == false && cookware2.IsContainFoodInPlate() == false)
+        {
+            Debug.Log("no food in cookware, and just need swap it");
+            holder1.SwapCookwareTwoWay(holder2);
+        }
     }
 }
 public class CookwareAndFoodExchangeStrategy : IExchangeStrategy
@@ -66,6 +92,7 @@ public class CookwareAndFoodExchangeStrategy : IExchangeStrategy
 
     public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
     {
+
         holder1.SwapFoodAndCookware(holder2);
     }
 }

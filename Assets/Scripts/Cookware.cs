@@ -13,30 +13,33 @@ public enum CookwareType
 public class Cookware : PickUpAbtract
 {
     [SerializeField] private Transform PlaceTransform;
-    [SerializeField] private List<Food> FoodInPlates;
+    [SerializeField] private Food FoodInPlates;
     [SerializeField] private CookwareType type;
 
     public void Add(Food food)
     {
         // if(food.GetCurrentFoodState() == FoodState.Raw) return;
         food.SetToParentAndPosition(PlaceTransform);
-        FoodInPlates.Add(food);
+        FoodInPlates = food;
     }
 
-    public bool IsContainFoodInPlate() => FoodInPlates != null && FoodInPlates.Count > 0;
+    public bool IsContainFoodInPlate() => FoodInPlates != null;
     public bool CanPutFoodIn(Food food)
     {
+        if (this.FoodInPlates != null)
+            return food.GetCurrentFoodState() != FoodState.Cooked;
         // TODO: Need to check food is valid in here
+        Debug.LogWarning("TODO: Need to check food is valid in here");
         return true;
     }
-
+    public Food GetFood() => FoodInPlates;
+    public bool IsEqualCookwareType(CookwareType type)
+    {
+        return this.type == type;
+    }
     public void DeleteAllFood()
     {
-        foreach (var item in FoodInPlates)
-        {
-            Destroy(item.gameObject);
-        }
-        FoodInPlates.Clear();
+        Destroy(FoodInPlates.gameObject);
     }
 
     public void Delete()

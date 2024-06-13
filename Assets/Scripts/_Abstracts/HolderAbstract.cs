@@ -53,6 +53,8 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     }
     public void SwapCookwareTwoWay(HolderAbstract holder)
     {
+        // TODO: Some container cannot put plate in ?, pls change it
+        Debug.LogWarning("TODO: Some container cannot put plate in ?, pls change it");
         if (CanPutCookwareIn() && holder.CanPutCookwareIn())
         {
             var cookware1 = holder.GetCookware();
@@ -87,5 +89,10 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         // 2.1 if item new is null, then this item of that currentHolder is null        
         newItem?.SetToParentAndPosition(placeTransform);
         item = newItem;
+    }
+
+    public bool IsContainFoodInCookware()
+    {
+        return cookware != null && cookware.IsContainFoodInPlate();
     }
 }
