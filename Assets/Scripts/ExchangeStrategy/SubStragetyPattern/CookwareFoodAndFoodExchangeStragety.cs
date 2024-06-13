@@ -2,13 +2,15 @@
 
 public partial class CookwareAndFoodExchangeStrategy
 {
+    /// <summary>
+    /// Checking have any Food in cookware to swap
+    /// </summary>
     private class CookwareFoodAndFoodExchangeStragety : IExchangeStrategy
     {
         public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
         {
-            if (holder1.IsContainFoodInCookware())
-                return true;
-            if (holder2.IsContainFoodInCookware())
+            if (holder1.IsContainFoodInCookware() || 
+                holder2.IsContainFoodInCookware())
                 return true;
             return false;
         }

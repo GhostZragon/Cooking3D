@@ -11,7 +11,7 @@ public partial class CookwareExchangeStrategy : IExchangeStrategy
     private IExchangeStrategy subExchangeStrategy;
     public CookwareExchangeStrategy()
     {
-        subExchangeStrategy = new CookwareExchangeFoodStrategy();
+        subExchangeStrategy = new CookwareFoodTransferStrategy();
     }
     public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
     {

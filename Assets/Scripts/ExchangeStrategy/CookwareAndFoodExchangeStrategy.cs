@@ -24,7 +24,7 @@ public partial class CookwareAndFoodExchangeStrategy : IExchangeStrategy
         {
             // need to swap targetFood here
             Debug.Log("put targetFood in targetCookware");
-            holder1.SwapFoodAndCookware(holder2);
+            holder1.SwapFoodAndCookwareOneWay(holder2);
         }
     }
 }

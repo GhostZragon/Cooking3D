@@ -34,7 +34,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         cookware.Add(food);
     }
-    public void SwapFoodAndCookware(HolderAbstract holder)
+    public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
     {
         var food1 = holder.GetFood();
         var food2 = food;
@@ -81,6 +81,10 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     public bool CanPutCookwareIn() => type == ContainerType.Cookware || type == ContainerType.All;
     public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
     public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
+    public bool IsContainFoodInCookware()
+    {
+        return cookware != null && cookware.IsContainFoodInPlate();
+    }
 
     private void ResetItem<T>(T newItem, ref T item) where T : PickUpAbtract
     {
@@ -91,8 +95,4 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         item = newItem;
     }
 
-    public bool IsContainFoodInCookware()
-    {
-        return cookware != null && cookware.IsContainFoodInPlate();
-    }
 }

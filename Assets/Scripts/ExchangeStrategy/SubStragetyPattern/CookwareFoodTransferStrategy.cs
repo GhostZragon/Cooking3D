@@ -1,6 +1,7 @@
 ﻿public partial class CookwareExchangeStrategy
 {
-    private class CookwareExchangeFoodStrategy : IExchangeStrategy
+
+    private class CookwareFoodTransferStrategy : IExchangeStrategy
     {
         public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
         {
