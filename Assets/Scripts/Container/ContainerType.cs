@@ -1,5 +1,6 @@
 public enum ContainerType
 {
-    Container,
-    Resource
+    All,
+    Food,
+    Cookware
 }

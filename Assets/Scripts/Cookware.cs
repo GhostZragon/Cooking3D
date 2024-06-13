@@ -5,49 +5,57 @@ using UnityEditor;
 using UnityEngine;
 public enum CookwareType
 {
+    None,
     Plate,
     Pot,
     Pan,
 }
 public class Cookware : PickUpAbtract
 {
-    [SerializeField] private Transform PlaceTransform;
-    [SerializeField] private List<Food> FoodInPlates;
-    [SerializeField] private CookwareType type;
-    private void Awake()
+    public static class Ultis
     {
-        FoodInPlates = new List<Food>();
+        public static void SwapFoodTwoWay(Cookware cookware1, Cookware cookware2)
+        {
+            var food1 = cookware1.GetFood();
+            var food2 = cookware2.GetFood();
+            //bool canExchangeFoodBetweenCookware = cookware1.CanPutFoodIn(cookware2.GetFood()) &&
+            //                                  cookware2.CanPutFoodIn(cookware1.GetFood());
+            //if (canExchangeFoodBetweenCookware)
+            //{
+                
+            //}
+            cookware1.Add(food2);
+            cookware2.Add(food1);
+        }
     }
+    [SerializeField] private Transform PlaceTransform;
+    [SerializeField] private Food FoodInPlates;
+    [SerializeField] private CookwareType type;
 
     public void Add(Food food)
     {
         // if(food.GetCurrentFoodState() == FoodState.Raw) return;
-        food.SetToParentAndPosition(PlaceTransform);
-        FoodInPlates.Add(food);
+        food?.SetToParentAndPosition(PlaceTransform);
+        FoodInPlates = food;
     }
 
-    public bool IsContainFoodInPlate() => FoodInPlates != null && FoodInPlates.Count > 0;
+    public bool IsContainFoodInPlate() => FoodInPlates != null;
     public bool CanPutFoodIn(Food food)
     {
-        foreach (var _food in FoodInPlates)
-        {
-            if (_food.GetFoodType() == food.GetFoodType())
-            {
-                Debug.Log("Same");
-                return false;
-            }
-        }
+        if (FoodInPlates != null)
+            return FoodInPlates.GetCurrentFoodState() != FoodState.Cooked;
         // TODO: Need to check food is valid in here
+        Debug.LogWarning("TODO: Need to check food is valid in here");
         return true;
     }
-
+    public Food GetFood() => FoodInPlates;
+    public bool IsEqualCookwareType(CookwareType type)
+    {
+        return this.type == type;
+    }
     public void DeleteAllFood()
     {
-        foreach (var item in FoodInPlates)
-        {
-            Destroy(item.gameObject);
-        }
-        FoodInPlates.Clear();
+        Destroy(FoodInPlates.gameObject);
     }
 
     public void Delete()
@@ -55,8 +63,5 @@ public class Cookware : PickUpAbtract
         Destroy(gameObject);
     }
 
-    public bool IsPlate()
-    {
-        return type == CookwareType.Pan;
-    }
+    public CookwareType GetCookwareType() => type;
 }

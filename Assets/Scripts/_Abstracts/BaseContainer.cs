@@ -12,8 +12,9 @@ public abstract class BaseContainer<T> : MonoBehaviour, IHolder where T : PickUp
 
     protected static bool CanStopContinueSwap(HolderAbstract holder)
     {
-        if (holder.IsContainFood() || holder.IsContainCookware()) return true;
-        return false;
+        Debug.Log("On checking");
+        if (holder.GetFood() != null || holder.GetCookware() != null) return false;
+        return true;
     }
     public abstract void ExchangeItems(HolderAbstract holder);
 }

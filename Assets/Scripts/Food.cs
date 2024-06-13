@@ -42,8 +42,8 @@ public class Food : PickUpAbtract
         rb = GetComponent<Rigidbody>();
         Colliders = GetComponentsInChildren<Collider>();
         AddPhycsMaterial();
-        ChangeFoodState(0);
-        transform.localScale = Vector3.one * .7f;
+        ChangeFoodState(FoodState.Raw);
+        SetStateRb_Col(false, .7f);
     }
 
     private void AddPhycsMaterial()
@@ -92,14 +92,14 @@ public class Food : PickUpAbtract
         Destroy(gameObject);
     }
 
-    public void SetStateRb_Col(bool enable)
+    public void SetStateRb_Col(bool enable, float scaleRatio = 1)
     {
         rb.useGravity = enable;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero; 
         ChangeCollidersState(enable);
         transform.rotation = Quaternion.Euler(0,0,0);
-        transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one * scaleRatio;
     }
 
     public FoodType GetFoodType()

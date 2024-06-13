@@ -55,7 +55,7 @@ public class PlayerInteract : HolderAbstract
         {
             if (hit.collider.TryGetComponent(out IHolder holder))
             {
-                Debug.Log(hit.collider.name);
+                // Debug.Log(hit.collider.name);
                 holder.ExchangeItems(this);
             }
         }

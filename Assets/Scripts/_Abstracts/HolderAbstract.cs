@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,17 +9,15 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
     [SerializeField] protected Food food;
 
-    [FormerlySerializedAs("plate")] [SerializeField]
+    [FormerlySerializedAs("plate")]
+    [SerializeField]
     protected Cookware cookware;
 
     [SerializeField] protected Transform placeTransform;
-    protected CookwareType CookwareTypeCanPut;
-
+    [SerializeField] protected ContainerType type;
 
     public Food GetFood() => food;
-    public Cookware GetPlate() => cookware;
-    public bool IsContainCookware() => cookware != null;
-    public bool IsContainFood() => food != null;
+    public Cookware GetCookware() => cookware;
 
     private void OnDrawGizmos()
     {
@@ -25,113 +25,74 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(placeTransform.position, .2f);
     }
-
     public virtual void ExchangeItems(HolderAbstract holder)
     {
-        var isContainCookware = IsContainCookware() || holder.IsContainCookware();
-        bool bothIsNotHaveFood = this.food == null && holder.IsContainFood() == false;
-
-        if (isContainCookware)
+        Debug.Log("On Swap");
+        ExchangeManager.Exchange(this, holder);
+    }
+    private void AddFoodToCookware(Food food, Cookware cookware)
+    {
+        cookware.Add(food);
+    }
+    public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
+    {
+        var food1 = holder.GetFood();
+        var food2 = food;
+        var cookware1 = holder.GetCookware();
+        var cookware2 = cookware;
+        if (cookware1 != null && cookware1.CanPutFoodIn(food2))
         {
-            if (bothIsNotHaveFood)
-            {
-                // what condition need to swap cookware ?
-                // 2 cookware have food in cookware
-                // need to swap food in cookware
-                SwapCookware(holder);
-                return;
-            }
+            AddFoodToCookware(food2, cookware1);
+            SetFood(null);
+        }
+        else if (cookware2 != null && cookware2.CanPutFoodIn(food1))
+        {
+            AddFoodToCookware(food1, cookware2);
+            holder.SetFood(null);
+        }
+    }
+    public void SwapCookwareTwoWay(HolderAbstract holder)
+    {
+        // TODO: Some container cannot put plate in ?, pls change it
+        Debug.LogWarning("TODO: Some container cannot put plate in ?, pls change it");
+        if (CanPutCookwareIn() && holder.CanPutCookwareIn())
+        {
+            var cookware1 = holder.GetCookware();
+            var cookware2 = cookware;
 
-            PutFoodInCookware(holder);
-            return;
+            holder.SetPlate(cookware2);
+            SetPlate(cookware1);
         }
 
-        SwapFood(holder);
     }
-
-    private void PutFoodInCookware(HolderAbstract holder)
+    public void SwapFoodTwoWay(HolderAbstract holder)
     {
-        // Just swap when have food in one of holder
+        if (CanPutFoodIn() && holder.CanPutFoodIn())
+        {
+            var food1 = holder.GetFood();
+            var food2 = food;
 
-        var _plate = this.cookware != null ? this.cookware : holder.GetPlate();
-        Debug.Log("Put food in cookware", holder.gameObject);
-        var _food = this.food != null ? this.food : holder.GetFood();
-
-        if (_plate.CanPutFoodIn(_food) == false) return;
-
-        _plate.Add(_food);
-        holder.SetFood(null);
-        SetFood(null);
+            holder.SetFood(food2);
+            SetFood(food1);
+        }
     }
 
-    private void SwapFood(HolderAbstract holder)
-    {
-        SwapItems(holder, h => h.GetFood(), (h, item) => h.SetFood(item as Food));
-    }
-
-    private void SwapCookware(HolderAbstract holder)
-    {
-        SwapItems(holder, h => h.GetPlate(), (h, item) => h.SetPlate(item as Cookware));
-    }
-
-    private void SwapItems(HolderAbstract holder,
-        Func<HolderAbstract, PickUpAbtract> getItem,
-        Action<HolderAbstract, PickUpAbtract> setItem)
-    {
-        // generic method for swap cookware and food
-        // 1. Get current item in holder 1
-        // 2. Get item in holder 2
-        // 3. Assign item of holder 1 to holder 2,
-        // 3.1then repeat it with item of holder 2 to holder 1
-        var myItem = getItem(this);
-        var holderItem = getItem(holder);
-        setItem(holder, myItem);
-        setItem(this, holderItem);
-    }
-
+    public bool CanPutFoodIn() => type == ContainerType.Food || type == ContainerType.All;
+    public bool CanPutCookwareIn() => type == ContainerType.Cookware || type == ContainerType.All;
     public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
     public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
+    public bool IsContainFoodInCookware()
+    {
+        return cookware != null && cookware.IsContainFoodInPlate();
+    }
 
     private void ResetItem<T>(T newItem, ref T item) where T : PickUpAbtract
     {
         // 1. check if new item is valid, set it to new position
-        // 2. assign references in holder
-        // 2.1 if item new is null, then this item of that holder is null        
+        // 2. assign references in currentHolder
+        // 2.1 if item new is null, then this item of that currentHolder is null        
         newItem?.SetToParentAndPosition(placeTransform);
         item = newItem;
     }
 
-    public void DiscardInHandItem()
-    {
-        // priority in discard (use case)
-        // 1. Food in cookware
-        // 2. Cookware
-        // 2.5 Cannot have food and cookware in same time
-        // 3. Food
-        if (cookware != null)
-        {
-            DiscardPlate();
-        }
-        else
-        {
-            if (food != null)
-            {
-                food.Delete();
-                food = null;
-            }
-        }
-    }
-
-    private void DiscardPlate()
-    {
-        if (cookware.IsContainFoodInPlate())
-        {
-            cookware.DeleteAllFood();
-        }
-        else
-        {
-            cookware.Delete();
-            this.cookware = null;
-        }
-    }
 }
