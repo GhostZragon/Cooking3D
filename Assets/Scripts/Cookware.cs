@@ -14,7 +14,7 @@ public class Cookware : PickUpAbtract
 {
     public static class Ultis
     {
-        public static void SwapFood(Cookware cookware1, Cookware cookware2)
+        public static void SwapFoodTwoWay(Cookware cookware1, Cookware cookware2)
         {
             var food1 = cookware1.GetFood();
             var food2 = cookware2.GetFood();
