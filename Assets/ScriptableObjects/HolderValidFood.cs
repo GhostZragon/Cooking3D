@@ -3,9 +3,7 @@ using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ValidFood",menuName = "Holder Valid Food")]
-public class HolderValidFood : ScriptableObject
+public abstract class HolderValidFood : ScriptableObject
 {
-    public List<CookwareType> cookwareType;
-    public List<FoodType> FoodTypes;
+    public abstract bool CheckingFoodIsValid(FoodData foodData);
 }
