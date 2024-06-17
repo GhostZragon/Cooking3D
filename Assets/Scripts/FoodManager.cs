@@ -14,7 +14,7 @@ public class FoodManager : MonoBehaviour
 
     [SerializeField] private FoodDatabase FoodDatabase;
     [SerializeField] private GameObject foodPrefab;
-
+    
     public Food GetFood(FoodType foodType, FoodState foodState)
     {
         var foodData = FoodDatabase.GetData(foodState, foodType);

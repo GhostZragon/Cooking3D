@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: 70691133}
   - component: {fileID: 70691134}
   - component: {fileID: 70691135}
+  - component: {fileID: 70691136}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -627,10 +628,6 @@ MonoBehaviour:
   cookware: {fileID: 0}
   placeTransform: {fileID: 556291406}
   type: 0
-  size: {x: 1, y: 1, z: 1}
-  interactTransform: {fileID: 80659185}
-  timer: 0
-  swapFoodAndPlate: 1
 --- !u!114 &70691135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,6 +642,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 70691133}
   speed: 5
+--- !u!114 &70691136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70691125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db1d493f662377a48aad1f6bac2ea72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  interactTransform: {fileID: 80659185}
+  playerHolder: {fileID: 70691134}
+  rayDistance: 1.31
+  rayColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &80659184
 GameObject:
   m_ObjectHideFlags: 0
@@ -13756,74 +13770,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2143878220}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8574063835800566850
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2692947151848997554, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_Name
-      value: Food
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3401164612429069561, guid: 6a5f4c9891f084a4cb8df806d54669fd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6a5f4c9891f084a4cb8df806d54669fd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -13836,5 +13782,4 @@ SceneRoots:
   - {fileID: 430930592}
   - {fileID: 1492004583}
   - {fileID: 1585653386}
-  - {fileID: 8574063835800566850}
   - {fileID: 1976023044}

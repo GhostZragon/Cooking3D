@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using NaughtyAttributes;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -95,4 +91,15 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         item = newItem;
     }
 
+    public void DiscardFood()
+    {
+        if (IsContainFoodInCookware())
+        {
+            cookware.DiscardFood();
+        }else if (food != null)
+        {
+            Destroy(food.gameObject);
+            SetFood(null);
+        }
+    }
 }
