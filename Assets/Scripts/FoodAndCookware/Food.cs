@@ -31,21 +31,17 @@ public struct RuntimeFoodData
 }
 public class Food : PickUpAbtract
 {
-    [SerializeField] private List<RuntimeFoodData> TransformFoods;
-    [SerializeField] private  FoodType type;
-    [SerializeField] private  int enumIndex;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider[] Colliders;
     [SerializeField] private PhysicMaterial foodPhyicsMaterial;
-    private void Awake()
+    [SerializeField] private FoodData foodData;
+    public void Init()
     {
         rb = GetComponent<Rigidbody>();
         Colliders = GetComponentsInChildren<Collider>();
         AddPhycsMaterial();
-        ChangeFoodState(FoodState.Raw);
         SetStateRb_Col(false, .7f);
     }
-
     private void AddPhycsMaterial()
     {
         if (Colliders == null) return;
@@ -64,27 +60,15 @@ public class Food : PickUpAbtract
     }
     public FoodState GetCurrentFoodState()
     {
-        return (FoodState)enumIndex;
+        return foodData.FoodState;
     }
-
+    public FoodType GetFoodType()
+    {
+        return foodData.FoodType;
+    }
     private void ChangeFoodState(FoodState foodState)
     {
-        // if (TransformFoods.Any(item => item.foodState == foodState))
-        // {
-        //     Debug.Log("Food contain "+foodState.ToString());
-        // }
-        foreach (var item in TransformFoods)
-        {
-            if (foodState == item.foodState)
-            {
-                item.Model.SetActive(true);
-                enumIndex = (int)item.foodState;
-            }
-            else
-            {
-                item.Model.SetActive(false);
-            }
-        }
+
     }
 
     public void Delete()
@@ -102,18 +86,9 @@ public class Food : PickUpAbtract
         transform.localScale = Vector3.one * scaleRatio;
     }
 
-    public FoodType GetFoodType()
-    {
-        return type;
-    }
 
-    public List<FoodState> GetFoodStateList()
+    public void SetData(FoodData data)
     {
-        var list = new List<FoodState>();
-        foreach (var item in TransformFoods)
-        {
-            list.Add(item.foodState);
-        }
-        return list;
+        this.foodData = data;
     }
 }

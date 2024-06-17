@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
@@ -11,7 +12,7 @@ public class FoodDatabase : ScriptableObject
     public FoodType FoodType;
     public GameObject modelObj;
     public string path = "Assets/ScriptableObjects/FoodData";
-
+    
     // [ContextMenu("Create Item")]
     [Button]
     private void CreateFoodData()
@@ -60,8 +61,30 @@ public class FoodDatabase : ScriptableObject
         }
     }
 
-    public List<FoodData> RawFood;
-    public List<FoodData> SliceFood;
-    public List<FoodData> CookedFood;
-    
+    [SerializeField] List<FoodData> RawFood;
+    [SerializeField]  List<FoodData> SliceFood;
+    [SerializeField]  List<FoodData> CookedFood;
+    private Dictionary<FoodState, List<FoodData>> foodDictData;
+    private void OnEnable()
+    {
+        if (foodDictData == null)
+        {
+            foodDictData = new Dictionary<FoodState, List<FoodData>>();
+            foodDictData.Add(FoodState.Raw,RawFood);
+            foodDictData.Add(FoodState.Slice,SliceFood);
+            foodDictData.Add(FoodState.Cooked,CookedFood);
+        }
+    }
+
+    public FoodData GetData(FoodState foodState, FoodType foodType)
+    {
+        if (!foodDictData.TryGetValue(foodState, out var list)) return null;
+        foreach (var item in list)
+        {
+            if (item.FoodType == foodType)
+                return item;
+        }
+
+        return null;
+    }
 }

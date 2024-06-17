@@ -36,24 +36,23 @@ public class SourceFoodContainer : BaseContainer<Food>
 
     private void Update()
     {
-        if (NeedSpawnItem())
-        {
-            timer = 0;
-            SpawnFood();
-        }
-        
-        if (timer <= timeToSpawn)
-        {
-            timer += Time.deltaTime;
-        }
+        // if (NeedSpawnItem())
+        // {
+        //     timer = 0;
+        //     SpawnFood();
+        // }
+        //
+        // if (timer <= timeToSpawn)
+        // {
+        //     timer += Time.deltaTime;
+        // }
         
     }
-
     [Button]
     private void SpawnFood()
     {
         if (foodInCrate.Count == maxCount) return;
-        var food = RetrieveRawFood();
+        var food = FoodManager.instance.GetFood(FoodType, FoodState.Raw);
         food.transform.SetParent(transform);
         food.transform.localPosition = Vector3.zero;
         food.transform.localPosition = GetRandomSpawnsPosition();
