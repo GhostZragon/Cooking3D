@@ -3,92 +3,117 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private float timer = 0;
-    [SerializeField] private Transform interactTransform;
+    [SerializeField] private Transform centerTransform;
     [SerializeField] private HolderAbstract playerHolder;
-    [Header("Raycast settings")]
-    
-    [SerializeField] private LayerMask interactMask;
-    [SerializeField] private float rayDistance = 5f; 
-    [SerializeField] private Color rayColor = Color.red; 
-    [SerializeField] private Collider containerCatch;
+    [SerializeField] private float InteractionCooldown = .1f;
+
+    [Header("Raycast settings")] [SerializeField]
+    private LayerMask interactMask;
+
+    [SerializeField] private float rayDistance = 5f;
+    [SerializeField] private Color rayColor = Color.red;
+    [SerializeField] private ContainerSelect currentContainer;
+    public float yOffset;
+    private Vector3 ForwardDirection;
+    private Vector3 LeftDirection;
+    private Vector3 RightDirection;
+    private Vector3 RayOrigin;
+
     private void Awake()
     {
-        InputManager.OnInteract += OnInteract;
+        InputManager.OnInteract += HandleInteract;
     }
 
     private void OnDestroy()
     {
-        InputManager.OnInteract -= OnInteract;
+        InputManager.OnInteract -= HandleInteract;
     }
 
     private void Update()
     {
-        Timer();
+        UpdateTimer();
     }
-  
-    private void OnDrawGizmos()
-    {
-        Vector3 forwardDirection = transform.forward;
-        Vector3 leftDirection = -transform.right;
-        Vector3 rightDirection = transform.right;
 
-        // Vị trí bắt đầu của ray
-        Vector3 rayOrigin = transform.position;
-
-        // Vẽ ray bằng Debug
-        Debug.DrawRay(rayOrigin, forwardDirection * rayDistance, rayColor);
-        Debug.DrawRay(rayOrigin, leftDirection * rayDistance, rayColor);
-        Debug.DrawRay(rayOrigin, rightDirection * rayDistance, rayColor);
-    }
 
     private void FixedUpdate()
     {
-        FindCollider();
-
+        RefreshDirection();
+        DrawRay();
     }
 
-    private void Timer()
+    private void RefreshDirection()
+    {
+        if (centerTransform == null) return;
+        ForwardDirection = transform.forward + new Vector3(0, yOffset, 0);
+        LeftDirection = -transform.right + new Vector3(0, yOffset, 0);
+        RightDirection = transform.right + new Vector3(0, yOffset, 0);
+        RayOrigin = centerTransform.position;
+
+        Debug.DrawRay(RayOrigin, ForwardDirection * rayDistance, rayColor);
+        Debug.DrawRay(RayOrigin, LeftDirection * rayDistance, rayColor);
+        Debug.DrawRay(RayOrigin, RightDirection * rayDistance, rayColor);
+    }
+
+    private void DrawRay()
+    {
+        if (GetRay(ForwardDirection) || GetRay(RightDirection) || GetRay(LeftDirection))
+        {
+        }
+    }
+
+    private bool GetRay(Vector3 to)
+    {
+        Ray ray = new Ray(RayOrigin, to);
+        if (Physics.Raycast(RayOrigin, to, out var hitInfo, rayDistance, interactMask))
+        {
+            // Debug.Log(hitInfo.collider, hitInfo.collider.gameObject);
+            if (hitInfo.collider.TryGetComponent(out ContainerSelect containerSelect) && containerSelect != currentContainer)
+            {
+                if (currentContainer == null)
+                {
+                    currentContainer = containerSelect;
+                    currentContainer.SetSelect();
+                }
+                else if (currentContainer != null && currentContainer != containerSelect)
+                {
+                    currentContainer.SetNormal();
+                    currentContainer = containerSelect;
+                    currentContainer.SetSelect();
+                }
+            }
+            return true;
+        }
+        else
+        {
+            if (currentContainer != null)
+                currentContainer.SetNormal();
+            currentContainer = null;
+        }
+
+        return false;
+    }
+
+    private void UpdateTimer()
     {
         timer += Time.deltaTime;
-        if (timer >= 0.1f) timer = .1f;
+        if (timer >= InteractionCooldown) timer = InteractionCooldown;
     }
 
-    private void FindCollider()
-    {
-        Vector3 forwardDirection = transform.forward;
-        Vector3 leftDirection = -transform.right;
-        Vector3 rightDirection = transform.right;
-
-        // Vị trí bắt đầu của ray
-        Vector3 rayOrigin = transform.position;
-        Ray ray1 = new Ray(rayOrigin, forwardDirection * rayDistance);
-        if (Physics.Raycast(ray1,out var hitInfo,interactMask))
-        {
-            Debug.Log(hitInfo.collider);
-        }
-        // Ray ray2 = new Ray(rayOrigin, leftDirection * rayDistance);
-        // Ray ray3 = new Ray(rayOrigin, rightDirection * rayDistance);
-    }
-    
     [Button]
-    private void OnInteract()
+    private void HandleInteract()
     {
         if (timer < 0.1f) return;
         timer = 0;
         Debug.Log("Interact");
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, (interactTransform.position - transform.position).normalized, out hit,
-                10))
+        if (currentContainer == null) return;
+        if (currentContainer.TryGetComponent(out IHolder iholder))
         {
-            if (hit.collider.TryGetComponent(out IHolder holder))
-            {
-                // Debug.Log(hit.collider.name);
-                holder.ExchangeItems(playerHolder);
-            }
+            Debug.Log("Contain I holder interface", currentContainer.gameObject);
         }
     }
 }

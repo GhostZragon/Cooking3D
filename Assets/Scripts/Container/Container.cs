@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(ContainerSelect))]
 public class Container : HolderAbstract
 {
 #if UNITY_EDITOR
