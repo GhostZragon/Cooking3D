@@ -1,19 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-
-public class PlayerInteract : HolderAbstract
+public class PlayerInteract : MonoBehaviour
 {
-    // public Food PlayerItem;
-    // public Transform Container;
-    // [FormerlySerializedAs("item")] public Cookware playerPlate;
-    public Vector3 size;
-    public Transform interactTransform;
-
-
+    [SerializeField] private Transform interactTransform;
     [SerializeField] private float timer = 0;
-
+    [SerializeField] private HolderAbstract playerHolder;
     private void Awake()
     {
         InputManager.OnInteract += OnInteract;
@@ -35,14 +29,6 @@ public class PlayerInteract : HolderAbstract
         timer += Time.deltaTime;
         if (timer >= 0.1f) timer = .1f;
     }
-
-    // private bool PlayerIsContainPlate()
-    // {
-    //     return playerPlate != null;
-    // }
-
-    public bool swapFoodAndPlate = true;
-
     [Button]
     private void OnInteract()
     {
@@ -56,10 +42,8 @@ public class PlayerInteract : HolderAbstract
             if (hit.collider.TryGetComponent(out IHolder holder))
             {
                 // Debug.Log(hit.collider.name);
-                holder.ExchangeItems(this);
+                holder.ExchangeItems(playerHolder);
             }
         }
     }
-
-
 }
