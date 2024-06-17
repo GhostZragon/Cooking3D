@@ -25,10 +25,10 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(placeTransform.position, .2f);
     }
-    public virtual void ExchangeItems(HolderAbstract holder)
+    public virtual void ExchangeItems(HolderAbstract player)
     {
         Debug.Log("On Swap");
-        ExchangeManager.Exchange(this, holder);
+        ExchangeManager.Exchange(this, player);
     }
     private void AddFoodToCookware(Food food, Cookware cookware)
     {

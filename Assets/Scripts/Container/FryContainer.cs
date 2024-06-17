@@ -5,7 +5,7 @@ using UnityEngine;
 public class FryContainer : MonoBehaviour, IHolder
 {
 
-    public void ExchangeItems(HolderAbstract holder)
+    public void ExchangeItems(HolderAbstract player)
     {
     }
 }

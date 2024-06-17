@@ -16,5 +16,5 @@ public abstract class BaseContainer<T> : MonoBehaviour, IHolder where T : PickUp
         if (holder.GetFood() != null || holder.GetCookware() != null) return false;
         return true;
     }
-    public abstract void ExchangeItems(HolderAbstract holder);
+    public abstract void ExchangeItems(HolderAbstract player);
 }

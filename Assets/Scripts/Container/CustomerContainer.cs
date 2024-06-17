@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class CustomerContainer : MonoBehaviour , IHolder
 {
-    public void ExchangeItems(HolderAbstract holder)
+    public void ExchangeItems(HolderAbstract player)
     {
-        if (holder.IsContainFoodInCookware() && 
-            holder.GetCookware().GetCookwareType() == CookwareType.Plate)
+        if (player.IsContainFoodInCookware() && 
+            player.GetCookware().GetCookwareType() == CookwareType.Plate)
         {
-
+            Debug.Log("Exchange");
         }
     }
 }

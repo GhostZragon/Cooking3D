@@ -1,4 +1,4 @@
 public interface IHolder
 {
-    void ExchangeItems(HolderAbstract holder);
+    void ExchangeItems(HolderAbstract player);
 }

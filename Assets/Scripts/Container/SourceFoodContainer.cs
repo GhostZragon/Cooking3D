@@ -36,16 +36,16 @@ public class SourceFoodContainer : BaseContainer<Food>
 
     private void Update()
     {
-        // if (NeedSpawnItem())
-        // {
-        //     timer = 0;
-        //     SpawnFood();
-        // }
-        //
-        // if (timer <= timeToSpawn)
-        // {
-        //     timer += Time.deltaTime;
-        // }
+        if (NeedSpawnItem())
+        {
+            timer = 0;
+            SpawnFood();
+        }
+        
+        if (timer <= timeToSpawn)
+        {
+            timer += Time.deltaTime;
+        }
         
     }
     [Button]
@@ -61,15 +61,15 @@ public class SourceFoodContainer : BaseContainer<Food>
 
     }
   
-    public override void ExchangeItems(HolderAbstract holder)
+    public override void ExchangeItems(HolderAbstract player)
     {
         if (foodInCrate.Count == 0) return;
-        if (CanStopContinueSwap(holder) == false) return;
+        if (CanStopContinueSwap(player) == false) return;
         var food = foodInCrate[foodInCrate.Count - 1];
         food.SetStateRb_Col(false);
-        holder.SetFood(food);
+        player.SetFood(food);
         foodInCrate.Remove(food);
-        Debug.Log("Set food to holder");
+        Debug.Log("Set food to player");
     }
 
     private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;

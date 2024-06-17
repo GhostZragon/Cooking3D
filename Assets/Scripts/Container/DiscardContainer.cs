@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class DiscardContainer : MonoBehaviour, IHolder
 {
-    public void ExchangeItems(HolderAbstract holder)
+    public void ExchangeItems(HolderAbstract player)
     {
-        if (holder.IsContainFoodInCookware())
+        if (player.IsContainFoodInCookware())
         {
-            holder.GetCookware().DiscardFood();
+            player.GetCookware().DiscardFood();
         }
     }
 }

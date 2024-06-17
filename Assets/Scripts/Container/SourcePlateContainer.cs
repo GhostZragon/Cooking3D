@@ -1,10 +1,10 @@
 using UnityEngine;
 public class SourcePlateContainer : BaseContainer<Cookware>
 {
-    public override void ExchangeItems(HolderAbstract holder)
+    public override void ExchangeItems(HolderAbstract player)
     {
-        if (CanStopContinueSwap(holder) == false) return;
+        if (CanStopContinueSwap(player) == false) return;
         Debug.Log("Get plate");
-        holder.SetPlate(RetrieveRawFood());
+        player.SetPlate(RetrieveRawFood());
     }
 }
