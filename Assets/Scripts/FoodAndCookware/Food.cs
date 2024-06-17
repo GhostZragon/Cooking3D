@@ -33,30 +33,22 @@ public class Food : PickUpAbtract
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Collider[] Colliders;
-    [SerializeField] private PhysicMaterial foodPhyicsMaterial;
     [SerializeField] private FoodData foodData;
-    public void Init()
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        Colliders = GetComponentsInChildren<Collider>();
-        AddPhycsMaterial();
-        SetStateRb_Col(false, .7f);
-    }
-    private void AddPhycsMaterial()
-    {
-        if (Colliders == null) return;
-        foreach (var col in Colliders)
-        {
-            col.material = foodPhyicsMaterial;
-        }
     }
 
-    private void ChangeCollidersState(bool enable)
+    public void Init()
     {
-        foreach (var col in Colliders)
-        {
-            col.enabled = enable;
-        }
+        Colliders = GetComponentsInChildren<Collider>();
+        SetStateRb_Col(false, .7f);
+    }
+
+    public void SetData(FoodData data)
+    {
+        this.foodData = data;
     }
     public FoodState GetCurrentFoodState()
     {
@@ -66,10 +58,6 @@ public class Food : PickUpAbtract
     {
         return foodData.FoodType;
     }
-    private void ChangeFoodState(FoodState foodState)
-    {
-
-    }
 
     public void Delete()
     {
@@ -78,17 +66,12 @@ public class Food : PickUpAbtract
 
     public void SetStateRb_Col(bool enable, float scaleRatio = 1)
     {
+        foreach (var col in Colliders) col.enabled = enable;
         rb.useGravity = enable;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero; 
-        ChangeCollidersState(enable);
         transform.rotation = Quaternion.Euler(0,0,0);
         transform.localScale = Vector3.one * scaleRatio;
     }
 
-
-    public void SetData(FoodData data)
-    {
-        this.foodData = data;
-    }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FoodState: 3
   FoodType: 3
-  modelObj: {fileID: 919132149155446097, guid: 505dde3c29e52f447afc17d28d9b25e8, type: 3}
+  modelObj: {fileID: 0}
   path: Assets/ScriptableObjects/FoodData
   RawFood:
   - {fileID: 11400000, guid: 7d45e578cc58d6546a33efec560d640b, type: 2}

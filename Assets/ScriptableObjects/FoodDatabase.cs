@@ -12,7 +12,7 @@ public class FoodDatabase : ScriptableObject
     public FoodType FoodType;
     public GameObject modelObj;
     public string path = "Assets/ScriptableObjects/FoodData";
-    
+
     // [ContextMenu("Create Item")]
     [Button]
     private void CreateFoodData()
@@ -30,18 +30,20 @@ public class FoodDatabase : ScriptableObject
 
 // #if UNITY_EDITOR
         var name = FoodState.ToString() + "_" + FoodType.ToString();
-        var fullPath = path +$"/{FoodState.ToString()}/"+ name + ".asset";
+        var fullPath = path + $"/{FoodState.ToString()}/" + name + ".asset";
         Debug.Log(fullPath);
         if (File.Exists(fullPath))
         {
             Debug.LogWarning("Duplicate asset");
             return;
         }
+
         mySo.name = name;
-        
+
         UnityEditor.AssetDatabase.CreateAsset(mySo, fullPath);
         UnityEditor.AssetDatabase.SaveAssets();
-        AddToList(FoodState,mySo);
+        AddToList(FoodState, mySo);
+
 // #endif
     }
 
@@ -62,17 +64,18 @@ public class FoodDatabase : ScriptableObject
     }
 
     [SerializeField] List<FoodData> RawFood;
-    [SerializeField]  List<FoodData> SliceFood;
-    [SerializeField]  List<FoodData> CookedFood;
+    [SerializeField] List<FoodData> SliceFood;
+    [SerializeField] List<FoodData> CookedFood;
     private Dictionary<FoodState, List<FoodData>> foodDictData;
+
     private void OnEnable()
     {
         if (foodDictData == null)
         {
             foodDictData = new Dictionary<FoodState, List<FoodData>>();
-            foodDictData.Add(FoodState.Raw,RawFood);
-            foodDictData.Add(FoodState.Slice,SliceFood);
-            foodDictData.Add(FoodState.Cooked,CookedFood);
+            foodDictData.Add(FoodState.Raw, RawFood);
+            foodDictData.Add(FoodState.Slice, SliceFood);
+            foodDictData.Add(FoodState.Cooked, CookedFood);
         }
     }
 

@@ -9,6 +9,12 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float timer = 0;
     [SerializeField] private Transform interactTransform;
     [SerializeField] private HolderAbstract playerHolder;
+    [Header("Raycast settings")]
+    
+    [SerializeField] private LayerMask interactMask;
+    [SerializeField] private float rayDistance = 5f; 
+    [SerializeField] private Color rayColor = Color.red; 
+    [SerializeField] private Collider containerCatch;
     private void Awake()
     {
         InputManager.OnInteract += OnInteract;
@@ -22,11 +28,8 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         Timer();
-        Debug.DrawRay(transform.position, (interactTransform.position - transform.position).normalized, Color.red);
-        Debug.DrawRay(transform.position,Vector3.left,Color.green);
     }
-    public float rayDistance = 5f; // Khoảng cách của ray
-    public Color rayColor = Color.red; // Màu của ray khi vẽ bằng Debug
+  
     private void OnDrawGizmos()
     {
         Vector3 forwardDirection = transform.forward;
@@ -42,11 +45,35 @@ public class PlayerInteract : MonoBehaviour
         Debug.DrawRay(rayOrigin, rightDirection * rayDistance, rayColor);
     }
 
+    private void FixedUpdate()
+    {
+        FindCollider();
+
+    }
+
     private void Timer()
     {
         timer += Time.deltaTime;
         if (timer >= 0.1f) timer = .1f;
     }
+
+    private void FindCollider()
+    {
+        Vector3 forwardDirection = transform.forward;
+        Vector3 leftDirection = -transform.right;
+        Vector3 rightDirection = transform.right;
+
+        // Vị trí bắt đầu của ray
+        Vector3 rayOrigin = transform.position;
+        Ray ray1 = new Ray(rayOrigin, forwardDirection * rayDistance);
+        if (Physics.Raycast(ray1,out var hitInfo,interactMask))
+        {
+            Debug.Log(hitInfo.collider);
+        }
+        // Ray ray2 = new Ray(rayOrigin, leftDirection * rayDistance);
+        // Ray ray3 = new Ray(rayOrigin, rightDirection * rayDistance);
+    }
+    
     [Button]
     private void OnInteract()
     {

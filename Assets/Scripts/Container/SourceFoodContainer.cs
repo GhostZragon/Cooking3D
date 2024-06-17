@@ -53,6 +53,7 @@ public class SourceFoodContainer : BaseContainer<Food>
     {
         if (foodInCrate.Count == maxCount) return;
         var food = FoodManager.instance.GetFood(FoodType, FoodState.Raw);
+        food.Init();
         food.transform.SetParent(transform);
         food.transform.localPosition = Vector3.zero;
         food.transform.localPosition = GetRandomSpawnsPosition();
@@ -66,7 +67,7 @@ public class SourceFoodContainer : BaseContainer<Food>
         if (foodInCrate.Count == 0) return;
         if (CanStopContinueSwap(player) == false) return;
         var food = foodInCrate[foodInCrate.Count - 1];
-        food.SetStateRb_Col(false);
+        food.SetStateRb_Col(false,1f);
         player.SetFood(food);
         foodInCrate.Remove(food);
         Debug.Log("Set food to player");

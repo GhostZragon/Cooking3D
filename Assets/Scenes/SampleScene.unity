@@ -657,8 +657,12 @@ MonoBehaviour:
   timer: 0
   interactTransform: {fileID: 80659185}
   playerHolder: {fileID: 70691134}
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 512
   rayDistance: 1.31
   rayColor: {r: 1, g: 0, b: 0, a: 1}
+  containerCatch: {fileID: 0}
 --- !u!1 &80659184
 GameObject:
   m_ObjectHideFlags: 0
@@ -8493,7 +8497,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   Colliders: []
-  foodPhyicsMaterial: {fileID: 0}
   foodData: {fileID: 0}
 --- !u!54 &1331902300
 Rigidbody:
@@ -9480,7 +9483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FoodDatabase: {fileID: 11400000, guid: 35584c5a492cdf84183af04788131efa, type: 2}
-  foodPrefab: {fileID: 2692947151848997554, guid: 6a5f4c9891f084a4cb8df806d54669fd,
+  foodPrefab: {fileID: 953308246043192012, guid: 6a5f4c9891f084a4cb8df806d54669fd,
     type: 3}
 --- !u!1 &1495096931
 GameObject:
