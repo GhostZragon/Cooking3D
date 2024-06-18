@@ -6,18 +6,25 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private InputReader input;
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        InputManager.OnMove += Move;
-    }
-    private void OnDestroy()
-    {
-        InputManager.OnMove -= Move;
     }
 
-    private void Move(Vector3 vector)
+    private void Start()
     {
-        playerMovement.Move(vector);
+        input.EnableInput();
+    }
+
+
+    private void Update()
+    {
+        Move(input.Direction);
+    }
+
+    private void Move(Vector2 movementVector)
+    {
+        playerMovement.Move(new Vector3(movementVector.x,0,movementVector.y));
     }
 }

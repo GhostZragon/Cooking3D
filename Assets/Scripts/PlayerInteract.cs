@@ -7,17 +7,17 @@ using UnityEngine.Serialization;
 
 public class PlayerInteract : MonoBehaviour
 {
-    [SerializeField] private float timer = 0;
+    [Header("References")]
     [SerializeField] private Transform centerTransform;
     [SerializeField] private HolderAbstract playerHolder;
+    [SerializeField] private ContainerSelect currentContainer;
+    [SerializeField] private InputReader input;
+    [Header("Settings")] 
+    [SerializeField] private LayerMask interactMask;
+    [SerializeField] private float timer = 0;
     [SerializeField] private float InteractionCooldown = .1f;
-
-    [Header("Raycast settings")] [SerializeField]
-    private LayerMask interactMask;
-
     [SerializeField] private float rayDistance = 5f;
     [SerializeField] private Color rayColor = Color.red;
-    [SerializeField] private ContainerSelect currentContainer;
     public float yOffset;
     private Vector3 ForwardDirection;
     private Vector3 LeftDirection;
@@ -26,12 +26,12 @@ public class PlayerInteract : MonoBehaviour
 
     private void Awake()
     {
-        InputManager.OnInteract += HandleInteract;
+        input.Interact += HandleInteract;
     }
-
+    
     private void OnDestroy()
     {
-        InputManager.OnInteract -= HandleInteract;
+        input.Interact -= HandleInteract;
     }
 
     private void Update()
