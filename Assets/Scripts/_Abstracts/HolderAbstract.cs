@@ -106,6 +106,13 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public FoodType GetFoodType()
     {
+        if (food == null) return FoodType.None;
         return food.GetFoodType();
+    }
+
+    public CookwareType GetCookwareType()
+    {
+        if (cookware == null) return CookwareType.None;
+        return cookware.GetCookwareType();
     }
 }

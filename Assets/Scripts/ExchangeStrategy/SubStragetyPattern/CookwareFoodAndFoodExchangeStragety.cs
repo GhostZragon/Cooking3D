@@ -18,11 +18,11 @@ public partial class CookwareAndFoodExchangeStrategy
         public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
         {
             Debug.Log("holder contain targetFood");
-            if (holder1.GetCookware() != null && holder2.GetFood() != null)
+            if (holder1.IsContainCookware() && holder2.IsContainFood())
             {
                 SwapFoodAndCookwareContents(holder1, holder2);
             }
-            else if (holder1.GetFood() != null && holder2.GetCookware() != null)
+            else if (holder1.IsContainFood() && holder2.IsContainCookware())
             {
                 SwapFoodAndCookwareContents(holder2, holder1);
             }

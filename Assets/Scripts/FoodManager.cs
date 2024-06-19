@@ -15,7 +15,7 @@ public class FoodManager : MonoBehaviour
     [SerializeField] private FoodDatabase FoodDatabase;
     [SerializeField] private Food foodPrefab;
     
-    public Food GetFood(FoodType foodType, FoodState foodState)
+    public Food GetFoodInstantiate(FoodType foodType, FoodState foodState)
     {
         var foodData = FoodDatabase.GetFoodData(foodState, foodType);
         if (foodData == null)
@@ -28,19 +28,16 @@ public class FoodManager : MonoBehaviour
         return food;
     }
 
+    public FoodData GetFoodData(FoodType foodType, FoodState foodState)
+    {
+        return FoodDatabase.GetFoodData(foodState, foodType);
+    }
     private Food CreateFood(FoodData foodData)
     {
         if (foodPrefab == null) return null;
         var food = Instantiate(foodPrefab);
-        var model = Instantiate(foodData.ModelObj);
-        model.transform.SetParent(food.transform);
-        model.transform.localPosition = Vector3.zero;
-
-        var mesh = model.AddComponent<MeshCollider>();
-        mesh.convex = true;
-        mesh.gameObject.layer = LayerMask.NameToLayer("Food");
-        
         food.SetData(foodData);
+        food.SetModel();
         return food;
     }
 }

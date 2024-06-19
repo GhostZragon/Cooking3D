@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,8 +10,6 @@ public class SourceFoodContainer : BaseContainer<Food>
 {
     private BoxCollider BoxCollider;
     [SerializeField] private FoodType FoodType;
-    [SerializeField] private ContainerBuilderManager builder;
-    [SerializeField] private GameObject baseModel;
     [SerializeField] private List<Food> foodInCrate = new List<Food>();
     [SerializeField] private int maxCount = 5;
     [SerializeField] private float timer;
@@ -18,22 +17,18 @@ public class SourceFoodContainer : BaseContainer<Food>
     private void Awake()
     {
         BoxCollider = GetComponent<BoxCollider>();
-        Init();
+        StartCoroutine(SpawnTest());
     }
 
-    [Button]
-    private void Init()
+    private IEnumerator SpawnTest()
     {
-        foreach (var container in builder.foodList)
+        for (int i = 0; i < 5; i++)
         {
-            if (container.foodType == FoodType)
-            {
-                prefab = container.Prefab;
-                break;
-            }
+            if (NeedSpawnItem() == false) break;
+            SpawnFood();
+            yield return new WaitForSeconds(.2f);
         }
     }
-
     private void Update()
     {
         if (NeedSpawnItem())
@@ -52,16 +47,17 @@ public class SourceFoodContainer : BaseContainer<Food>
     private void SpawnFood()
     {
         if (foodInCrate.Count == maxCount) return;
-        var food = FoodManager.instance.GetFood(FoodType, FoodState.Raw);
+        var food = FoodManager.instance.GetFoodInstantiate(FoodType, FoodState.Raw);
         food.Init();
         food.transform.SetParent(transform);
         food.transform.localPosition = Vector3.zero;
         food.transform.localPosition = GetRandomSpawnsPosition();
         food.SetStateRb_Col(true,.7f);
         foodInCrate.Add(food);
-
+        timer = 0;
     }
-  
+
+ 
     public override void ExchangeItems(HolderAbstract player)
     {
         if (foodInCrate.Count == 0) return;

@@ -2,8 +2,8 @@
 {
     public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
     {
-        return (holder1.GetFood() != null || holder2.GetFood() != null) &&
-            (holder1.GetCookware() == null && holder2.GetCookware() == null);
+        return (holder1.IsContainFood() || holder2.IsContainFood()) &&
+            (!holder1.IsContainCookware() && !holder2.IsContainCookware());
     }
 
     public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
