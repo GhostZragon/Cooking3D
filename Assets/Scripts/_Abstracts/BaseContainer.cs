@@ -12,7 +12,7 @@ public abstract class BaseContainer<T> : MonoBehaviour, IHolder where T : PickUp
 
     protected static bool CanStopContinueSwap(HolderAbstract holder)
     {
-        Debug.Log("On checking");
+        // Debug.Log("On checking");
         if (holder.IsContainFood() || holder.IsContainCookware()) return false;
         return true;
     }

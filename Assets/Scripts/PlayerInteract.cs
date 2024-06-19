@@ -109,7 +109,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (timer < 0.1f) return;
         timer = 0;
-        Debug.Log("Interact");
+        // Debug.Log("Interact");
         if (currentContainer == null) return;
         if (currentContainer.TryGetComponent(out IHolder iholder))
         {

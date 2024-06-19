@@ -27,4 +27,12 @@ public static class ExchangeManager
             }
         }
     }
+    public static void Exchange(HolderAbstract currentHolder, HolderAbstract holderWantToChange,IExchangeStrategy strategy)
+    {
+        if (strategy.CanExchange(currentHolder, holderWantToChange))
+        {
+            Debug.Log("Type Exchange is " + strategy.ToString());
+            strategy.Exchange(currentHolder, holderWantToChange);
+        }
+    }
 }

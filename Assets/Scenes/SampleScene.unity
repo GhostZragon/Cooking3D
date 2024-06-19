@@ -1305,7 +1305,7 @@ MonoBehaviour:
   food: {fileID: 0}
   cookware: {fileID: 0}
   placeTransform: {fileID: 2004292403}
-  type: 0
+  type: 1
 --- !u!65 &161269222
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3340,7 +3340,7 @@ PrefabInstance:
     - target: {fileID: 3013956582217958445, guid: e5c735f26842e6a4982699329a53be44,
         type: 3}
       propertyPath: FoodType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3978402508396723944, guid: e5c735f26842e6a4982699329a53be44,
         type: 3}
@@ -6955,7 +6955,7 @@ PrefabInstance:
     - target: {fileID: 3013956582217958445, guid: e5c735f26842e6a4982699329a53be44,
         type: 3}
       propertyPath: FoodType
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3978402508396723944, guid: e5c735f26842e6a4982699329a53be44,
         type: 3}

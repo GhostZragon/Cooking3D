@@ -66,7 +66,7 @@ public class SourceFoodContainer : BaseContainer<Food>
         food.SetStateRb_Col(false,1f);
         player.SetFood(food);
         foodInCrate.Remove(food);
-        Debug.Log("Set food to player");
+        // Debug.Log("Set food to player");
     }
 
     private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;

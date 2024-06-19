@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -5,8 +6,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
     [SerializeField] protected Food food;
 
-    [FormerlySerializedAs("plate")]
-    [SerializeField]
+    [FormerlySerializedAs("plate")] [SerializeField]
     protected Cookware cookware;
 
     [SerializeField] protected Transform placeTransform;
@@ -16,21 +16,25 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     public Cookware GetCookware() => cookware;
     public bool IsContainFood() => food != null;
     public bool IsContainCookware() => cookware != null;
+
     private void OnDrawGizmos()
     {
         if (placeTransform == null) return;
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(placeTransform.position, .2f);
     }
+
     public virtual void ExchangeItems(HolderAbstract player)
     {
-        Debug.Log("On Swap");
+        // Debug.Log("On Swap");
         ExchangeManager.Exchange(this, player);
     }
+
     private void AddFoodToCookware(Food food, Cookware cookware)
     {
         cookware.Add(food);
     }
+
     public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
     {
         var food1 = holder.GetFood();
@@ -48,10 +52,11 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
             holder.SetFood(null);
         }
     }
+
     public void SwapCookwareTwoWay(HolderAbstract holder)
     {
         // TODO: Some container cannot put plate in ?, pls change it
-        Debug.LogWarning("TODO: Some container cannot put plate in ?, pls change it");
+        // Debug.LogWarning("TODO: Some container cannot put plate in ?, pls change it");
         if (CanPutCookwareIn() && holder.CanPutCookwareIn())
         {
             var cookware1 = holder.GetCookware();
@@ -60,8 +65,8 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
             holder.SetPlate(cookware2);
             SetPlate(cookware1);
         }
-
     }
+
     public void SwapFoodTwoWay(HolderAbstract holder)
     {
         if (CanPutFoodIn() && holder.CanPutFoodIn())
@@ -78,6 +83,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     public bool CanPutCookwareIn() => type == ContainerType.Cookware || type == ContainerType.All;
     public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
     public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
+
     public bool IsContainFoodInCookware()
     {
         return cookware != null && cookware.IsContainFoodInPlate();
@@ -97,10 +103,20 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         if (IsContainFoodInCookware())
         {
             cookware.DiscardFood();
-        }else if (food != null)
+        }
+        else if (food != null)
         {
             Destroy(food.gameObject);
             SetFood(null);
+        }
+    }
+    [Button]
+    public void DiscardCookware()
+    {
+        if (cookware != null)
+        {
+            Destroy(cookware.gameObject);
+            SetPlate(null);
         }
     }
 
