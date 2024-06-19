@@ -1272,11 +1272,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b3ead5f7699e6aa41a6dbf4927f4e6a4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 161269221}
+      addedObject: {fileID: 161269223}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b3ead5f7699e6aa41a6dbf4927f4e6a4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 161269223}
+      addedObject: {fileID: 161269226}
   m_SourcePrefab: {fileID: 100100000, guid: b3ead5f7699e6aa41a6dbf4927f4e6a4, type: 3}
 --- !u!4 &161269219 stripped
 Transform:
@@ -1290,22 +1290,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 161269218}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &161269221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 161269220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad37a6e3b2b527249889c4cd5e847f44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  food: {fileID: 0}
-  cookware: {fileID: 0}
-  placeTransform: {fileID: 2004292403}
-  type: 1
 --- !u!65 &161269222
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1343,6 +1327,22 @@ MonoBehaviour:
   selectMat: {fileID: 2100000, guid: 5a2d051c067200940924bcd67f710918, type: 2}
   mesh: {fileID: 0}
   testSelect: 0
+--- !u!114 &161269226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161269220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad37a6e3b2b527249889c4cd5e847f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  food: {fileID: 0}
+  cookware: {fileID: 0}
+  placeTransform: {fileID: 2004292403}
+  type: 0
 --- !u!1001 &162664561
 PrefabInstance:
   m_ObjectHideFlags: 0
