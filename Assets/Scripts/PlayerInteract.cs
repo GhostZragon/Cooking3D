@@ -27,11 +27,13 @@ public class PlayerInteract : MonoBehaviour
     private void Awake()
     {
         input.Interact += HandleInteract;
+        input.DoAction += DoAction;
     }
     
     private void OnDestroy()
     {
         input.Interact -= HandleInteract;
+        input.DoAction -= DoAction;
     }
 
     private void Update()
@@ -114,6 +116,14 @@ public class PlayerInteract : MonoBehaviour
         if (currentContainer.TryGetComponent(out IHolder iholder))
         {
             iholder.ExchangeItems(playerHolder);
+        }
+    }
+
+    private void DoAction()
+    {
+        if (currentContainer.TryGetComponent(out IOnDoAction IonDoAction))
+        {
+            IonDoAction.DoAction();
         }
     }
 }

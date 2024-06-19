@@ -42,7 +42,6 @@ public class Food : PickUpAbtract
     [SerializeField] private Collider[] Colliders;
     [SerializeField] private FoodData foodData;
     [SerializeField] private Transform model;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

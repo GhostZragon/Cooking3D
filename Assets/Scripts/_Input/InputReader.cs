@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
 public class InputReader : ScriptableObject, PlayerInputAction.IPlayerActions
 {
     public event UnityAction<Vector2> Move;
-    public event UnityAction Interact; 
+    public event UnityAction Interact;
+    public event UnityAction DoAction; 
 
     private PlayerInputAction inputAction;
     public Vector3 Direction => inputAction.Player.Move.ReadValue<Vector2>();
@@ -47,6 +48,8 @@ public class InputReader : ScriptableObject, PlayerInputAction.IPlayerActions
         }
     }
 
-    
-
+    public void OnDoAction(InputAction.CallbackContext context)
+    {
+        DoAction?.Invoke();
+    }
 }
