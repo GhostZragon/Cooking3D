@@ -5,6 +5,6 @@ public class SourcePlateContainer : BaseContainer<Cookware>
     {
         if (CanStopContinueSwap(player) == false) return;
         Debug.Log("Get plate");
-        player.SetPlate(RetrieveRawFood());
+        player.SetItem(RetrieveRawFood());
     }
 }

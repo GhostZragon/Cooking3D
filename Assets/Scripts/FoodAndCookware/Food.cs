@@ -85,11 +85,7 @@ public class Food : PickUpAbtract
     {
         return foodData.FoodType;
     }
-
-    public void Delete()
-    {
-        Destroy(gameObject);
-    }
+    
 
     public void SetStateRb_Col(bool enable, float scaleRatio = 1)
     {
@@ -101,4 +97,8 @@ public class Food : PickUpAbtract
         transform.localScale = Vector3.one * scaleRatio;
     }
 
+    public override void Discard()
+    {
+        Destroy(gameObject);
+    }
 }

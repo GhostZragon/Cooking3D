@@ -4,18 +4,14 @@ using UnityEngine.Serialization;
 
 public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
-    [SerializeField] protected Food food;
-
-    [FormerlySerializedAs("plate")] [SerializeField]
-    protected Cookware cookware;
-
+    protected PickUpAbtract item;
     [SerializeField] protected Transform placeTransform;
     [SerializeField] protected ContainerType type;
 
-    public Food GetFood() => food;
-    public Cookware GetCookware() => cookware;
-    public bool IsContainFood() => food != null;
-    public bool IsContainCookware() => cookware != null;
+    public Food GetFood() => item as Food;
+    public Cookware GetCookware() => item as Cookware;
+    public bool IsContainFood() => item is Food;
+    public bool IsContainCookware() => item is Cookware;
 
     private void OnDrawGizmos()
     {
@@ -38,18 +34,18 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
     {
         var food1 = holder.GetFood();
-        var food2 = food;
+        var food2 = GetFood();
         var cookware1 = holder.GetCookware();
-        var cookware2 = cookware;
+        var cookware2 = GetCookware();
         if (cookware1 != null && cookware1.CanPutFoodIn(food2))
         {
             AddFoodToCookware(food2, cookware1);
-            SetFood(null);
+            SetItem(null);
         }
         else if (cookware2 != null && cookware2.CanPutFoodIn(food1))
         {
             AddFoodToCookware(food1, cookware2);
-            holder.SetFood(null);
+            holder.SetItem(null);
         }
     }
 
@@ -60,10 +56,10 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         if (CanPutCookwareIn() && holder.CanPutCookwareIn())
         {
             var cookware1 = holder.GetCookware();
-            var cookware2 = cookware;
+            var cookware2 = GetCookware();
 
-            holder.SetPlate(cookware2);
-            SetPlate(cookware1);
+            holder.SetItem(cookware2);
+            SetItem(cookware1);
         }
     }
 
@@ -72,23 +68,32 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         if (CanPutFoodIn() && holder.CanPutFoodIn())
         {
             var food1 = holder.GetFood();
-            var food2 = food;
+            var food2 = GetFood();
 
-            holder.SetFood(food2);
-            SetFood(food1);
+            holder.SetItem(food2);
+            SetItem(food1);
         }
     }
 
     public bool CanPutFoodIn() => type == ContainerType.Food || type == ContainerType.All;
     public bool CanPutCookwareIn() => type == ContainerType.Cookware || type == ContainerType.All;
-    public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
-    public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
+    // public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
+    // public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
 
     public bool IsContainFoodInCookware()
     {
-        return cookware != null && cookware.IsContainFoodInPlate();
+        return GetCookware() != null && GetCookware() .IsContainFoodInPlate();
     }
-
+    public void SetItem(PickUpAbtract newItem)
+    {
+        ResetItem(newItem);
+    }
+    
+    private void ResetItem(PickUpAbtract newItem)
+    {
+        newItem?.SetToParentAndPosition(placeTransform);
+        item = newItem;
+    }
     private void ResetItem<T>(T newItem, ref T item) where T : PickUpAbtract
     {
         // 1. check if new item is valid, set it to new position
@@ -102,32 +107,34 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         if (IsContainFoodInCookware())
         {
-            cookware.DiscardFood();
+            GetCookware().DiscardFood();
         }
-        else if (food != null)
+        else if (IsContainFood())
         {
-            Destroy(food.gameObject);
-            SetFood(null);
+            Destroy(item.gameObject);
+            SetItem(null);
         }
     }
     [Button]
     public void DiscardCookware()
     {
-        if (cookware != null)
+        if (GetCookware() != null)
         {
-            Destroy(cookware.gameObject);
-            SetPlate(null);
+            Destroy(item.gameObject);
+            SetItem(null);
         }
     }
 
     public FoodType GetFoodType()
     {
+        var food = GetFood();
         if (food == null) return FoodType.None;
         return food.GetFoodType();
     }
-
+    
     public CookwareType GetCookwareType()
     {
+        var cookware = GetCookware();
         if (cookware == null) return CookwareType.None;
         return cookware.GetCookwareType();
     }

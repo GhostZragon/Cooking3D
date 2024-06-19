@@ -64,7 +64,7 @@ public class SourceFoodContainer : BaseContainer<Food>
         if (CanStopContinueSwap(player) == false) return;
         var food = foodInCrate[foodInCrate.Count - 1];
         food.SetStateRb_Col(false,1f);
-        player.SetFood(food);
+        player.SetItem(food);
         foodInCrate.Remove(food);
         // Debug.Log("Set food to player");
     }

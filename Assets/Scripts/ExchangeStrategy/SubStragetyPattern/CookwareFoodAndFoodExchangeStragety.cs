@@ -36,7 +36,7 @@ public partial class CookwareAndFoodExchangeStrategy
             if (targetCookware.CanPutFoodIn(targetFood) && holder2.CanPutFoodIn())
             {
                 targetCookware.Add(targetFood);
-                holder2.SetFood(foodInCookware);
+                holder2.SetItem(foodInCookware);
             }
         }
     }
