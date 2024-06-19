@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
-    protected PickUpAbtract item;
+    [SerializeField] protected PickUpAbtract item;
     [SerializeField] protected Transform placeTransform;
     [SerializeField] protected ContainerType type;
 
@@ -26,11 +26,6 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         ExchangeManager.Exchange(this, player);
     }
 
-    private void AddFoodToCookware(Food food, Cookware cookware)
-    {
-        cookware.Add(food);
-    }
-
     public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
     {
         var food1 = holder.GetFood();
@@ -46,6 +41,11 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         {
             AddFoodToCookware(food1, cookware2);
             holder.SetItem(null);
+        }
+        
+        void AddFoodToCookware(Food food, Cookware cookware)
+        {
+            cookware.Add(food);
         }
     }
 
@@ -91,14 +91,6 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     
     private void ResetItem(PickUpAbtract newItem)
     {
-        newItem?.SetToParentAndPosition(placeTransform);
-        item = newItem;
-    }
-    private void ResetItem<T>(T newItem, ref T item) where T : PickUpAbtract
-    {
-        // 1. check if new item is valid, set it to new position
-        // 2. assign references in currentHolder
-        // 2.1 if item new is null, then this item of that currentHolder is null        
         newItem?.SetToParentAndPosition(placeTransform);
         item = newItem;
     }

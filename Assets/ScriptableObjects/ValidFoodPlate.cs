@@ -1,33 +1,24 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "ValidFoodPlate", menuName = "ValidFoodCookware/Plate")]
-public class ValidFoodPlate : HolderValidFood
+public class ValidFoodPlate : ScriptableObject
 {
-    public List<FoodState> ValidFoodStateList;
-    public List<FoodData> ExceptionList;
-
-    public override bool CheckingFoodIsValid(FoodData foodData)
+    public List<Recipes> RecipesList;
+    public FoodData foodDataNeedToCheck;
+    public List<Recipes> recipesHaveFood;
+    [Button]
+    public void Test()
     {
-        if (ListChecking(foodData) == false)
+        recipesHaveFood.Clear();
+        foreach(var recipe in RecipesList)
         {
-            if (ValidFoodStateList.Contains(foodData.FoodState))
+            if (recipe.IsContain(foodDataNeedToCheck))
             {
-                return true;
+                recipesHaveFood.Add(recipe);
             }
-            else
-            {
-                return false;
-            }
-
         }
-
-        return true;
-    }
-
-    private bool ListChecking(FoodData foodData)
-    {
-        if (ExceptionList.Count == 0 || !ExceptionList.Contains(foodData)) return false;
-        return true;
     }
 }

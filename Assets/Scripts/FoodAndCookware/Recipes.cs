@@ -6,4 +6,17 @@ using UnityEngine;
 public class Recipes : ScriptableObject
 {
     [SerializeField] private List<FoodData> foodNeed;
+
+    public bool IsContain(FoodData foodDataNeedToCheck)
+    {
+        if (foodDataNeedToCheck == null) return false;
+        foreach(var food in foodNeed)
+        {
+            if (food == foodDataNeedToCheck)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -32,6 +32,7 @@ public class FoodManager : MonoBehaviour
     {
         return FoodDatabase.GetFoodData(foodState, foodType);
     }
+
     private Food CreateFood(FoodData foodData)
     {
         if (foodPrefab == null) return null;

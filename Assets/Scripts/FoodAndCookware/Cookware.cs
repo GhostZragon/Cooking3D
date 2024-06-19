@@ -37,7 +37,7 @@ public class Cookware : PickUpAbtract
     public bool CanPutFoodIn(Food food)
     {
         if (FoodInPlates != null)
-            return FoodInPlates.GetCurrentFoodState() != FoodState.Cooked;
+            return FoodInPlates.GetFoodState() != FoodState.Cooked;
         // TODO: Need to check food is valid in here
         Debug.LogWarning("TODO: Need to check food is valid in here");
         return true;

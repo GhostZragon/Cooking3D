@@ -39,7 +39,6 @@ public struct RuntimeFoodData
 public class Food : PickUpAbtract
 {
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private Collider[] Colliders;
     [SerializeField] private FoodData foodData;
     [SerializeField] private Transform model;
 
@@ -50,7 +49,6 @@ public class Food : PickUpAbtract
 
     public void Init()
     {
-        Colliders = GetComponentsInChildren<Collider>();
         SetStateRb_Col(false, .7f);
     }
 
@@ -63,21 +61,25 @@ public class Food : PickUpAbtract
     public void SetModel()
     {
         if (foodData == null) return;
-        if (model != null) DestroyModel();
-        model = Instantiate(foodData.ModelObj, Vector3.zero, Quaternion.identity, transform).transform;
-        model.transform.localPosition = Vector3.zero;
-        var mesh = model.AddComponent<MeshCollider>();
+        if (model != null)
+        {
+            Destroy(model.gameObject);
+            model = null;
+        }
+        var mesh = SpawnModel();
         mesh.convex = true;
         mesh.gameObject.layer = LayerMask.NameToLayer("Food");
     }
 
-    private void DestroyModel()
+    private MeshCollider SpawnModel()
     {
-        Destroy(model.gameObject);
-        model = null;
+        model = Instantiate(foodData.ModelObj, Vector3.zero, Quaternion.identity, transform).transform;
+        model.transform.localPosition = Vector3.zero;
+        model.transform.localRotation = Quaternion.identity;
+        return model.AddComponent<MeshCollider>();
     }
 
-    public FoodState GetCurrentFoodState()
+    public FoodState GetFoodState()
     {
         return foodData.FoodState;
     }
@@ -90,7 +92,7 @@ public class Food : PickUpAbtract
 
     public void SetStateRb_Col(bool enable, float scaleRatio = 1)
     {
-        foreach (var col in Colliders) col.enabled = enable;
+        ChangeStateCollider(enable);
         rb.useGravity = enable;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
@@ -98,6 +100,11 @@ public class Food : PickUpAbtract
         transform.localScale = Vector3.one * scaleRatio;
     }
 
+    private void ChangeStateCollider(bool enable)
+    {
+        if(model == null) return;   
+        model.GetComponent<MeshCollider>().enabled = enable;
+    }
     public override void Discard()
     {
         Destroy(gameObject);
