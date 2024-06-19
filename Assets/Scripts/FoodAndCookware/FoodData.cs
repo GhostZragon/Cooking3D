@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class FoodData : ScriptableObject
 {
     [SerializeField] private GameObject modelObj;
     [SerializeField] private FoodState foodState;
     [SerializeField] private FoodType foodType;
-    
+
     public GameObject ModelObj
     {
         get => modelObj;

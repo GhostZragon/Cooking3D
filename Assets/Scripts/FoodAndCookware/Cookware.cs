@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+
 public enum CookwareType
 {
     None,
@@ -10,6 +11,7 @@ public enum CookwareType
     Pot,
     Pan,
 }
+
 public class Cookware : PickUpAbtract
 {
     [SerializeField] private Transform PlaceTransform;
@@ -23,12 +25,15 @@ public class Cookware : PickUpAbtract
         food?.SetToParentAndPosition(PlaceTransform);
         FoodInPlates = food;
     }
+
     public void DiscardFood()
     {
         Destroy(FoodInPlates.gameObject);
         FoodInPlates = null;
     }
+
     public bool IsContainFoodInPlate() => FoodInPlates != null;
+
     public bool CanPutFoodIn(Food food)
     {
         if (FoodInPlates != null)
@@ -39,6 +44,7 @@ public class Cookware : PickUpAbtract
     }
 
     public CookwareType GetCookwareType() => type;
+
     public override void Discard()
     {
     }

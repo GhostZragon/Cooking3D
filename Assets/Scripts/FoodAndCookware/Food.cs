@@ -42,6 +42,7 @@ public class Food : PickUpAbtract
     [SerializeField] private Collider[] Colliders;
     [SerializeField] private FoodData foodData;
     [SerializeField] private Transform model;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -68,8 +69,8 @@ public class Food : PickUpAbtract
         var mesh = model.AddComponent<MeshCollider>();
         mesh.convex = true;
         mesh.gameObject.layer = LayerMask.NameToLayer("Food");
-        
     }
+
     private void DestroyModel()
     {
         Destroy(model.gameObject);
@@ -85,7 +86,7 @@ public class Food : PickUpAbtract
     {
         return foodData.FoodType;
     }
-    
+
 
     public void SetStateRb_Col(bool enable, float scaleRatio = 1)
     {
