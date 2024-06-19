@@ -113,7 +113,7 @@ public class PlayerInteract : MonoBehaviour
         if (currentContainer == null) return;
         if (currentContainer.TryGetComponent(out IHolder iholder))
         {
-            Debug.Log("Contain I holder interface", currentContainer.gameObject);
+            iholder.ExchangeItems(playerHolder);
         }
     }
 }

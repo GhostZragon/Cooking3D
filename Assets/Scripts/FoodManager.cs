@@ -17,7 +17,7 @@ public class FoodManager : MonoBehaviour
     
     public Food GetFood(FoodType foodType, FoodState foodState)
     {
-        var foodData = FoodDatabase.GetData(foodState, foodType);
+        var foodData = FoodDatabase.GetFoodData(foodState, foodType);
         if (foodData == null)
         {
             Debug.LogError("This data of food is null");

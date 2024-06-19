@@ -21,7 +21,8 @@ public enum FoodState
     Raw,
     Fry,
     Slice,
-    Cooked
+    Cooked,
+    Mixed
 }
 [Serializable]
 public struct RuntimeFoodData

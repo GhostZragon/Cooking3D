@@ -77,7 +77,7 @@ public class FoodDatabase : ScriptableObject
         }
     }
 
-    public FoodData GetData(FoodState foodState, FoodType foodType)
+    public FoodData GetFoodData(FoodState foodState, FoodType foodType)
     {
         if (!foodDictData.TryGetValue(foodState, out var list)) return null;
         foreach (var item in list)

@@ -14,7 +14,8 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public Food GetFood() => food;
     public Cookware GetCookware() => cookware;
-
+    public bool IsContainFood() => food != null;
+    public bool IsContainCookware() => cookware != null;
     private void OnDrawGizmos()
     {
         if (placeTransform == null) return;
@@ -101,5 +102,10 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
             Destroy(food.gameObject);
             SetFood(null);
         }
+    }
+
+    public FoodType GetFoodType()
+    {
+        return food.GetFoodType();
     }
 }
