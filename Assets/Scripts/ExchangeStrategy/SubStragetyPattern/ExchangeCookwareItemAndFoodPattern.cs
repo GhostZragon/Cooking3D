@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public partial class CookwareAndFoodExchangeStrategy
+public partial class ExchangeCookwareAndFoodPattern
 {
     /// <summary>
     /// Checking have any Food in cookware to swap
     /// </summary>
-    private class CookwareFoodAndFoodExchangeStragety : IExchangeStrategy
+    private class ExchangeCookwareItemAndFoodPattern : IExchangeStrategy
     {
         public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
         {

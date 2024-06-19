@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public partial class CookwareExchangeStrategy : IExchangeStrategy
+public partial class ExchangeCookwarePattern : IExchangeStrategy
 {
     public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
     {
@@ -9,9 +9,9 @@ public partial class CookwareExchangeStrategy : IExchangeStrategy
     }
 
     private IExchangeStrategy subExchangeStrategy;
-    public CookwareExchangeStrategy()
+    public ExchangeCookwarePattern()
     {
-        subExchangeStrategy = new CookwareFoodTransferStrategy();
+        subExchangeStrategy = new CookwareHaveFoodPattern();
     }
     public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
     {

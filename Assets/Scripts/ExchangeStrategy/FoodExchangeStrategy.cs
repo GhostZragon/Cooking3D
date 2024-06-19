@@ -1,4 +1,4 @@
-﻿public class FoodExchangeStrategy : IExchangeStrategy
+﻿public class ExchangeFoodPattern : IExchangeStrategy
 {
     public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
     {

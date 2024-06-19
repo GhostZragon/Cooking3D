@@ -10,9 +10,9 @@ public static class ExchangeManager
 {
     private static List<IExchangeStrategy> exchangeStrategies = new List<IExchangeStrategy>()
     {
-        new FoodExchangeStrategy(),
-        new CookwareExchangeStrategy(),
-        new CookwareAndFoodExchangeStrategy()
+        new ExchangeFoodPattern(),
+        new ExchangeCookwarePattern(),
+        new ExchangeCookwareAndFoodPattern()
     };
 
     public static void Exchange(HolderAbstract currentHolder, HolderAbstract holderWantToChange)

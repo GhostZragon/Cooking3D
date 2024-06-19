@@ -49,8 +49,7 @@ public class SourceFoodContainer : BaseContainer<Food>
         if (foodInCrate.Count == maxCount) return;
         var food = FoodManager.instance.GetFoodInstantiate(FoodType, FoodState.Raw);
         food.Init();
-        food.transform.SetParent(transform);
-        food.transform.localPosition = Vector3.zero;
+        food.SetToParentAndPosition(transform);
         food.transform.localPosition = GetRandomSpawnsPosition();
         food.SetStateRb_Col(true,.7f);
         foodInCrate.Add(food);
