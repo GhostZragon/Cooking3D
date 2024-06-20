@@ -37,8 +37,25 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
     private void Convert()
     {
         canTimer = false;
-        if (item == null || item is Cookware) return;
+        if(IsContainFood())
+            ConvertWithFood();
+        else
+            ConvertWithCookware();
+    }
+
+    private void ConvertWithCookware()
+    {
+    }
+
+    private void ConvertWithFood()
+    {
         var food = GetFood();
+        if (food.GetFoodState() == foodStateWantToChange)
+        {
+            Debug.Log("This food already in this state",gameObject);
+            return;
+        }
+
         var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), foodStateWantToChange);
         if (foodData == null) return;
         food.SetData(foodData);

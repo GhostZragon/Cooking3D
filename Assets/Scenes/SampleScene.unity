@@ -637,8 +637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beebdc6fd2ac19d4fba6245e2ea77576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 0}
-  cookware: {fileID: 0}
+  item: {fileID: 0}
   placeTransform: {fileID: 556291406}
   type: 0
 --- !u!114 &70691135
@@ -1343,8 +1342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5166c04c99274085943db53e0668bfaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 0}
-  cookware: {fileID: 0}
+  item: {fileID: 0}
   placeTransform: {fileID: 2004292403}
   type: 1
   foodStateWantToChange: 2
@@ -1865,8 +1863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad37a6e3b2b527249889c4cd5e847f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 0}
-  cookware: {fileID: 0}
+  item: {fileID: 0}
   placeTransform: {fileID: 1993394956}
   type: 0
 --- !u!65 &265840082
@@ -3179,8 +3176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad37a6e3b2b527249889c4cd5e847f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 0}
-  cookware: {fileID: 0}
+  item: {fileID: 0}
   placeTransform: {fileID: 63830413}
   type: 0
 --- !u!65 &404891293
@@ -3799,8 +3795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad37a6e3b2b527249889c4cd5e847f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 0}
-  cookware: {fileID: 0}
+  item: {fileID: 0}
   placeTransform: {fileID: 715200077}
   type: 0
 --- !u!65 &479641289
