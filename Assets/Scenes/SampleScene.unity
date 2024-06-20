@@ -2673,7 +2673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbaee5833f186f3459ca04eddd854b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obj: {fileID: 0}
   StandPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &340682264
 PrefabInstance:
