@@ -7,6 +7,12 @@ public class UITextPopupHandle : MonoBehaviour
 {
     public UITextPopup UITextPopupPrefab;
     public static Action<Vector3,string, Color> ShowTextAction;
+    UITextPool _UITextPopupPool;
+    private void Awake()
+    {
+        _UITextPopupPool = new UITextPool(UITextPopupPrefab, 5,transform);
+    }
+
 
     private void OnEnable()
     {
@@ -28,9 +34,15 @@ public class UITextPopupHandle : MonoBehaviour
 
     private void ShowText(Vector3 position,string text,Color color)
     {
-        var UITextPopup = Instantiate(UITextPopupPrefab, transform);
+        UITextPopup UITextPopup = _UITextPopupPool.Get();
+        UITextPopup.OnCallback = (popup) =>
+        {
+            _UITextPopupPool.Release(popup);
+        };
+        Debug.Log("Position: "+position);
+        UITextPopup.transform.localPosition = position;
         UITextPopup.SetText(text, color);
-        UITextPopup.DoAnimation();
+        UITextPopup.DoLocalAnimation();
         UITextPopup.SetStandPosition(position);
     }
 

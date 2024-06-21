@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -5,15 +6,20 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
-public class UITextPopup : MonoBehaviour
+public interface PoolCallback<T>
+{
+    Action<T> OnCallback { get; set; }
+}
+public class UITextPopup : MonoBehaviour,PoolCallback<UITextPopup>
 {
     [SerializeField] private TextMeshProUGUI TextMeshProUGUI;
     [SerializeField] private float yPos = 80;
-    private bool isAnimated = false;
     [SerializeField] private UIHoldWorldPosition UIHoldWorldPosition;
+    private bool isAnimated = false;
     private void OnEnable()
     {
         isAnimated = false;
+        TextMeshProUGUI.transform.localPosition = Vector3.zero;
     }
 
     private void Awake()
@@ -26,7 +32,7 @@ public class UITextPopup : MonoBehaviour
         TextMeshProUGUI.color = color;
     }
     [Button]
-    public void DoAnimation()
+    public void DoLocalAnimation()
     {
         if (isAnimated)
         {
@@ -36,7 +42,7 @@ public class UITextPopup : MonoBehaviour
         isAnimated = true;
         TextMeshProUGUI.transform.DOLocalMoveY(80, 1).OnComplete(() =>
         {
-            Destroy(gameObject);
+            OnCallback?.Invoke(this);
         }).SetEase(Ease.Linear);
     }
 
@@ -44,4 +50,6 @@ public class UITextPopup : MonoBehaviour
     {
         UIHoldWorldPosition.SetStandPosition(worldPosition);
     }
+
+    public Action<UITextPopup> OnCallback { get; set; }
 }
