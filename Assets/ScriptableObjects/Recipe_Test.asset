@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57cfbe429ab73af419687d40f3c05f86, type: 3}
-  m_Name: Recipe
+  m_Name: Recipe_Test
   m_EditorClassIdentifier: 
   foodNeed:
   - {fileID: 11400000, guid: fffc94b03e30e634f9e27c6a72cd1008, type: 2}

@@ -19,4 +19,13 @@ public class Recipes : ScriptableObject
         }
         return false;
     }
+    public bool IsValid(List<FoodData> foodDatas)
+    {
+        if (foodDatas.Count != foodNeed.Count) return false;
+        foreach(var food in foodNeed)
+        {
+            if (!foodDatas.Contains(food)) return false;
+        }
+        return true;
+    }
 }

@@ -10,7 +10,6 @@ public class FoodDatabase : ScriptableObject
     public FoodType FoodType;
     public GameObject modelObj;
     public string path = "Assets/ScriptableObjects/FoodData";
-
     // [ContextMenu("Create Item")]
     [Button]
     private void CreateFoodData()

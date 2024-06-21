@@ -33,6 +33,7 @@ public partial class ExchangeCookwareAndFoodPattern
             Cookware targetCookware = holder1.GetCookware();
             Food targetFood = holder2.GetFood();
             Food foodInCookware = targetCookware.GetFood();
+            Debug.LogWarning("TODO: Combine food feature here");
             if (targetCookware.CanPutFoodIn(targetFood) && holder2.CanPutFoodIn())
             {
                 targetCookware.Add(targetFood);

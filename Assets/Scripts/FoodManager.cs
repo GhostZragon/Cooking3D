@@ -41,4 +41,9 @@ public class FoodManager : MonoBehaviour
         food.SetModel();
         return food;
     }
+
+    public bool CanCombineFood(Food food1,Food food2)
+    {
+        return true;
+    }
 }

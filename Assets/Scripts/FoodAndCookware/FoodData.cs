@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class FoodData : ScriptableObject
 {
     [SerializeField] private GameObject modelObj;
