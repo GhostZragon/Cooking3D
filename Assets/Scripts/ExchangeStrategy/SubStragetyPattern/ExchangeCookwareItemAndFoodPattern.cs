@@ -59,7 +59,7 @@ public partial class ExchangeCookwareAndFoodPattern
                 
                 holder2.DiscardFood();
             }
-            else if (targetCookware.CanPutFoodIn(targetFood) && holder2.CanPutFoodIn())
+            else if (targetCookware.CanPutFoodIn(targetFood) && holder2.CanHoldFood(foodInCookware))
             {
                 // swap food of COOKWARE and food of holder
                 

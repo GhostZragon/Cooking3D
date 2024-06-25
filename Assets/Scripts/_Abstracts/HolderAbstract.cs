@@ -51,13 +51,12 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public void SwapCookwareTwoWay(HolderAbstract holder)
     {
+        var cookware1 = holder.GetCookware();
+        var cookware2 = GetCookware();
         // TODO: Some container cannot put plate in ?, pls change it
         // Debug.LogWarning("TODO: Some container cannot put plate in ?, pls change it");
-        if (CanPutCookwareIn() && holder.CanPutCookwareIn())
+        if (CanContainCookware(cookware1) && holder.CanContainCookware(cookware2))
         {
-            var cookware1 = holder.GetCookware();
-            var cookware2 = GetCookware();
-
             holder.SetItem(cookware2);
             SetItem(cookware1);
         }
@@ -65,21 +64,45 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     public void SwapFoodTwoWay(HolderAbstract holder)
     {
-        if (CanPutFoodIn() && holder.CanPutFoodIn())
-        {
-            var food1 = holder.GetFood();
-            var food2 = GetFood();
 
+        var food1 = holder.GetFood();
+        var food2 = GetFood();
+        if (CanHoldFood(food1) && holder.CanHoldFood(food2))
+        {
             holder.SetItem(food2);
             SetItem(food1);
         }
     }
 
-    public bool CanPutFoodIn() => type == ContainerType.Food || type == ContainerType.All;
-    public bool CanPutCookwareIn() => type == ContainerType.Cookware || type == ContainerType.All;
-    // public void SetFood(Food newFood) => ResetItem<Food>(newFood, ref this.food);
-    // public void SetPlate(Cookware newCookware) => ResetItem<Cookware>(newCookware, ref this.cookware);
+    public bool CanHoldFood(Food food)
+    {
+        if (CanHoldType(ContainerType.Food) == false) return false;
+        return true;
+    }
+    public bool CanContainCookware(Cookware cookware)
+    {
+        if (CanHoldType(ContainerType.Cookware) == false) return false;
+        return true;
+    }
+    
+    private bool CanHoldType(ContainerType _Type)
+    {
+        return _Type == ContainerType.Food || type == ContainerType.All;
+    }
+    public bool CanPutItem(PickUpAbtract item)
+    {
+        if (item == null) return false;
 
+        if(item is Food && CanHoldFood(item as Food))
+        {
+            return true;
+        }
+        else if(item is Cookware && CanContainCookware(item as Cookware))
+        {
+            return true;
+        }
+        return false;
+    }
     public bool IsContainFoodInCookware()
     {
         return GetCookware() != null && GetCookware() .IsContainFoodInPlate();
