@@ -1,4 +1,7 @@
 using NaughtyAttributes;
+using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public interface IOnDoAction
@@ -8,62 +11,101 @@ public interface IOnDoAction
 public class ProcressContainer : HolderAbstract, IOnDoAction
 {
     [SerializeField] private FoodState foodStateWantToChange;
-    [SerializeField] private float timer;
+    
     [SerializeField] private bool canTimer;
-    [SerializeField] private bool isConvert;
+    [SerializeField] private bool isProcessItem;
+    
+    [SerializeField] private float timer;
     [SerializeField] private float timeToConvert = 1;
 
-    private void Update()
+    [SerializeField] private UIFoodProcessBar uiProcessBar;
+
+    
+    IFoodProcess<Food> foodProcess;
+    [SerializeField] private bool infinityConvert;
+    
+    private void Awake()
     {
-        if (canTimer)
+        foodProcess = new FoodProcess(foodStateWantToChange);
+    }
+
+    
+    public void DoAction()
+    {
+        Debug.Log("Call");
+        if (item == null || isProcessItem) return;
+
+        if (foodProcess.CanConvert(GetFood()))
         {
-            timer += Time.deltaTime;
-            if (timer >= timeToConvert)
+            StartCoroutine(StartConvert(() =>
             {
-                Convert();
+                foodProcess.Convert(GetFood());
+            }));
+        }
+
+    }
+ 
+    private IEnumerator StartConvert(Action callback)
+    {
+        if (uiProcessBar != null || isProcessItem) yield break;
+        isProcessItem = true;
+        uiProcessBar = UIFoodProcessBarManager.instance.GetUIElement(placeTransform.position);
+
+        while (timer <= timeToConvert)
+        {
+            if (uiProcessBar != null && timer >= 0 && timer <= timeToConvert)
+            {
+                uiProcessBar.SetFillAmount(timer / timeToConvert);
             }
+
+            timer += Time.deltaTime;
+
+            yield return new WaitForEndOfFrame();
         }
-    }
-    
-    void StartTimer()
-    {
-        if (item != null)
+
+        if (infinityConvert == false)
         {
-            canTimer = true;
+            callback?.Invoke();
         }
+        timer = 0;
+        uiProcessBar?.OnRelease();
+        uiProcessBar = null;
+        isProcessItem = false;
     }
-    
-    [Button]
-    private void Convert()
+}
+public class FoodProcess : IFoodProcess<Food>
+{
+    public FoodProcess(FoodState newFoodState)
     {
-        canTimer = false;
-        if(IsContainFood())
-            ConvertWithFood();
-        else
-            ConvertWithCookware();
+        foodStateWantToChange = newFoodState;
     }
-
-    private void ConvertWithCookware()
+    public FoodState foodStateWantToChange;
+    public void Convert(Food food)
     {
-    }
-
-    private void ConvertWithFood()
-    {
-        var food = GetFood();
-        if (food.GetFoodState() == foodStateWantToChange)
-        {
-            Debug.Log("This food already in this state",gameObject);
-            return;
-        }
-
         var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), foodStateWantToChange);
         if (foodData == null) return;
         food.SetData(foodData);
         food.SetModel();
     }
-
-    public void DoAction()
+    public bool CanConvert(Food food)
     {
-        StartTimer();
+        return food.GetFoodState() != foodStateWantToChange;
     }
+}
+
+public class FoodInCookwareProcess : IFoodProcess<Cookware>
+{
+    public bool CanConvert(Cookware heldItem)
+    {
+        return true;
+    }
+
+    public void Convert(Cookware heldItem)
+    {
+    }
+}
+public interface IFoodProcess<T>
+{
+    bool CanConvert(T heldItem);
+    void Convert(T heldItem);
 }

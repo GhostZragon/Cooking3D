@@ -6,7 +6,7 @@ using UnityEngine;
 public class Recipes : ScriptableObject
 {
     [SerializeField] private List<FoodData> foodNeed;
-
+    [SerializeField] private FoodData foodResult;
     public bool IsContain(FoodData foodDataNeedToCheck)
     {
         if (foodDataNeedToCheck == null) return false;
@@ -27,5 +27,10 @@ public class Recipes : ScriptableObject
             if (!foodDatas.Contains(food)) return false;
         }
         return true;
+    }
+    public FoodData FoodResult
+    {
+        get => foodResult;
+        set => foodResult = value;
     }
 }

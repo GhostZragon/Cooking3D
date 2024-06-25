@@ -14,11 +14,14 @@ public class ContainerBuilderManager : ScriptableObject
     private void LoadAllFoodPrefab()
     {
         string[] guids = AssetDatabase.FindAssets("l:food");
+        
         foodList.Clear();
+        
         foreach (var guid in guids)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
             var food = AssetDatabase.LoadAssetAtPath<Food>(path);
+        
             foodList.Add(InitFoodContainer(food));
         }
     }

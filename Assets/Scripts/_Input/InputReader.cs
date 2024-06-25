@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-[CreateAssetMenu(fileName = "Input Reader",menuName = "3DGame/Input Reader")]
+[CreateAssetMenu(fileName = "Input Reader", menuName = "3DGame/Input Reader")]
 public class InputReader : ScriptableObject, PlayerInputAction.IPlayerActions
 {
     public event UnityAction<Vector2> Move;
     public event UnityAction Interact;
-    public event UnityAction DoAction; 
+    public event UnityAction DoAction;
 
     private PlayerInputAction inputAction;
     public Vector3 Direction => inputAction.Player.Move.ReadValue<Vector2>();
@@ -50,6 +50,9 @@ public class InputReader : ScriptableObject, PlayerInputAction.IPlayerActions
 
     public void OnDoAction(InputAction.CallbackContext context)
     {
-        DoAction?.Invoke();
+        if (context.performed)
+        {
+            DoAction?.Invoke();
+        }
     }
 }

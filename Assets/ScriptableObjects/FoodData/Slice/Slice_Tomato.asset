@@ -15,3 +15,4 @@ MonoBehaviour:
   modelObj: {fileID: 919132149155446097, guid: a656b54893c3ccf498768a665eff9457, type: 3}
   foodState: 2
   foodType: 1
+  mesh: {fileID: 4300000, guid: 9b6c0f7c6a54c8b4782bc316d78bc841, type: 2}

@@ -9,21 +9,48 @@ using UnityEngine;
 public interface PoolCallback<T>
 {
     Action<T> OnCallback { get; set; }
+    void OnRelease();
 }
-public class UITextPopup : MonoBehaviour,PoolCallback<UITextPopup>
+[RequireComponent(typeof(UIHoldWorldPosition))]
+public class UIWorldSpace : MonoBehaviour
+{
+    protected UIHoldWorldPosition UIHoldWorldPosition;
+
+    protected virtual void Awake()
+    {
+        UIHoldWorldPosition = GetComponent<UIHoldWorldPosition>();
+    }
+
+    public void SetStandPosition(Vector3 worldPosition)
+    {
+        if(UIHoldWorldPosition == null)
+        {
+            Debug.Log("null");
+            return;
+        }
+        UIHoldWorldPosition.SetStandPosition(worldPosition);
+    }
+
+}
+public class UITextPopup : UIWorldSpace, PoolCallback<UITextPopup>
 {
     [SerializeField] private TextMeshProUGUI TextMeshProUGUI;
     [SerializeField] private float yPos = 80;
-    [SerializeField] private UIHoldWorldPosition UIHoldWorldPosition;
     private bool isAnimated = false;
     private void OnEnable()
     {
         isAnimated = false;
         TextMeshProUGUI.transform.localPosition = Vector3.zero;
     }
-
-    private void Awake()
+    private void OnDisable()
     {
+        transform.DOKill();
+        TextMeshProUGUI.transform.DOKill();
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         TextMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
     }
     public void SetText(string text,Color color)
@@ -46,9 +73,9 @@ public class UITextPopup : MonoBehaviour,PoolCallback<UITextPopup>
         }).SetEase(Ease.Linear);
     }
 
-    public void SetStandPosition(Vector3 worldPosition)
+    public void OnRelease()
     {
-        UIHoldWorldPosition.SetStandPosition(worldPosition);
+        OnCallback?.Invoke(this);
     }
 
     public Action<UITextPopup> OnCallback { get; set; }

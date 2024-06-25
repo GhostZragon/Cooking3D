@@ -1,18 +1,14 @@
+using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 public class FoodData : ScriptableObject
 {
-    [SerializeField] private GameObject modelObj;
+    [SerializeField] private Mesh mesh;
     [SerializeField] private FoodState foodState;
     [SerializeField] private FoodType foodType;
 
-    public GameObject ModelObj
-    {
-        get => modelObj;
-        set => modelObj = value;
-    }
-
+  
     public FoodState FoodState
     {
         get => foodState;
@@ -23,5 +19,15 @@ public class FoodData : ScriptableObject
     {
         get => foodType;
         set => foodType = value;
+    }
+
+    public Mesh GetMesh()
+    {
+        return mesh;
+    }
+    [Button]
+    private void Test()
+    {
+        Debug.Log(GetMesh().name);
     }
 }

@@ -1,6 +1,6 @@
 using NaughtyAttributes;
+using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class HolderAbstract : MonoBehaviour, IHolder
 {
@@ -84,6 +84,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         return GetCookware() != null && GetCookware() .IsContainFoodInPlate();
     }
+    
     public void SetItem(PickUpAbtract newItem)
     {
         ResetItem(newItem);
@@ -129,5 +130,10 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         var cookware = GetCookware();
         if (cookware == null) return CookwareType.None;
         return cookware.GetCookwareType();
+    }
+
+    public ContainerType GetContainerType()
+    {
+        return type;
     }
 }

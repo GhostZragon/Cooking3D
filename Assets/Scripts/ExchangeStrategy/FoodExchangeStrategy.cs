@@ -1,4 +1,11 @@
-﻿public class ExchangeFoodPattern : IExchangeStrategy
+﻿/// <summary>
+/// Condition:
+/// Holder 1 or Holder2 containd Food
+/// Holder 1 or Holder2 not have cookware
+/// Swap:
+/// Normaly swap food 
+/// </summary>
+public class ExchangeFoodPattern : IExchangeStrategy
 {
     public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
     {

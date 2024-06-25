@@ -6,44 +6,65 @@ using UnityEngine;
 public class FoodManager : MonoBehaviour
 {
     public static FoodManager instance;
+    private const string mat_Name = "restaurantbits_mat";
+    
+    [SerializeField] private FoodDatabase FoodDatabase;
+    [SerializeField] private Food foodPrefab;
+    [SerializeField] private Recipes Recipes;
+    [SerializeField] private Material food_mat;
+
 
     private void Awake()
     {
         instance = this;
     }
 
-    [SerializeField] private FoodDatabase FoodDatabase;
-    [SerializeField] private Food foodPrefab;
-    
+    private void OnValidate()
+    {
+        if (food_mat == null)
+        {
+            Debug.Log(mat_Name);
+            food_mat = Resources.Load<Material>("mat_Name");
+        }
+        if(foodPrefab == null)
+        {
+            Debug.LogWarning("Food uiItemPrefab is null", gameObject);
+        }
+    }
+
     public Food GetFoodInstantiate(FoodType foodType, FoodState foodState)
     {
-        var foodData = FoodDatabase.GetFoodData(foodState, foodType);
-        if (foodData == null)
-        {
-            Debug.LogError("This data of food is null");
-            return null;
-        }
-
-        var food = CreateFood(foodData);
+        return InitFoodState(FoodDatabase.GetFoodData(foodState, foodType));
+    }
+    public Food GetFoodInstantiate(FoodData foodData)
+    {
+        return InitFoodState(foodData);
+    }
+    private Food InitFoodState(FoodData foodData)
+    {
+        var food = Instantiate(foodPrefab);
+        food.SetData(foodData);
+        var skin = food.GetComponent<FoodCustomizeMesh>();
+        skin.SetMaterial(food_mat);
+        skin.SetMesh(foodData.GetMesh());
         return food;
     }
+
 
     public FoodData GetFoodData(FoodType foodType, FoodState foodState)
     {
         return FoodDatabase.GetFoodData(foodState, foodType);
     }
 
-    private Food CreateFood(FoodData foodData)
+    public bool CanCombineFood(Food food1,Food food2,out FoodData foodData)
     {
-        if (foodPrefab == null) return null;
-        var food = Instantiate(foodPrefab);
-        food.SetData(foodData);
-        food.SetModel();
-        return food;
-    }
-
-    public bool CanCombineFood(Food food1,Food food2)
-    {
-        return true;
+        foodData = null;
+        var list = new List<FoodData> {food1.GetData(), food2.GetData()};
+        if (Recipes.IsValid(list))
+        {
+            foodData = Recipes.FoodResult;
+            return true;
+        }
+        return false;
     }
 }

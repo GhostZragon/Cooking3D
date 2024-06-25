@@ -1,13 +1,37 @@
+using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIFoodProcessBar : MonoBehaviour
+public class UIFoodProcessBar : UIWorldSpace, PoolCallback<UIFoodProcessBar>
 {
     [SerializeField] private Image fillImg;
-    private void Awake()
+    [SerializeField] private Image Background;
+
+    public Action<UIFoodProcessBar> OnCallback { get; set; }
+
+    protected override void Awake()
     {
+        base.Awake();
+    }
+    [Button]
+    public void Show()
+    {
+        SetActive(true);
+    }
+
+    [Button]
+    public void Hide()
+    {
+        SetActive(false);
+    }
+
+    private void SetActive(bool enable)
+    {
+        fillImg.gameObject.SetActive(enable);
+        Background.gameObject.SetActive(enable);
     }
 
     public void SetFillAmount(float amount)
@@ -15,10 +39,8 @@ public class UIFoodProcessBar : MonoBehaviour
         fillImg.fillAmount = amount;
     }
 
-
-}
-public class UIFoodProcessBarManager : MonoBehaviour
-{
-    public UIFoodProcessBar foodProcessBarPrefab;
-    
+    public void OnRelease()
+    {
+        OnCallback?.Invoke(this);
+    }
 }
