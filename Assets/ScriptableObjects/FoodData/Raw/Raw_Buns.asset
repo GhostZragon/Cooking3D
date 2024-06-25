@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelObj: {fileID: 919132149155446097, guid: 2f476da85bdd00d41b4366eb877fe999, type: 3}
   foodState: 0
-  foodType: 2
+  foodType: 3
+  mesh: {fileID: 4300000, guid: 1dbf79d3c87263a43be7ee6f12995d51, type: 2}

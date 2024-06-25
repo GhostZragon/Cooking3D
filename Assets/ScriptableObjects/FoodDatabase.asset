@@ -26,3 +26,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 42c10570c18e9f2418829822c63bf620, type: 2}
   CookedFood:
   - {fileID: 11400000, guid: fffc94b03e30e634f9e27c6a72cd1008, type: 2}
+  defaultFoodData: {fileID: 11400000, guid: 708c3f66d10b1e347bbc483d725efae6, type: 2}

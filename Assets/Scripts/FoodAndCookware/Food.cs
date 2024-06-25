@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,22 +36,22 @@ public struct RuntimeFoodData
 
     public GameObject Model;
 }
-
 public class Food : PickUpAbtract
 {
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private Collider[] Colliders;
     [SerializeField] private FoodData foodData;
-    [SerializeField] private Transform model;
-
+    [SerializeField] private MeshCollider meshCollider;
+    [SerializeField] private FoodCustomizeMesh foodCustomizeMesh;
+  
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        meshCollider = GetComponent<MeshCollider>();
+        foodCustomizeMesh = GetComponent<FoodCustomizeMesh>();
     }
 
     public void Init()
     {
-        Colliders = GetComponentsInChildren<Collider>();
         SetStateRb_Col(false, .7f);
     }
 
@@ -58,26 +59,10 @@ public class Food : PickUpAbtract
     {
         if (data == null) return;
         this.foodData = data;
+        transform.name = $"Food_{data.FoodType.ToString()}_{data.FoodState.ToString()}";
     }
 
-    public void SetModel()
-    {
-        if (foodData == null) return;
-        if (model != null) DestroyModel();
-        model = Instantiate(foodData.ModelObj, Vector3.zero, Quaternion.identity, transform).transform;
-        model.transform.localPosition = Vector3.zero;
-        var mesh = model.AddComponent<MeshCollider>();
-        mesh.convex = true;
-        mesh.gameObject.layer = LayerMask.NameToLayer("Food");
-        
-    }
-    private void DestroyModel()
-    {
-        Destroy(model.gameObject);
-        model = null;
-    }
-
-    public FoodState GetCurrentFoodState()
+    public FoodState GetFoodState()
     {
         return foodData.FoodState;
     }
@@ -87,19 +72,31 @@ public class Food : PickUpAbtract
         return foodData.FoodType;
     }
 
-    public void Delete()
-    {
-        Destroy(gameObject);
-    }
-
     public void SetStateRb_Col(bool enable, float scaleRatio = 1)
     {
-        foreach (var col in Colliders) col.enabled = enable;
+        meshCollider.enabled = enable;
+
         rb.useGravity = enable;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
         transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.localScale = Vector3.one * scaleRatio;
     }
 
+
+    public override void Discard()
+    {
+        Destroy(gameObject);
+    }
+
+    public FoodData GetData()
+    {
+        return foodData;
+    }
+
+    internal void SetModel()
+    {
+        foodCustomizeMesh.SetMesh(foodData.GetMesh());
+    }
 }

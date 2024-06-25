@@ -14,24 +14,28 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private InputReader input;
     [Header("Settings")] 
     [SerializeField] private LayerMask interactMask;
+    [SerializeField] private Color rayColor = Color.red;
     [SerializeField] private float timer = 0;
     [SerializeField] private float InteractionCooldown = .1f;
     [SerializeField] private float rayDistance = 5f;
-    [SerializeField] private Color rayColor = Color.red;
-    public float yOffset;
+    
     private Vector3 ForwardDirection;
     private Vector3 LeftDirection;
     private Vector3 RightDirection;
     private Vector3 RayOrigin;
 
+    public float yOffset;
+    
     private void Awake()
     {
         input.Interact += HandleInteract;
+        input.DoAction += DoAction;
     }
     
     private void OnDestroy()
     {
         input.Interact -= HandleInteract;
+        input.DoAction -= DoAction;
     }
 
     private void Update()
@@ -107,13 +111,21 @@ public class PlayerInteract : MonoBehaviour
     [Button]
     private void HandleInteract()
     {
-        if (timer < 0.1f) return;
+        if (timer < InteractionCooldown) return;
         timer = 0;
         // Debug.Log("Interact");
         if (currentContainer == null) return;
         if (currentContainer.TryGetComponent(out IHolder iholder))
         {
             iholder.ExchangeItems(playerHolder);
+        }
+    }
+
+    private void DoAction()
+    {
+        if (currentContainer.TryGetComponent(out IOnDoAction IonDoAction))
+        {
+            IonDoAction?.DoAction();
         }
     }
 }

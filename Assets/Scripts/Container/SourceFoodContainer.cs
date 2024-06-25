@@ -47,26 +47,35 @@ public class SourceFoodContainer : BaseContainer<Food>
     private void SpawnFood()
     {
         if (foodInCrate.Count == maxCount) return;
-        var food = FoodManager.instance.GetFoodInstantiate(FoodType, FoodState.Raw);
-        food.Init();
-        food.transform.SetParent(transform);
-        food.transform.localPosition = Vector3.zero;
-        food.transform.localPosition = GetRandomSpawnsPosition();
-        food.SetStateRb_Col(true,.7f);
-        foodInCrate.Add(food);
+        foodInCrate.Add(CreateFood());
         timer = 0;
     }
 
- 
+    private Food CreateFood()
+    {
+        var food = FoodManager.instance.GetFoodInstantiate(FoodType, FoodState.Raw);
+        food.Init();
+        food.SetToParentAndPosition(transform);
+        food.transform.localPosition = GetRandomSpawnsPosition();
+        food.SetStateRb_Col(true,.7f);
+        return food;
+    }
+
+    
     public override void ExchangeItems(HolderAbstract player)
     {
         if (foodInCrate.Count == 0) return;
         if (CanStopContinueSwap(player) == false) return;
+        player.SetItem(GetFoodInList());
+        // Debug.Log("Set food to player");
+    }
+
+    private Food GetFoodInList()
+    {
         var food = foodInCrate[foodInCrate.Count - 1];
         food.SetStateRb_Col(false,1f);
-        player.SetFood(food);
         foodInCrate.Remove(food);
-        // Debug.Log("Set food to player");
+        return food;
     }
 
     private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;
