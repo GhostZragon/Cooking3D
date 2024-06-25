@@ -62,8 +62,15 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
 
             yield return new WaitForEndOfFrame();
         }
-
-        if (infinityConvert == false)
+        
+        if (Application.isEditor)
+        {
+            if (infinityConvert == false)
+            {
+                callback?.Invoke();
+            }
+        }
+        else
         {
             callback?.Invoke();
         }
