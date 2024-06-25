@@ -40,7 +40,10 @@ public class Cookware : PickUpAbtract
     }
 
     public CookwareType GetCookwareType() => type;
-
+    public void SetCookwareType(CookwareType newType)
+    {
+        type = newType;
+    }
     public override void Discard()
     {
     }

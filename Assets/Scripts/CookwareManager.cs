@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CookwareManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public CookwareData cookwareData;
 
-    // Update is called once per frame
-    void Update()
+    public Cookware cookwarePrefab;
+
+    public Cookware GetCookware(CookwareType type)
     {
-        
+        var cookware = Instantiate(cookwarePrefab);
+        cookware.SetCookwareType(type);
+        return cookware;
     }
+   
 }

@@ -1,12 +1,10 @@
-using System;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
-using NaughtyAttributes;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SourceFoodContainer : BaseContainer<Food>
+public class SourceFoodContainer : MonoBehaviour, IHolder
 {
     private BoxCollider BoxCollider;
     [SerializeField] private FoodType FoodType;
@@ -36,12 +34,12 @@ public class SourceFoodContainer : BaseContainer<Food>
             timer = 0;
             SpawnFood();
         }
-        
+
         if (timer <= timeToSpawn)
         {
             timer += Time.deltaTime;
         }
-        
+
     }
     [Button]
     private void SpawnFood()
@@ -57,15 +55,15 @@ public class SourceFoodContainer : BaseContainer<Food>
         food.Init();
         food.SetToParentAndPosition(transform);
         food.transform.localPosition = GetRandomSpawnsPosition();
-        food.SetStateRb_Col(true,.7f);
+        food.SetStateRb_Col(true, .7f);
         return food;
     }
 
-    
-    public override void ExchangeItems(HolderAbstract player)
+
+    public void ExchangeItems(HolderAbstract player)
     {
         if (foodInCrate.Count == 0) return;
-        if (CanStopContinueSwap(player) == false) return;
+        if (player.IsContainFood() || player.IsContainCookware()) return;
         player.SetItem(GetFoodInList());
         // Debug.Log("Set food to player");
     }
@@ -73,7 +71,7 @@ public class SourceFoodContainer : BaseContainer<Food>
     private Food GetFoodInList()
     {
         var food = foodInCrate[foodInCrate.Count - 1];
-        food.SetStateRb_Col(false,1f);
+        food.SetStateRb_Col(false, 1f);
         foodInCrate.Remove(food);
         return food;
     }
@@ -83,8 +81,8 @@ public class SourceFoodContainer : BaseContainer<Food>
 
     private Vector3 GetRandomSpawnsPosition()
     {
-        var minX = BoxCollider.size.x / 2 -.15f;
-        var minZ = BoxCollider.size.z / 2 -.15f;
+        var minX = BoxCollider.size.x / 2 - .15f;
+        var minZ = BoxCollider.size.z / 2 - .15f;
         return new Vector3(Random.Range(-minX, minX), Random.Range(1, 1.3f), Random.Range(-minZ, minZ));
     }
 }
