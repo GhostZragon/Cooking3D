@@ -3,13 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
-
-public class ContainerSelect : MonoBehaviour
+public interface ITriggerProcress
 {
-    public Material normalMat;
-    public Material selectMat;
-    public MeshRenderer mesh;
-    public bool testSelect;
+    bool OnTrigger { get; set; }
+}
+public class ContainerSelect : MonoBehaviour, ITriggerProcress
+{
+    [SerializeField] private Material normalMat;
+    [SerializeField] private Material selectMat;
+    [SerializeField] private MeshRenderer mesh;
+    [SerializeField] private bool testSelect;
+
+    public bool OnTrigger { get; set; }
 
     private void OnValidate()
     {
@@ -29,11 +34,13 @@ public class ContainerSelect : MonoBehaviour
     public void SetNormal()
     {
         mesh.material = normalMat;
+        OnTrigger = false;
     }
 
     [Button]
     public void SetSelect()
     {
         mesh.material = selectMat;
+        OnTrigger = true;
     }
 }

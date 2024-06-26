@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CustomerContainer : Container
 {
+    [SerializeField] private bool allowNotContainFood = false;
     private void SpawnText(string text,Color color)
     {
         UITextPopupHandle.ShowTextAction?.Invoke(placeTransform.position, text, color);
@@ -20,10 +21,10 @@ public class CustomerContainer : Container
 
     private bool CanDeliverFood(HolderAbstract player)
     {
-        if (player.IsContainFoodInCookware() == false) return false;
-        if (player.GetCookwareType() != CookwareType.Plate) return false;
+
+        if (player.IsContainFoodInCookware() == false && allowNotContainFood == false) return false;
+        if (player.GetCookwareType() != CookwareType.Plate && allowNotContainFood == false) return false;
         var food = player.GetCookware().GetFood();
-        Debug.Log("Food name: "+food.name);
         player.DiscardCookware();
         return true;
     }

@@ -65,12 +65,12 @@ public class PlayerInteract : MonoBehaviour
 
     private void DrawRay()
     {
-        if (GetRay(ForwardDirection) || GetRay(RightDirection) || GetRay(LeftDirection))
+        if (HandleSelectRay(ForwardDirection) || HandleSelectRay(RightDirection) || HandleSelectRay(LeftDirection))
         {
         }
     }
 
-    private bool GetRay(Vector3 to)
+    private bool HandleSelectRay(Vector3 to)
     {
         Ray ray = new Ray(RayOrigin, to);
         if (Physics.Raycast(RayOrigin, to, out var hitInfo, rayDistance, interactMask))
@@ -118,6 +118,11 @@ public class PlayerInteract : MonoBehaviour
         if (currentContainer.TryGetComponent(out IHolder iholder))
         {
             iholder.ExchangeItems(playerHolder);
+            var cookware = playerHolder.GetCookware();
+            if (cookware != null)
+            {
+                cookware.transform.localRotation = Quaternion.identity;
+            }
         }
     }
 

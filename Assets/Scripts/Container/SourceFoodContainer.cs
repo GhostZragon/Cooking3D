@@ -6,12 +6,22 @@ using Random = UnityEngine.Random;
 
 public class SourceFoodContainer : MonoBehaviour, IHolder
 {
-    private BoxCollider BoxCollider;
     [SerializeField] private FoodType FoodType;
-    [SerializeField] private List<Food> foodInCrate = new List<Food>();
     [SerializeField] private int maxCount = 5;
     [SerializeField] private float timer;
+
+    private BoxCollider BoxCollider;
     private float timeToSpawn = 1;
+    [SerializeField] private List<Food> foodInCrate = new List<Food>();
+
+    public void ExchangeItems(HolderAbstract player)
+    {
+        if (foodInCrate.Count == 0) return;
+        if (player.IsContainFood() || player.IsContainCookware()) return;
+        player.SetItem(GetFoodInList());
+        // Debug.Log("Set food to player");
+    }
+
     private void Awake()
     {
         BoxCollider = GetComponent<BoxCollider>();
@@ -27,6 +37,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
             yield return new WaitForSeconds(.2f);
         }
     }
+
     private void Update()
     {
         if (NeedSpawnItem())
@@ -39,14 +50,22 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
         {
             timer += Time.deltaTime;
         }
-
     }
+    private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;
+
     [Button]
     private void SpawnFood()
     {
         if (foodInCrate.Count == maxCount) return;
         foodInCrate.Add(CreateFood());
         timer = 0;
+    }
+    private Food GetFoodInList()
+    {
+        var food = foodInCrate[foodInCrate.Count - 1];
+        food.SetStateRb_Col(false, 1f);
+        foodInCrate.Remove(food);
+        return food;
     }
 
     private Food CreateFood()
@@ -60,23 +79,6 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     }
 
 
-    public void ExchangeItems(HolderAbstract player)
-    {
-        if (foodInCrate.Count == 0) return;
-        if (player.IsContainFood() || player.IsContainCookware()) return;
-        player.SetItem(GetFoodInList());
-        // Debug.Log("Set food to player");
-    }
-
-    private Food GetFoodInList()
-    {
-        var food = foodInCrate[foodInCrate.Count - 1];
-        food.SetStateRb_Col(false, 1f);
-        foodInCrate.Remove(food);
-        return food;
-    }
-
-    private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;
 
 
     private Vector3 GetRandomSpawnsPosition()

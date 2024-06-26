@@ -19,13 +19,49 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(placeTransform.position, .2f);
     }
-
+    private Transform playerTransform;
     public virtual void ExchangeItems(HolderAbstract player)
     {
         // Debug.Log("On Swap");
+
+        var direction = GetNormalizedDirection(player.transform.position,transform.position);
+        angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg;
+        Debug.Log("Before Angle :" + angle);
+        if (direction != Vector2.up && direction != Vector2.down)
+        {
+            angle -= 180;
+        }
+        Debug.Log("Direction: " + direction);
+        Debug.Log("After Angle :" + angle );
         ExchangeManager.Exchange(this, player);
     }
+    public float angle;
+    public Vector2 GetNormalizedDirection(Vector3 playerPosition, Vector3 holderPosition)
+    {
+        var newPlayerPos = new Vector2(playerPosition.x, playerPosition.z);
+        var newHolderPos = new Vector2(holderPosition.x, holderPosition.z);
+        Vector2 direction = newPlayerPos - newHolderPos;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
+        if (angle >= -45 && angle < 45)
+        {
+            return Vector2.right;
+        }
+        else if (angle >= 45 && angle < 135)
+        {
+            return Vector2.up;
+        }
+        else if (angle >= 135 || angle < -135)
+        {
+            return Vector2.left;
+        }
+        else if (angle >= -135 && angle < -45)
+        {
+            return Vector2.down;
+        }
+
+        return Vector3.zero;
+    }
     public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
     {
         var food1 = holder.GetFood();
@@ -42,7 +78,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
             AddFoodToCookware(food1, cookware2);
             holder.SetItem(null);
         }
-        
+
         void AddFoodToCookware(Food food, Cookware cookware)
         {
             cookware.Add(food);
@@ -84,7 +120,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         if (CanHoldType(ContainerType.Cookware) == false) return false;
         return true;
     }
-    
+
     private bool CanHoldType(ContainerType _Type)
     {
         return _Type == ContainerType.Food || type == ContainerType.All;
@@ -93,11 +129,11 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         if (item == null) return false;
 
-        if(item is Food && CanHoldFood(item as Food))
+        if (item is Food && CanHoldFood(item as Food))
         {
             return true;
         }
-        else if(item is Cookware && CanContainCookware(item as Cookware))
+        else if (item is Cookware && CanContainCookware(item as Cookware))
         {
             return true;
         }
@@ -105,18 +141,24 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     }
     public bool IsContainFoodInCookware()
     {
-        return GetCookware() != null && GetCookware() .IsContainFoodInPlate();
+        return GetCookware() != null && GetCookware().IsContainFoodInPlate();
     }
-    
+
     public void SetItem(PickUpAbtract newItem)
     {
         ResetItem(newItem);
     }
-    
+
     private void ResetItem(PickUpAbtract newItem)
     {
+        
         newItem?.SetToParentAndPosition(placeTransform);
         item = newItem;
+
+        if(item != null)
+        {
+            item.transform.localRotation = Quaternion.Euler(0, angle, 0);
+        }
     }
 
     public void DiscardFood()
@@ -147,7 +189,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         if (food == null) return FoodType.None;
         return food.GetFoodType();
     }
-    
+
     public CookwareType GetCookwareType()
     {
         var cookware = GetCookware();

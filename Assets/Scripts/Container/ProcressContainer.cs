@@ -11,22 +11,23 @@ public interface IOnDoAction
 public class ProcressContainer : HolderAbstract, IOnDoAction
 {
     [SerializeField] private FoodState foodStateWantToChange;
-    
+    [SerializeField] private CookwareType cookwareCanPut;
     [SerializeField] private bool canTimer;
     [SerializeField] private bool isProcessItem;
-    
     [SerializeField] private float timer;
     [SerializeField] private float timeToConvert = 1;
 
     [SerializeField] private UIFoodProcessBar uiProcessBar;
-
     
-    IFoodProcess<Food> foodProcess;
     [SerializeField] private bool infinityConvert;
+    IFoodProcess<Food> foodProcess;
+    ITriggerProcress ITriggerProcess;
+
     
     private void Awake()
     {
         foodProcess = new FoodProcess(foodStateWantToChange);
+        ITriggerProcess = GetComponent<ITriggerProcress>();
     }
 
     
@@ -50,9 +51,11 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         if (uiProcessBar != null || isProcessItem) yield break;
         isProcessItem = true;
         uiProcessBar = UIFoodProcessBarManager.instance.GetUIElement(placeTransform.position);
-
         while (timer <= timeToConvert)
         {
+            if (CanProcess() == false)
+                break;
+
             if (uiProcessBar != null && timer >= 0 && timer <= timeToConvert)
             {
                 uiProcessBar.SetFillAmount(timer / timeToConvert);
@@ -79,6 +82,12 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         uiProcessBar = null;
         isProcessItem = false;
     }
+
+    private bool CanProcess()
+    {
+        if (ITriggerProcess == null) return true;
+        return ITriggerProcess.OnTrigger;
+    }
 }
 public class FoodProcess : IFoodProcess<Food>
 {
@@ -96,7 +105,9 @@ public class FoodProcess : IFoodProcess<Food>
     }
     public bool CanConvert(Food food)
     {
-        return food.GetFoodState() != foodStateWantToChange;
+        bool foodNotSameState = food.GetFoodState() != foodStateWantToChange;
+        bool foodHaveState = FoodManager.instance.CanConvertFood(food, foodStateWantToChange);
+        return foodNotSameState && foodHaveState;
     }
 }
 
@@ -109,6 +120,7 @@ public class FoodInCookwareProcess : IFoodProcess<Cookware>
 
     public void Convert(Cookware heldItem)
     {
+
     }
 }
 public interface IFoodProcess<T>

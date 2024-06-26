@@ -29,4 +29,16 @@ public class CookwareData : ScriptableObject
             new CoowareModelData(CookwareType.Pot)
         };
     }
+
+    public Mesh GetMeshByType(CookwareType type)
+    {
+        foreach(var item in list)
+        {
+            if(item.type == type)
+            {
+                return item.model;
+            }
+        }
+        return null;
+    }
 }

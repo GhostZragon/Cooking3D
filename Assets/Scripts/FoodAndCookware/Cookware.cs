@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum CookwareType
@@ -7,12 +9,19 @@ public enum CookwareType
     Pot,
     Pan,
 }
-
 public class Cookware : PickUpAbtract
 {
+    [Serializable] 
+    public struct CookwareModel
+    {
+        public CookwareType type;
+        public GameObject Model;
+    }
     [SerializeField] private Transform PlaceTransform;
     [SerializeField] private Food FoodInPlates;
     [SerializeField] private CookwareType type;
+    [SerializeField] private List<CookwareModel> listModel;
+    [SerializeField] private List<Food> foodList;
     public Food GetFood() => FoodInPlates;
 
     public void Add(Food food)
@@ -43,6 +52,15 @@ public class Cookware : PickUpAbtract
     public void SetCookwareType(CookwareType newType)
     {
         type = newType;
+        foreach(var item in listModel)
+        {
+            if(item.type == type)
+            {
+                item.Model.SetActive(true);
+                continue;
+            }
+            item.Model.SetActive(false);
+        }
     }
     public override void Discard()
     {

@@ -5,7 +5,6 @@ using UnityEngine;
 public class FoodCustomizeMesh : MeshCustomize
 {
     [SerializeField] private MeshCollider meshCollider;
-
     protected override void OnValidate()
     {
         base.OnValidate();

@@ -1,10 +1,27 @@
 using UnityEngine;
-public class SourcePlateContainer : BaseContainer<Cookware>
+public class SourcePlateContainer : MonoBehaviour, IHolder
 {
-    public override void ExchangeItems(HolderAbstract player)
+    [SerializeField] private CookwareType cookwareType;
+    [SerializeField] private CookwareDropdown cookwareDropdown;
+
+    private void Start()
     {
-        if (CanStopContinueSwap(player) == false) return;
+        cookwareDropdown.AddListener(OnValueChange);
+        cookwareDropdown.SetCookwareType((int)cookwareType);
+    }
+
+    public void ExchangeItems(HolderAbstract player)
+    {
+        if (cookwareType == CookwareType.None) return;
+        if (player.IsContainFood() || player.IsContainCookware()) return;
         Debug.Log("GetFromPool plate");
-        player.SetItem(RetrieveRawFood());
+        var cookware = CookwareManager.instance.GetCookware(cookwareType);
+        
+        player.SetItem(cookware);
+    }
+    private void OnValueChange(int i)
+    {
+        if (i < 0 || i > 4) return;
+        cookwareType = (CookwareType)i;
     }
 }

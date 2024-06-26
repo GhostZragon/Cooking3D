@@ -51,7 +51,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7390675705667950212}
   foodData: {fileID: 0}
-  model: {fileID: 0}
   meshCollider: {fileID: 0}
   foodCustomizeMesh: {fileID: 0}
 --- !u!54 &7390675705667950212
@@ -93,9 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316a9d0995b87d14294ac8dd806f1080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshCollider: {fileID: 7890798082672698842}
-  meshRenderer: {fileID: 6676205011531287547}
   meshFilter: {fileID: 4007242160008852054}
+  meshRenderer: {fileID: 6676205011531287547}
+  meshCollider: {fileID: 7890798082672698842}
 --- !u!64 &7890798082672698842
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -138,7 +137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 4ab30c1ef828ea74fbff2187caaf556e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

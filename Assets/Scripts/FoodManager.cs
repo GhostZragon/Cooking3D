@@ -24,7 +24,7 @@ public class FoodManager : MonoBehaviour
         if (food_mat == null)
         {
             Debug.Log(mat_Name);
-            food_mat = Resources.Load<Material>("mat_Name");
+            food_mat = Resources.Load<Material>(ConstantPath.Resource.COOKING_MATERIAL);
         }
         if(foodPrefab == null)
         {
@@ -36,10 +36,7 @@ public class FoodManager : MonoBehaviour
     {
         return InitFoodState(FoodDatabase.GetFoodData(foodState, foodType));
     }
-    public Food GetFoodInstantiate(FoodData foodData)
-    {
-        return InitFoodState(foodData);
-    }
+
     private Food InitFoodState(FoodData foodData)
     {
         var food = Instantiate(foodPrefab);
@@ -49,7 +46,16 @@ public class FoodManager : MonoBehaviour
         skin.SetMesh(foodData.GetMesh());
         return food;
     }
+    public bool CanConvertFood(Food food, FoodState foodState)
+    {
+        if(FoodDatabase == null)
+        {
+            Debug.Log("Food Database is null", gameObject);
+            return true;
+        }
 
+        return FoodDatabase.IsContainStateOfFood(food.GetFoodType(),foodState);
+    }
 
     public FoodData GetFoodData(FoodType foodType, FoodState foodState)
     {
@@ -67,4 +73,5 @@ public class FoodManager : MonoBehaviour
         }
         return false;
     }
+   
 }
