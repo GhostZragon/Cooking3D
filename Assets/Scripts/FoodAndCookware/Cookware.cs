@@ -21,29 +21,47 @@ public class Cookware : PickUpAbtract
     [SerializeField] private Food FoodInPlates;
     [SerializeField] private CookwareType type;
     [SerializeField] private List<CookwareModel> listModel;
-    [SerializeField] private List<Food> foodList;
-    public Food GetFood() => FoodInPlates;
+    [SerializeField] private FoodData[] foodList;
+    
+    private int foodIndex = 0;
+    
+    private void Awake()
+    {
+        foodList = new FoodData[4];
+    
+    }
+    
+    public Food GetFood()
+    {
+        return FoodInPlates;
+    }
 
-    public void Add(Food food)
+    public void Swap(Food food)
     {
         // if(food.GetCurrentFoodState() == FoodState.Raw) return;
         food?.SetToParentAndPosition(PlaceTransform);
         FoodInPlates = food;
+        foodList[0] = food.GetData();
     }
 
     public void DiscardFood()
     {
-        Destroy(FoodInPlates.gameObject);
-        FoodInPlates = null;
+        foreach(var food in foodList)
+        {
+            Destroy(FoodInPlates.gameObject);
+        }
+        foodList = new FoodData[4];
+        foodIndex = 0;
     }
 
-    public bool IsContainFoodInPlate() => FoodInPlates != null;
+    public bool IsContainFoodInPlate()
+    {
+        return foodList.Length > 0;
+    }
 
     public bool CanPutFoodIn(Food food)
     {
-        if (FoodInPlates != null)
-            return FoodInPlates.GetFoodState() != FoodState.Cooked;
-        // TODO: Need to check food is valid in here
+        if (foodList[1] != null) return false;
         Debug.LogWarning("TODO: Need to check food is valid in here");
         return true;
     }
@@ -64,5 +82,11 @@ public class Cookware : PickUpAbtract
     }
     public override void Discard()
     {
+    }
+
+    internal void CombineFood(Food targetFood)
+    {
+        ++foodIndex;
+        foodList[foodIndex] = targetFood.GetData();
     }
 }

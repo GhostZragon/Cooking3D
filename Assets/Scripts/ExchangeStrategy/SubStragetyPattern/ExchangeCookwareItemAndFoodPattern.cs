@@ -53,7 +53,7 @@ public partial class ExchangeCookwareAndFoodPattern
                 
                 // init new food
                 if (foodData == null) return;
-
+                targetCookware.CombineFood(targetFood);
                 foodInCookware.SetData(foodData);
                 foodInCookware.SetModel();
                 
@@ -63,7 +63,7 @@ public partial class ExchangeCookwareAndFoodPattern
             {
                 // swap food of COOKWARE and food of holder
                 
-                targetCookware.Add(targetFood);
+                targetCookware.Swap(targetFood);
 
                 holder2.SetItem(foodInCookware);
             }

@@ -65,6 +65,7 @@ public class FoodManager : MonoBehaviour
     public bool CanCombineFood(Food food1,Food food2,out FoodData foodData)
     {
         foodData = null;
+        if (food1 == null || food2 == null) return false;
         var list = new List<FoodData> {food1.GetData(), food2.GetData()};
         if (Recipes.IsValid(list))
         {

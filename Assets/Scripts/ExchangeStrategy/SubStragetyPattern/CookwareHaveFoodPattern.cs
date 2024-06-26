@@ -25,8 +25,8 @@
             var cookware2 = holder2.GetCookware();
             var food1 = cookware1.GetFood();
             var food2 = cookware2.GetFood();
-            cookware1.Add(food2);
-            cookware2.Add(food1);
+            cookware1.Swap(food2);
+            cookware2.Swap(food1);
         }
     }
 }

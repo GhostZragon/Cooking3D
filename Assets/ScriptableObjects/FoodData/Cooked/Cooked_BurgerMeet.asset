@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e60c68a446ddc4a96a31e9e44f311f, type: 3}
   m_Name: Cooked_BurgerMeet
   m_EditorClassIdentifier: 
-  modelObj: {fileID: 919132149155446097, guid: 505dde3c29e52f447afc17d28d9b25e8, type: 3}
+  mesh: {fileID: 4300000, guid: bbb3feda55389514ba54a501f158b680, type: 2}
   foodState: 3
   foodType: 4
-  mesh: {fileID: 0}

@@ -81,7 +81,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
         void AddFoodToCookware(Food food, Cookware cookware)
         {
-            cookware.Add(food);
+            cookware.Swap(food);
         }
     }
 

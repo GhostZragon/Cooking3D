@@ -34,7 +34,7 @@ using UnityEngine;
 //            EditorGUI.indentLevel++;
 //            while (size > list.Count)
 //            {
-//                list.Add(null);
+//                list.Swap(null);
 //            }
 
 //            while (size < list.Count)
@@ -87,7 +87,7 @@ using UnityEngine;
 //            Debug.Log("Path " + path);
 //            if (foodData != null)
 //            {
-//                foodsData.Add(foodData);
+//                foodsData.Swap(foodData);
 //            }
 //        }
 
@@ -101,9 +101,9 @@ using UnityEngine;
 
 //        foreach (var foodStruct in foodStructs)
 //        {
-//            if (!uniqueTechniques.Add(foodStruct.FoodState))
+//            if (!uniqueTechniques.Swap(foodStruct.FoodState))
 //            {
-//                duplicates.Add(foodStruct.FoodState);
+//                duplicates.Swap(foodStruct.FoodState);
 //            }
 //        }
 

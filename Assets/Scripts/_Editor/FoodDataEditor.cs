@@ -36,9 +36,9 @@ using UnityEngine;
 
 //        foreach (var foodStruct in foodStructs)
 //        {
-//            if (!uniqueTechniques.Add(foodStruct.FoodState))
+//            if (!uniqueTechniques.Swap(foodStruct.FoodState))
 //            {
-//                duplicates.Add(foodStruct.FoodState);
+//                duplicates.Swap(foodStruct.FoodState);
 //            }
 //        }
 
