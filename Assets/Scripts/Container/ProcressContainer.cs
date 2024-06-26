@@ -36,11 +36,11 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         Debug.Log("Call");
         if (item == null || isProcessItem) return;
 
-        if (foodProcess.CanConvert(GetFood()))
+        if (foodProcess.IsConvertible(GetFood()))
         {
             StartCoroutine(StartConvert(() =>
             {
-                foodProcess.Convert(GetFood());
+                foodProcess.ChangeFoodState(GetFood());
             }));
         }
 
@@ -96,35 +96,35 @@ public class FoodProcess : IFoodProcess<Food>
         foodStateWantToChange = newFoodState;
     }
     public FoodState foodStateWantToChange;
-    public void Convert(Food food)
+    public void ChangeFoodState(Food food)
     {
         var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), foodStateWantToChange);
         if (foodData == null) return;
         food.SetData(foodData);
         food.SetModel();
     }
-    public bool CanConvert(Food food)
+    public bool IsConvertible(Food food)
     {
         bool foodNotSameState = food.GetFoodState() != foodStateWantToChange;
-        bool foodHaveState = FoodManager.instance.CanConvertFood(food, foodStateWantToChange);
-        return foodNotSameState && foodHaveState;
+        bool isFoodStateInDatabase = FoodManager.instance.CheckFoodValidToChange(food, foodStateWantToChange);
+        return foodNotSameState && isFoodStateInDatabase;
     }
 }
 
 public class FoodInCookwareProcess : IFoodProcess<Cookware>
 {
-    public bool CanConvert(Cookware heldItem)
+    public bool IsConvertible(Cookware heldItem)
     {
         return true;
     }
 
-    public void Convert(Cookware heldItem)
+    public void ChangeFoodState(Cookware heldItem)
     {
 
     }
 }
 public interface IFoodProcess<T>
 {
-    bool CanConvert(T heldItem);
-    void Convert(T heldItem);
+    bool IsConvertible(T heldItem);
+    void ChangeFoodState(T heldItem);
 }

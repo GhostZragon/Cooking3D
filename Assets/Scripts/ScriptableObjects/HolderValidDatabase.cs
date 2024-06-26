@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
-using UnityEditor;
+using Unity.VisualScripting;
 using UnityEngine;
 [CreateAssetMenu(fileName = "HolderValidDatabase", menuName = "ScriptableObjects/HolderValidDatabase", order = 1)]
 public class HolderValidDatabase : ScriptableObject
@@ -16,15 +18,6 @@ public class HolderValidDatabase : ScriptableObject
     [Button]
     private void LoadAllFoodPrefab()
     {
-        string[] guids = AssetDatabase.FindAssets("t:FoodData");
-        FoodDatas.Clear();
-        foreach (var guid in guids)
-        {
-            var path = AssetDatabase.GUIDToAssetPath(guid);
-            Debug.Log(path);
-            var food = AssetDatabase.LoadAssetAtPath<FoodData>(path);
-            FoodDatas.Add(food);
-        }
+        FoodDatas = LoadAssetHeplder.GetListTypeInAssets<FoodData>();
     }
 }
-

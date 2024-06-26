@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd4d670cebed14e4c9709d73a006e93a, type: 3}
-  m_Name: ContainerBuilderManager
+  m_Script: {fileID: 11500000, guid: dde6b8f7bfd7900498ea8bc2fed56a39, type: 3}
+  m_Name: RecipeDatabase
   m_EditorClassIdentifier: 
-  foodList: []
+  recipes:
+  - {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}

@@ -46,7 +46,7 @@ public class FoodManager : MonoBehaviour
         skin.SetMesh(foodData.GetMesh());
         return food;
     }
-    public bool CanConvertFood(Food food, FoodState foodState)
+    public bool CheckFoodValidToChange(Food food, FoodState foodState)
     {
         if(FoodDatabase == null)
         {
@@ -54,7 +54,7 @@ public class FoodManager : MonoBehaviour
             return true;
         }
 
-        return FoodDatabase.IsContainStateOfFood(food.GetFoodType(),foodState);
+        return FoodDatabase.CanTransitionToFoodState(food, foodState);
     }
 
     public FoodData GetFoodData(FoodType foodType, FoodState foodState)
@@ -66,7 +66,9 @@ public class FoodManager : MonoBehaviour
     {
         foodData = null;
         if (food1 == null || food2 == null) return false;
+        
         var list = new List<FoodData> {food1.GetData(), food2.GetData()};
+        
         if (Recipes.IsValid(list))
         {
             foodData = Recipes.FoodResult;

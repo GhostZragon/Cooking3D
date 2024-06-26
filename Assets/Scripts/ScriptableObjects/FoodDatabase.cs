@@ -82,12 +82,14 @@ public class FoodDatabase : ScriptableObject
         Debug.LogError("Food not in database !!!",this);
         return defaultFoodData;
     }
-    public bool IsContainStateOfFood(FoodType currentFoodType,FoodState foodStateWantToChange)
+    public bool CanTransitionToFoodState(Food food,FoodState foodStateWantToChange)
     {
+        // check foodType is contain
         if (!foodDictData.TryGetValue(foodStateWantToChange, out var list)) return false;
         foreach(var _foodData in list)
         {
-            if(_foodData.FoodType == currentFoodType)
+            // make sure food have same food type in list with key is "Food State"
+            if(_foodData.FoodType == food.GetFoodType() && _foodData.CanFoodChangeState(food))
             {
                 return true;
             }

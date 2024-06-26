@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HolderValidDatabase
   m_EditorClassIdentifier: 
   FoodDatas:
+  - {fileID: 11400000, guid: 708c3f66d10b1e347bbc483d725efae6, type: 2}
   - {fileID: 11400000, guid: fffc94b03e30e634f9e27c6a72cd1008, type: 2}
   - {fileID: 11400000, guid: 644f677387257d34fbd051b05719463e, type: 2}
   - {fileID: 11400000, guid: ddb87486f397d4d4d839e69ac236ff52, type: 2}

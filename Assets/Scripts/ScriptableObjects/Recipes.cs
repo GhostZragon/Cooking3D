@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/Recipe")]
 public class Recipes : ScriptableObject
 {
-    [SerializeField] private List<FoodData> foodNeed;
-    [SerializeField] private FoodData foodResult;
+    [SerializeField,Expandable] private List<FoodData> foodNeed;
+    [SerializeField, Expandable] private FoodData foodResult;
     public bool IsContain(FoodData foodDataNeedToCheck)
     {
         if (foodDataNeedToCheck == null) return false;
