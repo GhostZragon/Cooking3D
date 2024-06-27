@@ -10,7 +10,6 @@ public enum CookwareType
     Pot,
     Pan,
 }
-
 public class Cookware : PickUpAbtract
 {
     [Serializable]
@@ -23,54 +22,59 @@ public class Cookware : PickUpAbtract
     [SerializeField] private Food FoodInPlates;
     [SerializeField] private CookwareType type;
     [SerializeField] private List<CookwareModel> listModel;
-    [SerializeField] private List<FoodData> foodDatas;
 
-    [SerializeField] private List<Recipes> recipeMath;
+
+    [SerializeField] private CookwareRecipeHandle CookwareRecipeController;
+
     private void Awake()
     {
-        foodDatas = new List<FoodData>();
-        recipeMath = new List<Recipes>();
+        CookwareRecipeController = new CookwareRecipeHandle();
     }
 
     public Food GetFood()
     {
         return FoodInPlates;
     }
-    public List<FoodData> GetContainedFoodData() => foodDatas;
+
     public void Swap(Food food)
     {
         // if(food.GetCurrentFoodState() == FoodState.Raw) return;
         food?.SetToParentAndPosition(PlaceTransform);
         FoodInPlates = food;
-        if (foodDatas.Count == 0)
+
+        HandleFoodAddition(food);
+
+    }
+
+    private void HandleFoodAddition(Food food)
+    {
+        if (CookwareRecipeController.IngredientQuantityCount == 0)
         {
-            foodDatas.Add(food.GetData());
+            CookwareRecipeController.RefreshOrInsertFoodDetails(food.GetData());
         }
         else
         {
-            foodDatas[0] = food.GetData();
+            //foodDatas[0] = food.GetData();
+            CookwareRecipeController.SetInitialFoodData(food.GetData());
         }
-
     }
 
     public void DiscardFood()
     {
-        foreach (var food in foodDatas)
-        {
-            Destroy(FoodInPlates.gameObject);
-        }
-        foodDatas = new List<FoodData>();
+        Destroy(FoodInPlates.gameObject);
+
+        CookwareRecipeController.Reset();
     }
 
     public bool IsContainFoodInPlate()
     {
-        return foodDatas.Count > 0;
+        return CookwareRecipeController.IngredientQuantityCount > 0;
     }
 
     public bool CanSwapFood(Food food)
     {
         Debug.LogWarning("IF have process food need multiple item, PLS Upgrade this check");
-        if(type == CookwareType.Plate)
+        if (type == CookwareType.Plate)
         {
             return CanPutFood(food);
         }
@@ -81,28 +85,33 @@ public class Cookware : PickUpAbtract
     }
     public bool CanPutFood(Food food)
     {
-        if (foodDatas.Count == 0)
+        if (CookwareRecipeController.IngredientQuantityCount == 0)
         {
-            if (FoodManager.instance.IsFoodInRecipe(food, out recipeMath) == false) return false;
+            if (FoodManager.instance.IsFoodInRecipe(food, out var recipeMath) == false)
+            {
+                return false;
+            }
+            CookwareRecipeController.AddMatchListRecipe(recipeMath);
         }
-
         if (IsFoodInRecipeMatch(food)) return true;
-        //if (foodDatas[1] != null) return false;
-        Debug.LogWarning("TODO: Need to check food is valid in here");
-        return true;
+        return false;
     }
     private bool IsFoodInRecipeMatch(Food food)
     {
-        if (recipeMath.Count == 0) return true;
-        foreach (var recipe in recipeMath)
+        if (CookwareRecipeController.TotalRecipesCount == 0) return true;
+        var foodData = food.GetData();
+        foreach (var currentRecipeStructure in CookwareRecipeController.GetRecipeList())
         {
-            if (recipe.IsContain(food.GetData()))
+            if (currentRecipeStructure.isComplete) continue;
+            var count = CookwareRecipeController.GetCountOfFood(foodData);
+            if (currentRecipeStructure.Recipes.IsContainWithCount(foodData,count))
             {
+                Debug.Log("is contain food data: " + foodData.name);
                 return true;
             }
         }
 
-        // remove recipe of it not need
+        // remove matchedRecipe of it not need
         return false;
     }
     public CookwareType GetCookwareType() => type;
@@ -111,76 +120,37 @@ public class Cookware : PickUpAbtract
         type = newType;
         foreach (var item in listModel)
         {
-            if (item.type == type)
-            {
-                item.Model.SetActive(true);
-                continue;
-            }
-            item.Model.SetActive(false);
+            item.Model.SetActive(item.type == type);
         }
     }
+
     public override void Discard()
     {
     }
 
     public void CombineFood(Food targetFood)
     {
-        foodDatas.Add(targetFood.GetData());
-        foreach (var recipe in recipeMath)
+        CookwareRecipeController.RefreshOrInsertFoodDetails(targetFood.GetData());
+        var cookwareRecipes = CookwareRecipeController.GetRecipeList();
+        // cheking is math all food in recipeData
+        foreach (var matchedRecipe in cookwareRecipes)
         {
-            var itemCount = recipe.GetFoodCount();
-            if (foodDatas.Count >= itemCount) continue;
-            int notMatchItem = 0;
-            var list = recipe.GetFoodList();
-            foreach (var item in foodDatas)
+            if (matchedRecipe.isComplete == true) continue;
+            var recipeDataSO = matchedRecipe.Recipes;
+            var requiredIngredients = recipeDataSO.GetRequiredIngredients();
+            
+            if (requiredIngredients.IsEqual(CookwareRecipeController.IngredientQuantitiesCollection))
             {
-                if (!list.Contains(item))
-                {
-                    break;
-                }
-            }
-            if (notMatchItem == 0)
-            {
-                Debug.Log("math some of food");
 
-                if (foodDatas.Count == list.Count)
+                if (CookwareRecipeController.IngredientQuantityCount == requiredIngredients.IngredientCount)
                 {
-                    FoodInPlates.SetData(recipe.FoodResult);
+                    FoodInPlates.SetData(recipeDataSO.FoodResult);
                     FoodInPlates.SetModel();
+                    matchedRecipe.CompleteFood();
                 }
             }
+   
         }
     }
-    public void CombineFood(List<FoodData> newFoodDatas)
-    {
-        foodDatas.AddRange(newFoodDatas);
-    }
-    //public bool TryToCombineFood(Food newFood)
-    //{
-    //    if (FoodManager.instance.CanCombineFoodInCookware(newFood, this, out FoodData newFoodDataModel))
-    //    {
-    //        CombineFood(newFood);
-    //        if (newFoodDataModel != null)
-    //        {
-    //            FoodInPlates.SetData(newFoodDataModel);
-    //            FoodInPlates.SetModel();
-    //        }
-    //        return true;
-    //    }
-    //    return false;
-    //}
-    //public bool TryToCombineFood(Cookware cookware2)
-    //{
-    //    if (FoodManager.instance.CanCombineFoodInCookware(this, cookware2, out FoodData newFoodDataModel))
-    //    {
-    //        CombineFood(new List<FoodData>(cookware2.GetContainedFoodData()));
-    //        if(newFoodDataModel != null)
-    //        {
-    //            FoodInPlates.SetData(newFoodDataModel);
-    //            FoodInPlates.SetModel();
-    //        }
-    //        return true;
-    //    }
-    //    return false;
-    //}
+  
 }

@@ -10,9 +10,6 @@
             var bothHaveFoodInCookware = cookware1.IsContainFoodInPlate() ||
                                           cookware2.IsContainFoodInPlate();
             if (!bothHaveFoodInCookware) return false;
-            // var noPlateTypeCookware = cookware1.GetCookwareType() != CookwareType.Plate &&
-            //                            cookware2.GetCookwareType() != CookwareType.Plate;
-            // if(!noPlateTypeCookware) return false;
             var canExchangeFoodBetweenCookware = cookware1.CanSwapFood(cookware2.GetFood()) &&
                                                   cookware2.CanSwapFood(cookware1.GetFood());
             return canExchangeFoodBetweenCookware;

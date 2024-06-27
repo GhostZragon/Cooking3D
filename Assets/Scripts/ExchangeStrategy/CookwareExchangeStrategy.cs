@@ -2,17 +2,17 @@
 
 public partial class ExchangeCookwarePattern : IExchangeStrategy
 {
+    private IExchangeStrategy subExchangeStrategy;
+    public ExchangeCookwarePattern()
+    {
+        subExchangeStrategy = new CookwareHaveFoodPattern();
+    }
     public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
     {
         return (holder1.IsContainCookware() || holder2.IsContainCookware()) &&
             (holder1.IsContainFood() == false && holder2.IsContainFood() == false);
     }
 
-    private IExchangeStrategy subExchangeStrategy;
-    public ExchangeCookwarePattern()
-    {
-        subExchangeStrategy = new CookwareHaveFoodPattern();
-    }
     public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
     {
         var cookware1 = holder1.GetCookware();
@@ -23,13 +23,6 @@ public partial class ExchangeCookwarePattern : IExchangeStrategy
             holder1.SwapCookwareTwoWay(holder2);
             return;
         }
-        //if(cookware1.IsContainFoodInPlate() == false && cookware2.IsContainFoodInPlate() == false)
-        //{
-        //    holder1.SwapCookwareTwoWay(holder2);
-        //    return;
-        //}
-
-   
         // Scenario 1
         if (subExchangeStrategy.CanExchange(holder1,holder2))
         {

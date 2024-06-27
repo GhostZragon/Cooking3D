@@ -42,6 +42,6 @@ using UnityEngine;
 //            }
 //        }
 
-//        return duplicates.Count > 0;
+//        return duplicates.TotalRecipesCount > 0;
 //    }
 //}

@@ -27,22 +27,22 @@ using UnityEngine;
 
 
 
-//        int size = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
+//        int size = Mathf.Max(0, EditorGUILayout.IntField("Size", list.TotalRecipesCount));
 //        foodDataManager.show = EditorGUILayout.Foldout(foodDataManager.show, "Data", true);
 //        if (foodDataManager.show)
 //        {
 //            EditorGUI.indentLevel++;
-//            while (size > list.Count)
+//            while (size > list.TotalRecipesCount)
 //            {
 //                list.Swap(null);
 //            }
 
-//            while (size < list.Count)
+//            while (size < list.TotalRecipesCount)
 //            {
-//                list.RemoveAt(list.Count - 1);
+//                list.RemoveAt(list.TotalRecipesCount - 1);
 //            }
 
-//            for (int i = 0; i < list.Count; i++)
+//            for (int i = 0; i < list.TotalRecipesCount; i++)
 //            {
 //                list[i] = EditorGUILayout.ObjectField("Element " + i, list[i], typeof(FoodData), true) as FoodData;
 //                DrawDetail(list[i]);
@@ -62,7 +62,7 @@ using UnityEngine;
 //        if (foodData.show)
 //        {
 //            EditorGUI.indentLevel+=2;
-//            for (int i = 0; i < foodData.FoodStructs.Count; i++)
+//            for (int i = 0; i < foodData.FoodStructs.TotalRecipesCount; i++)
 //            {
 //                var foodStruct = foodData.FoodStructs[i];
 //                foodStruct.FoodState = (FoodState)EditorGUILayout.EnumPopup("Prepare Tenchiques", foodStruct.FoodState);
@@ -78,7 +78,7 @@ using UnityEngine;
         
 //    private List<FoodData> LoadAllData(List<FoodData> foodsData)
 //    {
-//        foodsData.Clear();
+//        foodsData.ResetIngredientQuantities();
 //        string[] guids = AssetDatabase.FindAssets("t:FoodData", null);
 //        foreach (var guid in guids)
 //        {
@@ -107,6 +107,6 @@ using UnityEngine;
 //            }
 //        }
 
-//        return duplicates.Count > 0;
+//        return duplicates.TotalRecipesCount > 0;
 //    }
 //}

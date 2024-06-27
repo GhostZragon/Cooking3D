@@ -89,6 +89,14 @@ MonoBehaviour:
     Model: {fileID: 6610124331673201146}
   - type: 3
     Model: {fileID: 4898165632892008191}
+  foodDatas: []
+  listTest:
+  - foodData: {fileID: 0}
+    amount: 0
+  - foodData: {fileID: 0}
+    amount: 0
+  CookwareRecipeHandle:
+    RecipeStructures: []
 --- !u!1001 &2900587769308415528
 PrefabInstance:
   m_ObjectHideFlags: 0

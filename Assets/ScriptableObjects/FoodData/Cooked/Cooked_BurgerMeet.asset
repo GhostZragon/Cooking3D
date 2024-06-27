@@ -15,3 +15,4 @@ MonoBehaviour:
   mesh: {fileID: 4300000, guid: bbb3feda55389514ba54a501f158b680, type: 2}
   foodState: 3
   foodType: 4
+  foodStateList: 

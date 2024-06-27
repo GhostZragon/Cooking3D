@@ -49,13 +49,14 @@ public partial class ExchangeCookwareAndFoodPattern
             // checking food and cookware lis food ?
             if (targetCookware.CanPutFood(targetFood))
             {
+                Debug.Log("Put food");
                 targetCookware.CombineFood(targetFood);
                 holder2.DiscardFood();
             }
             else if (targetCookware.CanSwapFood(targetFood) && holder2.CanHoldFood(foodInCookware))
             {
                 // swap food of COOKWARE and food of holder
-                
+                Debug.Log("Swap food");
                 targetCookware.Swap(targetFood);
 
                 holder2.SetItem(foodInCookware);

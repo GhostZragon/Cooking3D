@@ -64,78 +64,21 @@ public class FoodManager : MonoBehaviour
     {
         return FoodDatabase.GetFoodData(foodState, foodType);
     }
-    //public bool CanCombineFoodInCookware(Food foodWantCombine, Cookware cookwareNeedAdd, out FoodData foodData)
-    //{
-    //    listOnTest = new List<FoodData>(cookwareNeedAdd.GetContainedFoodData())
-    //    {
-    //        foodWantCombine.GetData()
-    //    };
-    //    foodData = CheckingListFoodIsValid(listOnTest, out bool isMathRecipe);
 
-
-    //    return isMathRecipe;
-    //}
-    //public bool CanCombineFoodInCookware(Cookware cookware1, Cookware cookware2, out FoodData foodData)
-    //{
-    //    listOnTest = new List<FoodData>(cookware1.GetContainedFoodData());
-    //    listOnTest.AddRange(new List<FoodData>(cookware1.GetContainedFoodData()));
-    //    foodData = CheckingListFoodIsValid(listOnTest, out bool isMathRecipe);
-    //    return isMathRecipe;
-    //}
-    //[Button]
-    //private void Test()
-    //{
-    //    listOnTest.Clear();
-    //}
-
+  
     public List<Recipes> RecipesList;
-    //public List<FoodData> listOnTest;
-    //private FoodData CheckingListFoodIsValid(List<FoodData> listFoodData, out bool IsMathRecipe)
-    //{
-    //    IsMathRecipe = false;
-    //    foreach (var recipe in RecipesList)
-    //    {
-    //        var itemCount = recipe.GetFoodCount();
-    //        int notMatchItem = 0;
-    //        var list = recipe.GetFoodList();
-    //        foreach(var item in listFoodData)
-    //        {
-    //            if (!list.Contains(item))
-    //            {
-    //                break;
-    //            }
-    //        }
-    //        if(notMatchItem == 0)
-    //        {
-    //            Debug.Log("math some of food");
-    //            IsMathRecipe = true;
 
-    //            if (listFoodData.Count == list.Count)
-    //            {
-    //                return recipe.FoodResult;
-    //            }
-    //            return null;
-    //        }
-    //    }
-    //    return null;
-    //}
-
-    /// <summary>
-    /// Checking all recipe of database
-    /// </summary>
-    /// <param name="food"></param>
-    /// <returns></returns>
     public bool IsFoodInRecipe(Food food, out List<Recipes> listRecipeValid)
     {
         listRecipeValid = new List<Recipes>();
         var foodData = food.GetData();
-        foreach (var item in RecipesList)
+        foreach (var recipe in RecipesList)
         {
-            if (item.IsContain(foodData))
+            if (recipe.IsContain(foodData))
             {
-                listRecipeValid.Add(item);
+                listRecipeValid.Add(recipe);
             }
         }
-        return listRecipeValid.Count != 0;
+        return listRecipeValid.Count > 0;
     }
 }
