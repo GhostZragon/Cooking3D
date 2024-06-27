@@ -13,8 +13,8 @@
             // var noPlateTypeCookware = cookware1.GetCookwareType() != CookwareType.Plate &&
             //                            cookware2.GetCookwareType() != CookwareType.Plate;
             // if(!noPlateTypeCookware) return false;
-            var canExchangeFoodBetweenCookware = cookware1.CanPutFoodIn(cookware2.GetFood()) &&
-                                                  cookware2.CanPutFoodIn(cookware1.GetFood());
+            var canExchangeFoodBetweenCookware = cookware1.CanSwapFood(cookware2.GetFood()) &&
+                                                  cookware2.CanSwapFood(cookware1.GetFood());
             return canExchangeFoodBetweenCookware;
         }
 
@@ -27,6 +27,7 @@
             var food2 = cookware2.GetFood();
             cookware1.Swap(food2);
             cookware2.Swap(food1);
+
         }
     }
 }

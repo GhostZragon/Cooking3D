@@ -14,7 +14,7 @@ public class SourcePlateContainer : MonoBehaviour, IHolder
     {
         if (cookwareType == CookwareType.None) return;
         if (player.IsContainFood() || player.IsContainCookware()) return;
-        Debug.Log("GetFromPool plate");
+        //Debug.Log("GetFromPool plate");
         var cookware = CookwareManager.instance.GetCookware(cookwareType);
         
         player.SetItem(cookware);

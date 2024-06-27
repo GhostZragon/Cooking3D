@@ -26,13 +26,13 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
         var direction = GetNormalizedDirection(player.transform.position,transform.position);
         angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg;
-        Debug.Log("Before Angle :" + angle);
+        //Debug.Log("Before Angle :" + angle);
         if (direction != Vector2.up && direction != Vector2.down)
         {
             angle -= 180;
         }
-        Debug.Log("Direction: " + direction);
-        Debug.Log("After Angle :" + angle );
+        //Debug.Log("Direction: " + direction);
+        //Debug.Log("After Angle :" + angle );
         ExchangeManager.Exchange(this, player);
     }
     public float angle;
@@ -68,12 +68,12 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         var food2 = GetFood();
         var cookware1 = holder.GetCookware();
         var cookware2 = GetCookware();
-        if (cookware1 != null && cookware1.CanPutFoodIn(food2))
+        if (cookware1 != null && cookware1.CanSwapFood(food2))
         {
             AddFoodToCookware(food2, cookware1);
             SetItem(null);
         }
-        else if (cookware2 != null && cookware2.CanPutFoodIn(food1))
+        else if (cookware2 != null && cookware2.CanSwapFood(food1))
         {
             AddFoodToCookware(food1, cookware2);
             holder.SetItem(null);

@@ -64,4 +64,13 @@ public partial class CookwareManager : MonoBehaviour
         return cookware;
     }
 
+    internal bool CanPutFoodInCookware(CookwareType type, Food food)
+    {
+        if(type == CookwareType.Pan)
+        {
+            var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), FoodState.Cooked);
+            return foodData != null;
+        }
+        return false;
+    }
 }

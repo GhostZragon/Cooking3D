@@ -57,7 +57,9 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     private void SpawnFood()
     {
         if (foodInCrate.Count == maxCount) return;
-        foodInCrate.Add(CreateFood());
+        var newFood = CreateFood();
+        if (newFood == null) return;
+        foodInCrate.Add(newFood);
         timer = 0;
     }
     private Food GetFoodInList()
@@ -71,15 +73,13 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     private Food CreateFood()
     {
         var food = FoodManager.instance.GetFoodInstantiate(FoodType, FoodState.Raw);
+        if(food == null) return null;
         food.Init();
         food.SetToParentAndPosition(transform);
         food.transform.localPosition = GetRandomSpawnsPosition();
         food.SetStateRb_Col(true, .7f);
         return food;
     }
-
-
-
 
     private Vector3 GetRandomSpawnsPosition()
     {

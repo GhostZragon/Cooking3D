@@ -6,9 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FoodDatabase", menuName = "FoodDatabase")]
 public class FoodDatabase : ScriptableObject
 {
-    public FoodState FoodState;
-    public FoodType FoodType;
-    public string path = "Assets/ScriptableObjects/FoodData";
+    [SerializeField] private FoodState FoodState;
+    [SerializeField] private FoodType FoodType;
+    [SerializeField] private string path = "Assets/ScriptableObjects/FoodData";
     // [ContextMenu("Create Item")]
     [Button]
     private void CreateFoodData()
@@ -70,7 +70,6 @@ public class FoodDatabase : ScriptableObject
             };
         }
     }
-    [SerializeField] private FoodData defaultFoodData;
     public FoodData GetFoodData(FoodState foodState, FoodType foodType)
     {
         if (!foodDictData.TryGetValue(foodState, out var list)) return null;
@@ -80,7 +79,7 @@ public class FoodDatabase : ScriptableObject
                 return item;
         }
         Debug.LogError("Food not in database !!!",this);
-        return defaultFoodData;
+        return null;
     }
     public bool CanTransitionToFoodState(Food food,FoodState foodStateWantToChange)
     {

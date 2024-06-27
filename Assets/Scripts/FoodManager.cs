@@ -1,13 +1,16 @@
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FoodManager : MonoBehaviour
 {
     public static FoodManager instance;
     private const string mat_Name = "restaurantbits_mat";
-    
+
     [SerializeField] private FoodDatabase FoodDatabase;
     [SerializeField] private Food foodPrefab;
     [SerializeField] private Recipes Recipes;
@@ -26,7 +29,7 @@ public class FoodManager : MonoBehaviour
             Debug.Log(mat_Name);
             food_mat = Resources.Load<Material>(ConstantPath.Resource.COOKING_MATERIAL);
         }
-        if(foodPrefab == null)
+        if (foodPrefab == null)
         {
             Debug.LogWarning("Food uiItemPrefab is null", gameObject);
         }
@@ -48,7 +51,7 @@ public class FoodManager : MonoBehaviour
     }
     public bool CheckFoodValidToChange(Food food, FoodState foodState)
     {
-        if(FoodDatabase == null)
+        if (FoodDatabase == null)
         {
             Debug.Log("Food Database is null", gameObject);
             return true;
@@ -61,20 +64,78 @@ public class FoodManager : MonoBehaviour
     {
         return FoodDatabase.GetFoodData(foodState, foodType);
     }
+    //public bool CanCombineFoodInCookware(Food foodWantCombine, Cookware cookwareNeedAdd, out FoodData foodData)
+    //{
+    //    listOnTest = new List<FoodData>(cookwareNeedAdd.GetContainedFoodData())
+    //    {
+    //        foodWantCombine.GetData()
+    //    };
+    //    foodData = CheckingListFoodIsValid(listOnTest, out bool isMathRecipe);
 
-    public bool CanCombineFood(Food food1,Food food2,out FoodData foodData)
+
+    //    return isMathRecipe;
+    //}
+    //public bool CanCombineFoodInCookware(Cookware cookware1, Cookware cookware2, out FoodData foodData)
+    //{
+    //    listOnTest = new List<FoodData>(cookware1.GetContainedFoodData());
+    //    listOnTest.AddRange(new List<FoodData>(cookware1.GetContainedFoodData()));
+    //    foodData = CheckingListFoodIsValid(listOnTest, out bool isMathRecipe);
+    //    return isMathRecipe;
+    //}
+    //[Button]
+    //private void Test()
+    //{
+    //    listOnTest.Clear();
+    //}
+
+    public List<Recipes> RecipesList;
+    //public List<FoodData> listOnTest;
+    //private FoodData CheckingListFoodIsValid(List<FoodData> listFoodData, out bool IsMathRecipe)
+    //{
+    //    IsMathRecipe = false;
+    //    foreach (var recipe in RecipesList)
+    //    {
+    //        var itemCount = recipe.GetFoodCount();
+    //        int notMatchItem = 0;
+    //        var list = recipe.GetFoodList();
+    //        foreach(var item in listFoodData)
+    //        {
+    //            if (!list.Contains(item))
+    //            {
+    //                break;
+    //            }
+    //        }
+    //        if(notMatchItem == 0)
+    //        {
+    //            Debug.Log("math some of food");
+    //            IsMathRecipe = true;
+
+    //            if (listFoodData.Count == list.Count)
+    //            {
+    //                return recipe.FoodResult;
+    //            }
+    //            return null;
+    //        }
+    //    }
+    //    return null;
+    //}
+
+    /// <summary>
+    /// Checking all recipe of database
+    /// </summary>
+    /// <param name="food"></param>
+    /// <returns></returns>
+    public bool IsFoodInRecipe(Food food, out List<Recipes> listRecipeValid)
     {
-        foodData = null;
-        if (food1 == null || food2 == null) return false;
-        
-        var list = new List<FoodData> {food1.GetData(), food2.GetData()};
-        
-        if (Recipes.IsValid(list))
+        listRecipeValid = new List<Recipes>();
+        var foodData = food.GetData();
+        foreach (var item in RecipesList)
         {
-            foodData = Recipes.FoodResult;
-            return true;
+            if (item.IsContain(foodData))
+            {
+                listRecipeValid.Add(item);
+            }
         }
-        return false;
+        return listRecipeValid.Count != 0;
     }
-   
 }

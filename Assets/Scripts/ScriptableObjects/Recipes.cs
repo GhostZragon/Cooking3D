@@ -1,8 +1,14 @@
 using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[Serializable] 
+public struct RecipeFood
+{
+    public FoodData foodData;
+    public int amount;
+}
 [CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/Recipe")]
 public class Recipes : ScriptableObject
 {
@@ -20,15 +26,26 @@ public class Recipes : ScriptableObject
         }
         return false;
     }
-    public bool IsValid(List<FoodData> foodDatas)
+
+    public int GetFoodCount()
     {
-        if (foodDatas.Count != foodNeed.Count) return false;
-        foreach(var food in foodNeed)
-        {
-            if (!foodDatas.Contains(food)) return false;
-        }
-        return true;
+        return foodNeed.Count;
     }
+
+    public List<FoodData> GetFoodList()
+    {
+        return foodNeed;
+    }
+
+    //public bool IsValid(List<FoodData> foodDatas)
+    //{
+    //    if (foodDatas.Count != foodNeed.Count) return false;
+    //    foreach(var food in foodNeed)
+    //    {
+    //        if (!foodDatas.Contains(food)) return false;
+    //    }
+    //    return true;
+    //}
     public FoodData FoodResult
     {
         get => foodResult;

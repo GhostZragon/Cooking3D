@@ -21,7 +21,6 @@ public class CustomerContainer : Container
 
     private bool CanDeliverFood(HolderAbstract player)
     {
-
         if (player.IsContainFoodInCookware() == false && allowNotContainFood == false) return false;
         if (player.GetCookwareType() != CookwareType.Plate && allowNotContainFood == false) return false;
         //var food = player.GetCookware().GetFood();

@@ -2241,7 +2241,7 @@ PrefabInstance:
     - target: {fileID: 234702022397728522, guid: d66b638bf5030554285290aadb73c110,
         type: 3}
       propertyPath: allowNotContainFood
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3148583335377404126, guid: d66b638bf5030554285290aadb73c110,
         type: 3}
@@ -10647,6 +10647,8 @@ MonoBehaviour:
     type: 3}
   Recipes: {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}
   food_mat: {fileID: 2100000, guid: 4ab30c1ef828ea74fbff2187caaf556e, type: 2}
+  RecipesList:
+  - {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}
 --- !u!1 &1495096931
 GameObject:
   m_ObjectHideFlags: 0

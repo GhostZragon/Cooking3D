@@ -17,7 +17,7 @@ public partial class ExchangeCookwareAndFoodPattern
 
         public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
         {
-            Debug.Log("holder contain targetFood");
+            //Debug.Log("holder contain targetFood");
             // 
             if (IsHaveCookwareNonFoodAndFood(holder1,holder2))
             {
@@ -46,20 +46,13 @@ public partial class ExchangeCookwareAndFoodPattern
             Food targetFood = holder2.GetFood();
             Food foodInCookware = targetCookware.GetFood();
             Debug.LogWarning("TODO: Combine food feature here");
-
-            if (FoodManager.instance.CanCombineFood(targetFood, foodInCookware, out FoodData foodData))
+            // checking food and cookware lis food ?
+            if (targetCookware.CanPutFood(targetFood))
             {
-                UITextPopupHandle.ShowTextAction(foodInCookware.transform.position, "Combine food success", Color.blue);
-                
-                // init new food
-                if (foodData == null) return;
                 targetCookware.CombineFood(targetFood);
-                foodInCookware.SetData(foodData);
-                foodInCookware.SetModel();
-                
                 holder2.DiscardFood();
             }
-            else if (targetCookware.CanPutFoodIn(targetFood) && holder2.CanHoldFood(foodInCookware))
+            else if (targetCookware.CanSwapFood(targetFood) && holder2.CanHoldFood(foodInCookware))
             {
                 // swap food of COOKWARE and food of holder
                 
