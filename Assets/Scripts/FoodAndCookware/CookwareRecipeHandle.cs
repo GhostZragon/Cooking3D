@@ -6,17 +6,17 @@ using UnityEngine;
 public class CookwareRecipeHandle
 {
     [SerializeField] private List<RecipeStructure> RecipeStructures;
-    [SerializeField] private IngredientStockpile IngredientQuantities;
+    [SerializeField] private IngredientStockpile IngredientQuantitiesHandle;
 
     public CookwareRecipeHandle()
     {
         RecipeStructures = new List<RecipeStructure>();
-        IngredientQuantities = new IngredientStockpile();
+        IngredientQuantitiesHandle = new IngredientStockpile();
     }
 
-    public IngredientStockpile IngredientQuantitiesCollection => IngredientQuantities;
+    public IngredientStockpile IngredientQuantitiesCollection => IngredientQuantitiesHandle;
     public int TotalRecipesCount => RecipeStructures.Count;
-    public int IngredientQuantityCount => IngredientQuantities.IngredientCount;
+    public int IngredientQuantityCount => IngredientQuantitiesHandle.IngredientCount;
 
     public void AddMatchListRecipe(List<Recipes> recipesList)
     {
@@ -37,26 +37,31 @@ public class CookwareRecipeHandle
 
     public void RefreshOrInsertFoodDetails(FoodData foodData)
     {
-        if (IngredientQuantities.ContainsFoodData(foodData))
-            IngredientQuantities.IncreaseCount(foodData, 1);
+        if (IngredientQuantitiesHandle.ContainsFoodData(foodData))
+            IngredientQuantitiesHandle.IncreaseCount(foodData, 1);
         else
-            IngredientQuantities.Add(foodData);
+            IngredientQuantitiesHandle.Add(foodData);
     }
 
     public void SetInitialFoodData(FoodData foodData)
     {
-        IngredientQuantities.SetFirstIngredientFoodData(foodData);
+        IngredientQuantitiesHandle.SetFirstIngredientFoodData(foodData);
     }
 
     public void Reset()
     {
         RecipeStructures.Clear();
-        IngredientQuantities.ResetIngredientQuantities();
+        IngredientQuantitiesHandle.ResetIngredientQuantities();
     }
 
     public int GetCountOfFood(FoodData foodData)
     {
-        return IngredientQuantities.GetCountOfFoodData(foodData);
+        return IngredientQuantitiesHandle.GetCountOfFoodData(foodData);
+    }
+
+    public List<IngredientQuantity> GetCurrentFoodDataList()
+    {
+        return IngredientQuantitiesCollection.GetIngredientQuantities();
     }
 
     [Serializable]

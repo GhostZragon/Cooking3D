@@ -47,7 +47,14 @@ public class Cookware : PickUpAbtract
         if (CookwareRecipeController.IngredientQuantityCount == 0)
             CookwareRecipeController.RefreshOrInsertFoodDetails(food.GetData());
         else
+        {
+            if(food == null)
+            {
+                CookwareRecipeController.Reset();
+                return;
+            }
             CookwareRecipeController.SetInitialFoodData(food.GetData());
+        }
     }
 
     public void DiscardFood()
@@ -66,27 +73,37 @@ public class Cookware : PickUpAbtract
     {
         Debug.LogWarning("IF have process food need multiple item, PLS Upgrade this check");
         if (type == CookwareType.Plate)
-            return CanPutFood(food);
-        return CookwareManager.instance.CanPutFoodInCookware(type, food);
+        {
+            if(food == null)
+            {
+                Debug.Log("This food is null when checking can swap");
+                return true;
+            }
+            var canPutFood = CanPutFood(food.GetData());
+            Debug.Log(canPutFood ? "Can put food in plate " : "Cannot put food in plate");
+            return canPutFood;
+        }
+        var CanSwapFoodInCookware = CookwareManager.instance.CanPutFoodInCookware(type, food);
+        Debug.Log(CanSwapFoodInCookware ? "Can put food in normal cookware " : "Cannot put food in normal cookware ");
+        return CanSwapFoodInCookware;
     }
 
-    public bool CanPutFood(Food food)
+    public bool CanPutFood(FoodData foodData)
     {
         if (CookwareRecipeController.IngredientQuantityCount == 0)
         {
-            if (FoodManager.instance.IsFoodInRecipe(food, out var recipeMath) == false) return false;
+            if (FoodManager.instance.IsFoodInRecipe(foodData, out var recipeMath) == false) return false;
 
             CookwareRecipeController.AddMatchListRecipe(recipeMath);
         }
 
-        if (IsFoodInRecipeMatch(food)) return true;
+        if (IsFoodInRecipeMatch(foodData)) return true;
         return false;
     }
 
-    private bool IsFoodInRecipeMatch(Food food)
+    private bool IsFoodInRecipeMatch(FoodData foodData)
     {
         if (CookwareRecipeController.TotalRecipesCount == 0) return true;
-        var foodData = food.GetData();
         foreach (var currentRecipeStructure in CookwareRecipeController.GetRecipeList())
         {
             if (currentRecipeStructure.isComplete) continue;
@@ -117,9 +134,9 @@ public class Cookware : PickUpAbtract
     {
     }
 
-    public void CombineFood(Food targetFood)
+    public void CombineFood(FoodData foodData)
     {
-        CookwareRecipeController.RefreshOrInsertFoodDetails(targetFood.GetData());
+        CookwareRecipeController.RefreshOrInsertFoodDetails(foodData);
         var cookwareRecipes = CookwareRecipeController.GetRecipeList();
         // cheking is math all food in recipeData
         foreach (var matchedRecipe in cookwareRecipes)
@@ -136,6 +153,36 @@ public class Cookware : PickUpAbtract
                     matchedRecipe.CompleteFood();
                 }
         }
+    }
+
+    public bool CanCombineWithCookware(Cookware cookware2)
+    {
+        if (IsContainFoodInPlate() && cookware2.IsContainFoodInPlate())
+        {
+            // check can combine here
+            bool canCombine = true;
+            // check food in cookware 2 can put in cookware 1 ?
+            Debug.Log("On check 2 cookware");
+            foreach(var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
+            {
+                if (!CanPutFood(ingredientData.FoodData))
+                {
+                    Debug.Log("It cannot combine");
+                    canCombine = false;
+                    break;
+                }
+            }
+            if (canCombine)
+            {
+                foreach (var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
+                {
+                    CombineFood(ingredientData.FoodData);
+                }
+            }
+
+            return canCombine;
+        }
+        return false;
     }
 
     [Serializable]

@@ -83,4 +83,8 @@ public class IngredientStockpile
 
         return isFound;
     }
+    public List<IngredientQuantity> GetIngredientQuantities()
+    {
+        return this.ingredientQuantities;
+    }
 }

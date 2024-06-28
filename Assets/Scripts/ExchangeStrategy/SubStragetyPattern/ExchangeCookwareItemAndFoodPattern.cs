@@ -47,10 +47,10 @@ public partial class ExchangeCookwareAndFoodPattern
             Food foodInCookware = targetCookware.GetFood();
             Debug.LogWarning("TODO: Combine food feature here");
             // checking food and cookware lis food ?
-            if (targetCookware.CanPutFood(targetFood))
+            if (targetCookware.CanPutFood(targetFood.GetData()))
             {
                 Debug.Log("Put food");
-                targetCookware.CombineFood(targetFood);
+                targetCookware.CombineFood(targetFood.GetData());
                 holder2.DiscardFood();
             }
             else if (targetCookware.CanSwapFood(targetFood) && holder2.CanHoldFood(foodInCookware))

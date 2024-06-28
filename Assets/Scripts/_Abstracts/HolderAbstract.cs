@@ -36,7 +36,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         ExchangeManager.Exchange(this, player);
     }
     public float angle;
-    public Vector2 GetNormalizedDirection(Vector3 playerPosition, Vector3 holderPosition)
+    private static Vector2 GetNormalizedDirection(Vector3 playerPosition, Vector3 holderPosition)
     {
         var newPlayerPos = new Vector2(playerPosition.x, playerPosition.z);
         var newHolderPos = new Vector2(holderPosition.x, holderPosition.z);
@@ -131,20 +131,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         return type == _Type || type == ContainerType.All;
     }
-    public bool CanPutItem(PickUpAbtract item)
-    {
-        if (item == null) return false;
-
-        if (item is Food && CanHoldFood(item as Food))
-        {
-            return true;
-        }
-        else if (item is Cookware && CanContainCookware(item as Cookware))
-        {
-            return true;
-        }
-        return false;
-    }
+   
     public bool IsContainFoodInCookware()
     {
         return GetCookware() != null && GetCookware().IsContainFoodInPlate();
@@ -189,12 +176,6 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         }
     }
 
-    public FoodType GetFoodType()
-    {
-        var food = GetFood();
-        if (food == null) return FoodType.None;
-        return food.GetFoodType();
-    }
 
     public CookwareType GetCookwareType()
     {
@@ -203,8 +184,4 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         return cookware.GetCookwareType();
     }
 
-    public ContainerType GetContainerType()
-    {
-        return type;
-    }
 }

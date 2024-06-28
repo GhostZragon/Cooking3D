@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,11 +67,22 @@ public partial class CookwareManager : MonoBehaviour
 
     internal bool CanPutFoodInCookware(CookwareType type, Food food)
     {
-        if(type == CookwareType.Pan)
+        if (food == null) return true;
+        if (type == CookwareType.Pan)
         {
             var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), FoodState.Cooked);
             return foodData != null;
         }
         return false;
     }
+#if UNITY_EDITOR
+    [Header("Testing")]
+    [SerializeField]
+    private CookwareType cookwareTypeWantSpawn;
+    [Button]
+    private void TestingSupport()
+    {
+        GetCookware(cookwareTypeWantSpawn);
+    }
+#endif
 }

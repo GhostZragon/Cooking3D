@@ -68,10 +68,9 @@ public class FoodManager : MonoBehaviour
   
     public List<Recipes> RecipesList;
 
-    public bool IsFoodInRecipe(Food food, out List<Recipes> listRecipeValid)
+    public bool IsFoodInRecipe(FoodData foodData, out List<Recipes> listRecipeValid)
     {
         listRecipeValid = new List<Recipes>();
-        var foodData = food.GetData();
         foreach (var recipe in RecipesList)
         {
             if (recipe.IsContain(foodData))
@@ -81,4 +80,15 @@ public class FoodManager : MonoBehaviour
         }
         return listRecipeValid.Count > 0;
     }
+
+#if UNITY_EDITOR
+    [Header("Testing")]
+    private FoodState foodState;
+    private FoodType foodType;
+    [Button]
+    private void SupportTesting()
+    {
+        GetFoodInstantiate(foodType, foodState);
+    }
+#endif
 }
