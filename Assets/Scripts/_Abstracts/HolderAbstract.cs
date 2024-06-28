@@ -93,8 +93,14 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         // Debug.LogWarning("TODO: Some container cannot put plate in ?, pls change it");
         if (CanContainCookware(cookware1) && holder.CanContainCookware(cookware2))
         {
+            Debug.Log("Can container cookware");
             holder.SetItem(cookware2);
             SetItem(cookware1);
+        }
+        else
+        {
+            Debug.Log("Can not container cookware");
+
         }
     }
 
@@ -123,7 +129,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
     private bool CanHoldType(ContainerType _Type)
     {
-        return _Type == ContainerType.Food || type == ContainerType.All;
+        return type == _Type || type == ContainerType.All;
     }
     public bool CanPutItem(PickUpAbtract item)
     {

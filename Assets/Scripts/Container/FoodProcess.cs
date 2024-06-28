@@ -1,13 +1,10 @@
-public class FoodProcess : IFoodProcess<Food>
+
+using UnityEngine;
+
+public class FoodProcess : BaseProcess<Food,FoodState>
 {
-    public FoodState foodStateWantToChange;
 
-    public FoodProcess(FoodState newFoodState)
-    {
-        foodStateWantToChange = newFoodState;
-    }
-
-    public void ChangeFoodState(Food food)
+    public override void ApplyFoodStateChange(Food food, FoodState foodStateWantToChange)
     {
         var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), foodStateWantToChange);
         if (foodData == null) return;
@@ -15,10 +12,13 @@ public class FoodProcess : IFoodProcess<Food>
         food.SetModel();
     }
 
-    public bool IsConvertible(Food food)
+    public override bool CanChangeFoodState(Food food, FoodState foodStateWantToChange)
     {
+        if (food == null) return false;
         var foodNotSameState = food.GetFoodState() != foodStateWantToChange;
         var isFoodStateInDatabase = FoodManager.instance.CheckFoodValidToChange(food, foodStateWantToChange);
+        Debug.Log($"foodNotSameState{foodNotSameState} isFoodStateInDatabase{isFoodStateInDatabase}");
+
         return foodNotSameState && isFoodStateInDatabase;
     }
 }

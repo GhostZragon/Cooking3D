@@ -1630,10 +1630,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   placeTransform: {fileID: 2004292403}
-  type: 1
+  type: 2
   angle: 0
-  foodStateWantToChange: 2
-  cookwareCanPut: 0
+  foodStateWantToChange: 3
+  cookwareCanPut: 3
   canTimer: 0
   isProcessItem: 0
   timer: 0
@@ -3951,7 +3951,7 @@ PrefabInstance:
     - target: {fileID: 3013956582217958445, guid: e5c735f26842e6a4982699329a53be44,
         type: 3}
       propertyPath: FoodType
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3978402508396723944, guid: e5c735f26842e6a4982699329a53be44,
         type: 3}

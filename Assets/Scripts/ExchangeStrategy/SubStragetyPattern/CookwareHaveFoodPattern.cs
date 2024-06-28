@@ -7,7 +7,7 @@
         {
             var cookware1 = holder1.GetCookware();
             var cookware2 = holder2.GetCookware();
-            if (cookware1.IsContainFoodInPlate() == false|| cookware2.IsContainFoodInPlate() == false) return false;
+            //if (cookware1.IsContainFoodInPlate() == false|| cookware2.IsContainFoodInPlate() == false) return false;
             var canExchangeFoodBetweenCookware = cookware1.CanSwapFood(cookware2.GetFood()) &&
                                                   cookware2.CanSwapFood(cookware1.GetFood());
             return canExchangeFoodBetweenCookware;

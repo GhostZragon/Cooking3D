@@ -19,29 +19,59 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
     [SerializeField] private UIFoodProcessBar uiProcessBar;
 
     [SerializeField] private bool infinityConvert;
-    private IFoodProcess<Food> foodProcess;
+    private FoodProcess foodProcess;
     private ITriggerProcress ITriggerProcess;
 
 
     private void Awake()
     {
-        foodProcess = new FoodProcess(foodStateWantToChange);
         ITriggerProcess = GetComponent<ITriggerProcress>();
+        foodProcess = new FoodProcess();
     }
 
 
     public void DoAction()
     {
-        Debug.Log("Call");
-        if (item == null || isProcessItem) return;
-
-        if (foodProcess.IsConvertible(GetFood()))
-            StartCoroutine(StartConvert(() => { foodProcess.ChangeFoodState(GetFood()); }));
+        if (isProcessItem) return;
+        
+        Food foodToProcess = null;
+        if (IsContainFood())
+        {
+            Debug.Log("is Contain food");
+            foodToProcess = GetFood();
+        }
+        else if (IsContainCookware())
+        {
+            Debug.Log("Is contain cookware");
+            foodToProcess = GetCookware().GetFood();
+        }
+        if (foodToProcess == null) return;
+        StartCoroutine(StartConvertNonCookwareFood(() => { foodProcess.ApplyFoodStateChange(foodToProcess, foodStateWantToChange); }));
     }
+    public override void ExchangeItems(HolderAbstract player)
+    {
+        var canSwap = CanSwap(player);
+        if (canSwap == false) return;
+        base.ExchangeItems(player);
 
-    private IEnumerator StartConvert(Action callback)
+    }
+    private bool CanSwap(HolderAbstract player)
+    {
+        
+        if(type == ContainerType.Cookware && player.IsContainCookware() || type == ContainerType.All)
+        {
+            return player.GetCookware().GetCookwareType() == cookwareCanPut;
+        }
+        else if(type == ContainerType.Food && player.IsContainFood() || type == ContainerType.All)
+        {
+            return foodProcess.CanChangeFoodState(player.GetFood(), foodStateWantToChange);
+        }
+        return true;
+    }
+    private IEnumerator StartConvertNonCookwareFood(Action callback)
     {
         if (uiProcessBar != null || isProcessItem) yield break;
+        Debug.Log("Start coroutine");
         isProcessItem = true;
         uiProcessBar = UIFoodProcessBarManager.instance.GetUIElement(placeTransform.position);
         while (timer <= timeToConvert)
@@ -66,6 +96,11 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
             callback?.Invoke();
         }
 
+        ResetUIFoodProcess();
+    }
+
+    private void ResetUIFoodProcess()
+    {
         timer = 0;
         if (uiProcessBar != null)
         {
@@ -82,8 +117,16 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
     }
 }
 
-public interface IFoodProcess<T>
+public interface IFoodProcess<T,A> where A : Enum
 {
-    bool IsConvertible(T heldItem);
-    void ChangeFoodState(T heldItem);
+    void ApplyFoodStateChange(T heldItem, A enumType);
+}
+public interface IConvertible<T,A> where A: Enum
+{
+    bool CanChangeFoodState(T heldItem, A enumType);
+}
+public abstract class BaseProcess<T, A> : IFoodProcess<T, FoodState>, IConvertible<T, A> where A : Enum where T : MonoBehaviour
+{
+    public abstract void ApplyFoodStateChange(T heldItem, FoodState enumType);
+    public abstract bool CanChangeFoodState(T heldItem,A enumType);
 }

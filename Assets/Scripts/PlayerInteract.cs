@@ -128,6 +128,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void DoAction()
     {
+        if (currentContainer == null) return;
         if (currentContainer.TryGetComponent(out IOnDoAction IonDoAction))
         {
             IonDoAction?.DoAction();
