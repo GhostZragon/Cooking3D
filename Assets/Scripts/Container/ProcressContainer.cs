@@ -48,6 +48,7 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         if (foodToProcess == null) return;
         StartCoroutine(StartConvertNonCookwareFood(() => { foodProcess.ApplyFoodStateChange(foodToProcess, foodStateWantToChange); }));
     }
+
     public override void ExchangeItems(HolderAbstract player)
     {
         var canSwap = CanSwap(player);
@@ -55,6 +56,7 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         base.ExchangeItems(player);
 
     }
+
     private bool CanSwap(HolderAbstract player)
     {
         
@@ -68,6 +70,7 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         }
         return true;
     }
+
     private IEnumerator StartConvertNonCookwareFood(Action callback)
     {
         if (uiProcessBar != null || isProcessItem) yield break;
