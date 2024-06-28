@@ -17,7 +17,7 @@ public partial class CookwareManager
         {
             amount += 1;
         }
-        public void Descrease()
+        public void Decrease()
         {
             amount -= 1;
         }

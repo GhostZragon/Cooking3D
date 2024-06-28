@@ -21,7 +21,7 @@ public class SourcePlateContainer : MonoBehaviour, IHolder
     }
     private void OnValueChange(int i)
     {
-        if (i < 0 || i > 4) return;
+        if (i is < 0 or > 4) return;
         cookwareType = (CookwareType)i;
     }
 }

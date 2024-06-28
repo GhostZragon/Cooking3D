@@ -19,7 +19,7 @@ public partial class ExchangeCookwarePattern : IExchangeStrategy
         var cookware2 = holder2.GetCookware();
         if (cookware1 == null || cookware2 == null ||(cookware1.IsContainFoodInPlate() == false && cookware2.IsContainFoodInPlate() == false))
         {
-            //Debug.Log("no targetFood in targetCookware, and just need swap it");
+            Debug.Log("no targetFood in targetCookware, and just need swap it");
             holder1.SwapCookwareTwoWay(holder2);
             return;
         }

@@ -6,21 +6,19 @@ using UnityEngine;
 [Serializable]
 public class IngredientStockpile
 {
-    [SerializeField] private List<IngredientQuantity> ingredientQuantities;
-    public IngredientStockpile()
-    {
-        ingredientQuantities = new List<IngredientQuantity>();
-    }
+    [SerializeField] private List<IngredientQuantity> ingredientQuantities = new();
+
     public int GetCountOfFoodData(FoodData foodData)
     {
-        foreach(var item in ingredientQuantities)
-        {
+        foreach (var item in ingredientQuantities)
             if (item.FoodData == foodData)
                 return item.Amount;
-        }
+
         return 0;
     }
-    public int IngredientCount { get => ingredientQuantities.Count; }
+
+    public int IngredientCount => ingredientQuantities.Count;
+
     public bool ContainsFoodDataWithCount(FoodData foodData, int currentCount)
     {
         return ingredientQuantities.Any(item => item.FoodData == foodData && currentCount < item.Amount);
@@ -30,6 +28,7 @@ public class IngredientStockpile
     {
         return ingredientQuantities.Any(item => item.FoodData == foodData);
     }
+
     public void SetFirstIngredientFoodData(FoodData foodData)
     {
         ingredientQuantities[0].SetFoodData(foodData);
@@ -37,8 +36,8 @@ public class IngredientStockpile
 
     public void Add(FoodData foodData)
     {
-        IngredientQuantity IngredientQuantity = new IngredientQuantity(foodData,1);
-        ingredientQuantities.Add(IngredientQuantity);
+        var ingredientQuantity = new IngredientQuantity(foodData, 1);
+        ingredientQuantities.Add(ingredientQuantity);
     }
 
     public void ResetIngredientQuantities()
@@ -49,12 +48,8 @@ public class IngredientStockpile
     public void IncreaseCount(FoodData foodData, int v)
     {
         foreach (var item in ingredientQuantities)
-        {
             if (item.FoodData == foodData)
-            {
                 item.SetAmount(item.Amount + v);
-            }
-        }
     }
 
     public bool IsEqual(IngredientStockpile ingredientQuantitiesCollection)
@@ -64,37 +59,28 @@ public class IngredientStockpile
             Debug.Log("Fall");
             return false;
         }
-        bool HasAllNecessaryIngredients = IncludesAllRequiredIngredients(ingredientQuantitiesCollection);
-        if (HasAllNecessaryIngredients)
-        {
-            Debug.Log("Contain food");
-        }
-        else
-        {
-            Debug.Log("Not contain food");
-        }
-        return HasAllNecessaryIngredients;
+
+        var hasAllNecessaryIngredients = IncludesAllRequiredIngredients(ingredientQuantitiesCollection);
+        Debug.Log(hasAllNecessaryIngredients ? "Contain food" : "Not contain food");
+        return hasAllNecessaryIngredients;
     }
+
     private bool IncludesAllRequiredIngredients(IngredientStockpile ingredientQuantitiesCollection)
     {
-        foreach (var item in ingredientQuantitiesCollection.ingredientQuantities)
-        {
-            if (!ContainsExactFoodDataCount(item.FoodData, item.Amount))
-                return false;
-        }
-        return true;
+        return ingredientQuantitiesCollection.ingredientQuantities.All(item =>
+            ContainsExactFoodDataCount(item.FoodData, item.Amount));
     }
+
     private bool ContainsExactFoodDataCount(FoodData foodData, int count)
     {
-        bool isFound = false;
+        var isFound = false;
         foreach (var item in ingredientQuantities)
-        {
-            if (item.FoodData == foodData && item.Amount == count)
+            if (Equals(item.FoodData, foodData) && item.Amount == count)
             {
                 isFound = true;
                 break;
             }
-        }
+
         return isFound;
     }
 }

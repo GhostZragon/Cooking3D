@@ -1,30 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 [Serializable]
 public class CookwareRecipeHandle
 {
-    [Serializable]
-    public struct RecipeStructure
-    {
-        public Recipes Recipes;
-        public bool isComplete;
-
-        public void CompleteFood()
-        {
-            isComplete = true;
-        }
-    }
     [SerializeField] private List<RecipeStructure> RecipeStructures;
     [SerializeField] private IngredientStockpile IngredientQuantities;
-    public IngredientStockpile IngredientQuantitiesCollection => IngredientQuantities;
+
     public CookwareRecipeHandle()
     {
         RecipeStructures = new List<RecipeStructure>();
         IngredientQuantities = new IngredientStockpile();
     }
-    public int TotalRecipesCount { get => RecipeStructures.Count; }
-    public int IngredientQuantityCount { get => IngredientQuantities.IngredientCount;}
+
+    public IngredientStockpile IngredientQuantitiesCollection => IngredientQuantities;
+    public int TotalRecipesCount => RecipeStructures.Count;
+    public int IngredientQuantityCount => IngredientQuantities.IngredientCount;
 
     public void AddMatchListRecipe(List<Recipes> recipesList)
     {
@@ -46,13 +38,9 @@ public class CookwareRecipeHandle
     public void RefreshOrInsertFoodDetails(FoodData foodData)
     {
         if (IngredientQuantities.ContainsFoodData(foodData))
-        {
-            IngredientQuantities.IncreaseCount(foodData,1);
-        }
+            IngredientQuantities.IncreaseCount(foodData, 1);
         else
-        {
             IngredientQuantities.Add(foodData);
-        }
     }
 
     public void SetInitialFoodData(FoodData foodData)
@@ -69,5 +57,17 @@ public class CookwareRecipeHandle
     public int GetCountOfFood(FoodData foodData)
     {
         return IngredientQuantities.GetCountOfFoodData(foodData);
+    }
+
+    [Serializable]
+    public struct RecipeStructure
+    {
+        public Recipes Recipes;
+        public bool isComplete;
+
+        public void CompleteFood()
+        {
+            isComplete = true;
+        }
     }
 }
