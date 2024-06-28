@@ -18,8 +18,6 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogWarning("CharacterController is null", gameObject);
             return;
         }
-        //direction.x = Input.GetAxis("Horizontal");
-        //direction.z = Input.GetAxis("Vertical");
 
         controller.Move(direction.normalized * speed * Time.deltaTime);
         Rotate(direction);

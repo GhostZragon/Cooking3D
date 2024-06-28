@@ -1,0 +1,43 @@
+﻿
+using UnityEngine;
+
+public partial class ExchangeCookwarePattern
+{
+
+    private class CookwareHaveFoodPattern : IExchangeStrategy
+    {
+        public bool CanExchange(HolderAbstract holder1, HolderAbstract holder2)
+        {
+            var cookware1 = holder1.GetCookware();
+            var cookware2 = holder2.GetCookware();
+            //if (cookware1.IsContainFoodInPlate() == false|| cookware2.IsContainFoodInPlate() == false) return false;
+            var canExchangeFoodBetweenCookware = cookware1.CanSwapFood(cookware2.GetFood()) &&
+                                                  cookware2.CanSwapFood(cookware1.GetFood());
+            return canExchangeFoodBetweenCookware;
+        }
+
+        public void Exchange(HolderAbstract holder1, HolderAbstract holder2)
+        {
+            // TODO: Need to check if can combine food
+            var cookware1 = holder1.GetCookware();
+            var cookware2 = holder2.GetCookware();
+            bool isBothHaveFoodInCookware = cookware1.IsContainFoodInPlate() && cookware2.IsContainFoodInPlate();
+            if (cookware1.CanCombineWithCookware(cookware2))
+            {
+                cookware2.DiscardFood();
+                Debug.Log("Can swap");
+                return;
+            }
+            Debug.Log("This is same type of cookware");
+
+            SwapFood(cookware1, cookware2);
+        }
+        private void SwapFood(Cookware cookware1,Cookware cookware2)
+        {
+            var food1 = cookware1.GetFood();
+            var food2 = cookware2.GetFood();
+            cookware1.Swap(food2);
+            cookware2.Swap(food1);
+        }
+    }
+}
