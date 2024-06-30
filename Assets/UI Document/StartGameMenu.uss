@@ -1,0 +1,76 @@
+.button-menu {
+    transition-duration: 0.25s;
+    width: 200px;
+    height: 85px;
+    font-size: 45px;
+    border-top-width: 7px;
+    border-right-width: 7px;
+    border-bottom-width: 7px;
+    border-left-width: 7px;
+    border-top-left-radius: 34px;
+    border-top-right-radius: 34px;
+    border-bottom-right-radius: 34px;
+    border-bottom-left-radius: 34px;
+    border-left-color: rgb(249, 158, 76);
+    border-right-color: rgb(249, 158, 76);
+    border-top-color: rgb(249, 158, 76);
+    border-bottom-color: rgb(249, 158, 76);
+    position: relative;
+    transition-timing-function: ease-out-bounce;
+    color: rgb(255, 255, 255);
+    background-color: rgb(243, 111, 56);
+    margin-bottom: 0;
+    margin-top: 21px;
+}
+
+.button-menu:hover {
+    transition-duration: 0.25s;
+    width: 200px;
+    height: 85px;
+    font-size: 45px;
+    border-top-width: 7px;
+    border-right-width: 7px;
+    border-bottom-width: 7px;
+    border-left-width: 7px;
+    border-top-left-radius: 34px;
+    border-top-right-radius: 34px;
+    border-bottom-right-radius: 34px;
+    border-bottom-left-radius: 34px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    position: relative;
+    transition-timing-function: ease-out-bounce;
+    color: rgb(255, 255, 255);
+    background-color: rgb(212, 97, 150);
+    margin-bottom: 0;
+    margin-top: 21px;
+    scale: 1.05 1.05;
+}
+
+.button-menu:active {
+    transition-duration: 0.25s;
+    width: 200px;
+    height: 85px;
+    font-size: 45px;
+    border-top-width: 7px;
+    border-right-width: 7px;
+    border-bottom-width: 7px;
+    border-left-width: 7px;
+    border-top-left-radius: 34px;
+    border-top-right-radius: 34px;
+    border-bottom-right-radius: 34px;
+    border-bottom-left-radius: 34px;
+    border-left-color: rgb(192, 110, 111);
+    border-right-color: rgb(192, 110, 111);
+    border-top-color: rgb(192, 110, 111);
+    border-bottom-color: rgb(192, 110, 111);
+    position: relative;
+    transition-timing-function: ease-out-bounce;
+    color: rgb(255, 255, 255);
+    background-color: rgb(168, 56, 71);
+    margin-bottom: 0;
+    margin-top: 21px;
+    scale: 0.9 0.9;
+}
