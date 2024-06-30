@@ -12,14 +12,17 @@ public partial class CookwareManager : MonoBehaviour
     [SerializeField] private bool scanWhenStart;
 
     public Dictionary<CookwareType, CookwareLimit> cookwareLitmitDict;
-
+    private FoodManager foodManager;
     private void Awake()
     {
         instance = this;
         InitCookwareLimit();
         CountingCookwareInGame();
     }
-
+    private void Start()
+    {
+        foodManager = FoodManager.instance;
+    }
     private void CountingCookwareInGame()
     {
         if (scanWhenStart == false) return;
@@ -70,7 +73,7 @@ public partial class CookwareManager : MonoBehaviour
         if (food == null) return true;
         if (type == CookwareType.Pan)
         {
-            var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), FoodState.Cooked);
+            var foodData = foodManager.GetFoodData(food.GetFoodType(), FoodState.Cooked);
             return foodData != null;
         }
         return false;

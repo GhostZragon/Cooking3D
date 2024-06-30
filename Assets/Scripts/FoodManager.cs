@@ -1,10 +1,6 @@
 using NaughtyAttributes;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FoodManager : MonoBehaviour
 {
@@ -15,11 +11,11 @@ public class FoodManager : MonoBehaviour
     [SerializeField] private Food foodPrefab;
     [SerializeField] private Recipes Recipes;
     [SerializeField] private Material food_mat;
-
-
+    private UnityPool<Food> foodPoolObject;
     private void Awake()
     {
         instance = this;
+        foodPoolObject = new UnityPool<Food>(foodPrefab, 5, transform);
     }
 
     private void OnValidate()
@@ -37,18 +33,16 @@ public class FoodManager : MonoBehaviour
 
     public Food GetFoodInstantiate(FoodType foodType, FoodState foodState)
     {
-        return InitFoodState(FoodDatabase.GetFoodData(foodState, foodType));
-    }
-
-    private Food InitFoodState(FoodData foodData)
-    {
-        var food = Instantiate(foodPrefab);
+        var food = foodPoolObject.Get();
+        var foodData = FoodDatabase.GetFoodData(foodState, foodType);
+        
         food.SetData(foodData);
         var skin = food.GetComponent<FoodCustomizeMesh>();
         skin.SetMaterial(food_mat);
         skin.SetMesh(foodData.GetMesh());
         return food;
     }
+
     public bool CheckFoodValidToChange(Food food, FoodState foodState)
     {
         if (FoodDatabase == null)

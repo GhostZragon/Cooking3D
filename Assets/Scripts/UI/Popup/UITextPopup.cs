@@ -5,12 +5,6 @@ using DG.Tweening;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-
-public interface PoolCallback<T>
-{
-    Action<T> OnCallback { get; set; }
-    void OnRelease();
-}
 [RequireComponent(typeof(UIHoldWorldPosition))]
 public class UIWorldSpace : MonoBehaviour
 {

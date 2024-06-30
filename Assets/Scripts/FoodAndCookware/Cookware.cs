@@ -16,15 +16,19 @@ public class Cookware : PickUpAbtract
     [SerializeField] private Food FoodInPlates;
     [SerializeField] private CookwareType type;
     [SerializeField] private List<CookwareModel> listModel;
-
-
     [SerializeField] private CookwareRecipeHandle CookwareRecipeController;
 
+    private CookwareManager cookwareManager;
+    private FoodManager foodManager;
     private void Awake()
     {
         CookwareRecipeController = new CookwareRecipeHandle();
     }
-
+    private void Start()
+    {
+        cookwareManager = CookwareManager.instance;
+        foodManager = FoodManager.instance;
+    }
     public Food GetFood()
     {
         return FoodInPlates;
@@ -59,7 +63,10 @@ public class Cookware : PickUpAbtract
 
     public void DiscardFood()
     {
-        Destroy(FoodInPlates.gameObject);
+        if(FoodInPlates != null)
+        {
+            FoodInPlates.Discard();
+        }
 
         CookwareRecipeController.Reset();
     }
@@ -83,7 +90,7 @@ public class Cookware : PickUpAbtract
             Debug.Log(canPutFood ? "Can put food in plate " : "Cannot put food in plate");
             return canPutFood;
         }
-        var CanSwapFoodInCookware = CookwareManager.instance.CanPutFoodInCookware(type, food);
+        var CanSwapFoodInCookware = cookwareManager.CanPutFoodInCookware(type, food);
         Debug.Log(CanSwapFoodInCookware ? "Can put food in normal cookware " : "Cannot put food in normal cookware ");
         return CanSwapFoodInCookware;
     }
@@ -92,7 +99,7 @@ public class Cookware : PickUpAbtract
     {
         if (CookwareRecipeController.IngredientQuantityCount == 0)
         {
-            if (FoodManager.instance.IsFoodInRecipe(foodData, out var recipeMath) == false) return false;
+            if (foodManager.IsFoodInRecipe(foodData, out var recipeMath) == false) return false;
 
             CookwareRecipeController.AddMatchListRecipe(recipeMath);
         }
@@ -132,6 +139,8 @@ public class Cookware : PickUpAbtract
 
     public override void Discard()
     {
+        DiscardFood();
+        Destroy(gameObject);
     }
 
     public void CombineFood(FoodData foodData)

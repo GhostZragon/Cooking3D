@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class FoodProcess : BaseProcess<Food,FoodState>
 {
-
+    private FoodManager foodManager;
+    public FoodProcess()
+    {
+        foodManager = FoodManager.instance;
+    }
     public override void ApplyFoodStateChange(Food food, FoodState foodStateWantToChange)
     {
         var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), foodStateWantToChange);
@@ -16,7 +20,7 @@ public class FoodProcess : BaseProcess<Food,FoodState>
     {
         if (food == null) return false;
         var foodNotSameState = food.GetFoodState() != foodStateWantToChange;
-        var isFoodStateInDatabase = FoodManager.instance.CheckFoodValidToChange(food, foodStateWantToChange);
+        var isFoodStateInDatabase = foodManager.CheckFoodValidToChange(food, foodStateWantToChange);
         Debug.Log($"foodNotSameState{foodNotSameState} isFoodStateInDatabase{isFoodStateInDatabase}");
 
         return foodNotSameState && isFoodStateInDatabase;

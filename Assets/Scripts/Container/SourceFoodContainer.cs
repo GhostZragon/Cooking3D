@@ -13,7 +13,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     private BoxCollider BoxCollider;
     private float timeToSpawn = 1;
     [SerializeField] private List<Food> foodInCrate = new List<Food>();
-
+    private FoodManager foodManager;
     public void ExchangeItems(HolderAbstract player)
     {
         if (foodInCrate.Count == 0) return;
@@ -26,6 +26,10 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     {
         BoxCollider = GetComponent<BoxCollider>();
         StartCoroutine(SpawnTest());
+    }
+    private void Start()
+    {
+        foodManager = FoodManager.instance;
     }
 
     private IEnumerator SpawnTest()
@@ -72,7 +76,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
 
     private Food CreateFood()
     {
-        var food = FoodManager.instance.GetFoodInstantiate(FoodType, FoodState.Raw);
+        var food = foodManager.GetFoodInstantiate(FoodType, FoodState.Raw);
         if(food == null) return null;
         food.Init();
         food.SetToParentAndPosition(transform);

@@ -162,7 +162,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         }
         else if (IsContainFood())
         {
-            Destroy(item.gameObject);
+            item.Discard();
             SetItem(null);
         }
     }
@@ -171,7 +171,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
     {
         if (GetCookware() != null)
         {
-            Destroy(item.gameObject);
+            item.Discard();
             SetItem(null);
         }
     }

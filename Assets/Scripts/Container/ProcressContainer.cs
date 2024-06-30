@@ -26,9 +26,11 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
     private void Awake()
     {
         ITriggerProcess = GetComponent<ITriggerProcress>();
+    }
+    private void Start()
+    {
         foodProcess = new FoodProcess();
     }
-
 
     public void DoAction()
     {

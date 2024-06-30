@@ -1,9 +1,4 @@
-using NaughtyAttributes;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -36,13 +31,15 @@ public struct RuntimeFoodData
 
     public GameObject Model;
 }
-public class Food : PickUpAbtract
+public class Food : PickUpAbtract, PoolCallback<Food>
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private FoodData foodData;
     [SerializeField] private MeshCollider meshCollider;
     [SerializeField] private FoodCustomizeMesh foodCustomizeMesh;
-  
+
+    public Action<Food> OnCallback { get; set; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -87,7 +84,7 @@ public class Food : PickUpAbtract
 
     public override void Discard()
     {
-        Destroy(gameObject);
+        OnCallback?.Invoke(this);
     }
 
     public FoodData GetData()
@@ -98,5 +95,10 @@ public class Food : PickUpAbtract
     internal void SetModel()
     {
         foodCustomizeMesh.SetMesh(foodData.GetMesh());
+    }
+
+    public void OnRelease()
+    {
+        OnCallback?.Invoke(this);
     }
 }
