@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: RecipeDatabase
   m_EditorClassIdentifier: 
   recipes:
+  - {fileID: 11400000, guid: c5945023ffb3a71449687daf5791d490, type: 2}
   - {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}

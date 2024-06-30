@@ -9,7 +9,7 @@ public enum CookwareType
     Pot,
     Pan
 }
-
+[RequireComponent(typeof(CookwareRecipeHandle))]
 public class Cookware : PickUpAbtract
 {
     [SerializeField] private Transform PlaceTransform;
@@ -22,7 +22,7 @@ public class Cookware : PickUpAbtract
     private FoodManager foodManager;
     private void Awake()
     {
-        CookwareRecipeController = new CookwareRecipeHandle();
+        CookwareRecipeController = GetComponent<CookwareRecipeHandle>();
     }
     private void Start()
     {
@@ -54,7 +54,7 @@ public class Cookware : PickUpAbtract
         {
             if(food == null)
             {
-                CookwareRecipeController.Reset();
+                CookwareRecipeController.ResetData();
                 return;
             }
             CookwareRecipeController.SetInitialFoodData(food.GetData());
@@ -68,7 +68,7 @@ public class Cookware : PickUpAbtract
             FoodInPlates.Discard();
         }
 
-        CookwareRecipeController.Reset();
+        CookwareRecipeController.ResetData();
     }
 
     public bool IsContainFoodInPlate()
@@ -78,20 +78,16 @@ public class Cookware : PickUpAbtract
 
     public bool CanSwapFood(Food food)
     {
-        Debug.LogWarning("IF have process food need multiple item, PLS Upgrade this check");
         if (type == CookwareType.Plate)
         {
             if(food == null)
             {
-                Debug.Log("This food is null when checking can swap");
                 return true;
             }
             var canPutFood = CanPutFood(food.GetData());
-            Debug.Log(canPutFood ? "Can put food in plate " : "Cannot put food in plate");
             return canPutFood;
         }
         var CanSwapFoodInCookware = cookwareManager.CanPutFoodInCookware(type, food);
-        Debug.Log(CanSwapFoodInCookware ? "Can put food in normal cookware " : "Cannot put food in normal cookware ");
         return CanSwapFoodInCookware;
     }
 
@@ -104,27 +100,10 @@ public class Cookware : PickUpAbtract
             CookwareRecipeController.AddMatchListRecipe(recipeMath);
         }
 
-        if (IsFoodInRecipeMatch(foodData)) return true;
+        if (CookwareRecipeController.IsFoodInRecipeMatch(foodData)) return true;
         return false;
     }
 
-    private bool IsFoodInRecipeMatch(FoodData foodData)
-    {
-        if (CookwareRecipeController.TotalRecipesCount == 0) return true;
-        foreach (var currentRecipeStructure in CookwareRecipeController.GetRecipeList())
-        {
-            if (currentRecipeStructure.isComplete) continue;
-            var count = CookwareRecipeController.GetCountOfFood(foodData);
-            if (currentRecipeStructure.Recipes.IsContainWithCount(foodData, count))
-            {
-                Debug.Log("is contain food data: " + foodData.name);
-                return true;
-            }
-        }
-
-        // remove matchedRecipe of it not need
-        return false;
-    }
 
     public CookwareType GetCookwareType()
     {

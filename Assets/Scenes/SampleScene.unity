@@ -6733,10 +6733,7 @@ MonoBehaviour:
     Model: {fileID: 279564282}
   - type: 3
     Model: {fileID: 913570536}
-  CookwareRecipeController:
-    RecipeStructures: []
-    IngredientQuantitiesHandle:
-      ingredientQuantities: []
+  CookwareRecipeController: {fileID: 0}
 --- !u!4 &846248272
 Transform:
   m_ObjectHideFlags: 0
@@ -8193,10 +8190,7 @@ MonoBehaviour:
     Model: {fileID: 697220116}
   - type: 3
     Model: {fileID: 1058142534}
-  CookwareRecipeController:
-    RecipeStructures: []
-    IngredientQuantitiesHandle:
-      ingredientQuantities: []
+  CookwareRecipeController: {fileID: 0}
 --- !u!4 &1031077168
 Transform:
   m_ObjectHideFlags: 0
@@ -11735,9 +11729,7 @@ MonoBehaviour:
     type: 3}
   Recipes: {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}
   food_mat: {fileID: 2100000, guid: 4ab30c1ef828ea74fbff2187caaf556e, type: 2}
-  RecipesList:
-  - {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}
-  - {fileID: 11400000, guid: c5945023ffb3a71449687daf5791d490, type: 2}
+  recipeDatabase: {fileID: 0}
 --- !u!1 &1495096931
 GameObject:
   m_ObjectHideFlags: 0

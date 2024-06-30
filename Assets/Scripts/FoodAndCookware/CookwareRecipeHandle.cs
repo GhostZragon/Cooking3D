@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 [Serializable]
-public class CookwareRecipeHandle
+public class CookwareRecipeHandle : MonoBehaviour
 {
     [SerializeField] private List<RecipeStructure> RecipeStructures;
     [SerializeField] private IngredientStockpile IngredientQuantitiesHandle;
 
-    public CookwareRecipeHandle()
+    private void Awake()
     {
         RecipeStructures = new List<RecipeStructure>();
         IngredientQuantitiesHandle = new IngredientStockpile();
@@ -48,7 +47,7 @@ public class CookwareRecipeHandle
         IngredientQuantitiesHandle.SetFirstIngredientFoodData(foodData);
     }
 
-    public void Reset()
+    public void ResetData()
     {
         RecipeStructures.Clear();
         IngredientQuantitiesHandle.ResetIngredientQuantities();
@@ -74,5 +73,20 @@ public class CookwareRecipeHandle
         {
             isComplete = true;
         }
+    }
+    public bool IsFoodInRecipeMatch(FoodData foodData)
+    {
+        if (TotalRecipesCount == 0) return true;
+        foreach (var currentRecipeStructure in GetRecipeList())
+        {
+            if (currentRecipeStructure.isComplete) continue;
+            var count = GetCountOfFood(foodData);
+            if (currentRecipeStructure.Recipes.IsContainWithCount(foodData, count))
+            {
+                Debug.Log("is contain food data: " + foodData.name);
+                return true;
+            }
+        }
+        return false;
     }
 }
