@@ -6706,7 +6706,7 @@ GameObject:
   - component: {fileID: 846248271}
   - component: {fileID: 846248273}
   m_Layer: 0
-  m_Name: CookwareBasePrefab(Clone)
+  m_Name: asdasf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8179,7 +8179,7 @@ GameObject:
   - component: {fileID: 1031077167}
   - component: {fileID: 1031077169}
   m_Layer: 0
-  m_Name: CookwareBasePrefab(Clone) (1)
+  m_Name: 1231231
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class IngredientStockpile
@@ -86,5 +87,17 @@ public class IngredientStockpile
     public List<IngredientQuantity> GetIngredientQuantities()
     {
         return this.ingredientQuantities;
+    }
+
+    internal void UpdateOldFoodData(FoodData newFoodData, FoodData oldFoodData)
+    {
+        foreach(var food in ingredientQuantities)
+        {
+            if(food.FoodData == oldFoodData)
+            {
+                food.SetFoodData(newFoodData);
+                break;
+            }
+        }
     }
 }

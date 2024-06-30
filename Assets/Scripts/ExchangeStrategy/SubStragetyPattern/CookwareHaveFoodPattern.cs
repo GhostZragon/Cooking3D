@@ -32,34 +32,33 @@ public partial class ExchangeCookwarePattern
 
             if (plateCount == 2)
             {
+                Debug.Log("Plate count 2");
                 if (cookware1.CanCombineWithCookware(cookware2))
                 {
                     cookware2.DiscardFood();
                     Debug.Log("Can swap 2 0");
-                    return;
                 }
+                return;
             }
             else if (plateCount == 1)
             {
+                Debug.Log("Plate count 1");
                 var cookwareIsPlate = cookware1.GetCookwareType() == CookwareType.Plate ? cookware1 : cookware2;
-                var cookwareAnother = cookware1.GetCookwareType() != CookwareType.Plate ? cookware2 : cookware1;
+                var cookwareAnother = cookwareIsPlate == cookware1 ? cookware2 : cookware1;
                 if (cookwareIsPlate.CanCombineWithCookware(cookwareAnother))
                 {
                     cookwareAnother.DiscardFood();
-                    Debug.Log("Can swap 1 ");
-                    return;
+                    Debug.Log($"Can swap 1 cookware 1 {cookwareIsPlate.name} cookware 2 {cookwareAnother.name}");
                 }
+           
+                return;
             }
-            else
-            {
-                SwapFood(cookware1, cookware2);
-
-            }
+            SwapFood(cookware1, cookware2);
 
             Debug.Log("This is same type of cookware");
 
         }
-        private void SwapFood(Cookware cookware1,Cookware cookware2)
+        private void SwapFood(Cookware cookware1, Cookware cookware2)
         {
             var food1 = cookware1.GetFood();
             var food2 = cookware2.GetFood();

@@ -34,7 +34,10 @@ public class CookwareRecipeHandle : MonoBehaviour
     {
         return RecipeStructures;
     }
-
+    /// <summary>
+    /// Use
+    /// </summary>
+    /// <param name="foodData"></param>
     public void RefreshOrInsertFoodDetails(FoodData foodData)
     {
         if (IngredientQuantitiesHandle.ContainsFoodData(foodData))
@@ -43,6 +46,14 @@ public class CookwareRecipeHandle : MonoBehaviour
             IngredientQuantitiesHandle.Add(foodData);
     }
 
+    /// <summary>
+    /// Use for process food
+    /// </summary>
+    /// <param name="foodData"></param>
+    public void UpdateCurrentFood(FoodData newFoodData, FoodData oldFoodData)
+    {
+        IngredientQuantitiesHandle.UpdateOldFoodData(newFoodData, oldFoodData);
+    }
     public void SetInitialFoodData(FoodData foodData)
     {
         IngredientQuantitiesHandle.SetFirstIngredientFoodData(foodData);
@@ -117,7 +128,7 @@ public class CookwareRecipeHandle : MonoBehaviour
 
             if (!CanPutFood(ingredientData.FoodData))
             {
-                Debug.Log("It cannot combine");
+                Debug.Log($"{transform.name} cannot combine: "+ cookwareRecipeHandle.name);
                 canCombine = false;
                 break;
             }

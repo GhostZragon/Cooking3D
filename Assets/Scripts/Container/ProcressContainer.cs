@@ -48,7 +48,19 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
             foodToProcess = GetCookware().GetFood();
         }
         if (foodToProcess == null) return;
-        StartCoroutine(StartConvertNonCookwareFood(() => { foodProcess.ApplyFoodStateChange(foodToProcess, foodStateWantToChange); }));
+        StartCoroutine(StartConvertNonCookwareFood(() => 
+        {
+            // cached foodData before process
+            var oldFoodData = foodToProcess.GetData();
+            foodProcess.ApplyFoodStateChange(foodToProcess, foodStateWantToChange);
+            // if process on contain cookware then update food data in cookware
+            if (IsContainCookware())
+            {
+                var cookware = item as Cookware;
+                var cookwareHandle = cookware.GetComponent<CookwareRecipeHandle>();
+                cookwareHandle.UpdateCurrentFood(foodToProcess.GetData(), oldFoodData);
+            }
+        }));
     }
 
     public override void ExchangeItems(HolderAbstract player)
@@ -79,10 +91,14 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         Debug.Log("Start coroutine");
         isProcessItem = true;
         uiProcessBar = UIFoodProcessBarManager.instance.GetUIElement(placeTransform.position);
+        bool CanSetModel = true;
         while (timer <= timeToConvert)
         {
             if (CanProcess() == false)
+            {
+                CanSetModel = false;
                 break;
+            }
 
             if (uiProcessBar != null && timer >= 0 && timer <= timeToConvert)
                 uiProcessBar.SetFillAmount(timer / timeToConvert);
@@ -94,11 +110,12 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
 
         if (Application.isEditor)
         {
-            if (infinityConvert == false) callback?.Invoke();
+            if (infinityConvert == false && CanSetModel) callback?.Invoke();
         }
         else
         {
-            callback?.Invoke();
+            if(CanSetModel)
+                callback?.Invoke();
         }
 
         ResetUIFoodProcess();

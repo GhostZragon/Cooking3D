@@ -95,12 +95,21 @@ public class Cookware : PickUpAbtract
     {
         if (CookwareRecipeController.IngredientQuantityCount == 0)
         {
-            if (foodManager.IsFoodInRecipe(foodData, out var recipeMath) == false) return false;
+            if (foodManager.IsFoodInRecipe(foodData, out var recipeMath) == false)
+            {
+                Debug.Log($"{foodData.name} not match");
+                return false;
+            }
 
             CookwareRecipeController.AddMatchListRecipe(recipeMath);
         }
 
-        if (CookwareRecipeController.IsFoodInRecipeMatch(foodData)) return true;
+        if (CookwareRecipeController.IsFoodInRecipeMatch(foodData))
+        {
+            Debug.Log($"{foodData.name} match");
+            return true;
+        }
+        Debug.Log($"{foodData.name} not match");
         return false;
     }
 
