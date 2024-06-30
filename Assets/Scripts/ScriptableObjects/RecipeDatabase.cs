@@ -8,9 +8,14 @@ public class RecipeDatabase : ScriptableObject
 {
     [Expandable]
     [SerializeField] private List<Recipes> recipes = new List<Recipes>();
+    public List<Recipes> Recipes { get => recipes; }
     [Button]
     private void LoadRecipeInAsset()
     {
         recipes = LoadAssetHeplder.GetListTypeInAssets<Recipes>();
+    }
+    private void OnEnable()
+    {
+        LoadRecipeInAsset();
     }
 }

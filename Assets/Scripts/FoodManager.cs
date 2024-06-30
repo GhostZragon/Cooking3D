@@ -11,7 +11,12 @@ public class FoodManager : MonoBehaviour
     [SerializeField] private Food foodPrefab;
     [SerializeField] private Recipes Recipes;
     [SerializeField] private Material food_mat;
+    [SerializeField] private RecipeDatabase recipeDatabase;
+    
     private UnityPool<Food> foodPoolObject;
+
+
+
     private void Awake()
     {
         instance = this;
@@ -59,13 +64,15 @@ public class FoodManager : MonoBehaviour
         return FoodDatabase.GetFoodData(foodState, foodType);
     }
 
-  
-    public List<Recipes> RecipesList;
-
     public bool IsFoodInRecipe(FoodData foodData, out List<Recipes> listRecipeValid)
     {
         listRecipeValid = new List<Recipes>();
-        foreach (var recipe in RecipesList)
+        if(recipeDatabase == null)
+        {
+            Debug.Log("Recipe database is null");
+            return false;
+        }
+        foreach (var recipe in recipeDatabase.Recipes)
         {
             if (recipe.IsContain(foodData))
             {
