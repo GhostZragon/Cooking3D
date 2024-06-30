@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 [Serializable]
 public class CookwareRecipeHandle : MonoBehaviour
 {
@@ -77,7 +78,7 @@ public class CookwareRecipeHandle : MonoBehaviour
     public bool IsFoodInRecipeMatch(FoodData foodData)
     {
         if (TotalRecipesCount == 0) return true;
-        foreach (var currentRecipeStructure in GetRecipeList())
+        foreach (var currentRecipeStructure in RecipeStructures)
         {
             if (currentRecipeStructure.isComplete) continue;
             var count = GetCountOfFood(foodData);
@@ -88,5 +89,51 @@ public class CookwareRecipeHandle : MonoBehaviour
             }
         }
         return false;
+    }
+    public void CombineFood(FoodData foodData, Food FoodInPlates)
+    {
+        RefreshOrInsertFoodDetails(foodData);
+        // cheking is math all food in recipeData
+        foreach (var matchedRecipe in RecipeStructures)
+        {
+            if (matchedRecipe.isComplete) continue;
+            var recipeDataSO = matchedRecipe.Recipes;
+            var requiredIngredients = recipeDataSO.GetRequiredIngredients();
+
+            if (requiredIngredients.IsEqual(IngredientQuantitiesCollection))
+                if (IngredientQuantityCount == requiredIngredients.IngredientCount)
+                {
+                    FoodInPlates.SetData(recipeDataSO.FoodResult);
+                    FoodInPlates.SetModel();
+                    matchedRecipe.CompleteFood();
+                }
+        }
+    }
+    public bool CombineFood(CookwareRecipeHandle cookwareRecipeHandle, Func<FoodData,bool> CanPutFood,Food foodInPlate)
+    {
+        bool canCombine = true;
+        foreach (var ingredientData in cookwareRecipeHandle.GetCurrentFoodDataList())
+        {
+
+            if (!CanPutFood(ingredientData.FoodData))
+            {
+                Debug.Log("It cannot combine");
+                canCombine = false;
+                break;
+            }
+
+        }
+        // If all food data can combine, then combine it
+        if (canCombine)
+        {
+            // add each food data to this cookware 
+            foreach (var ingredientData in cookwareRecipeHandle.GetCurrentFoodDataList())
+            {
+                CombineFood(ingredientData.FoodData, foodInPlate);
+            }
+
+        }
+
+        return canCombine;
     }
 }

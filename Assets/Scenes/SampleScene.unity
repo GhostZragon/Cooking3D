@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2824,7 +2824,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 20
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
@@ -3199,7 +3199,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 35
+  field of view: 15
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3225,8 +3225,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16716726, y: -0.4352291, z: 0.082602166, w: 0.8807995}
-  m_LocalPosition: {x: 4.96, y: 1.42, z: -4.95}
+  m_LocalRotation: {x: 0.4836355, y: -0, z: -0, w: 0.8752696}
+  m_LocalPosition: {x: 0.31, y: 23.17, z: -15.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6704,6 +6704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 846248272}
   - component: {fileID: 846248271}
+  - component: {fileID: 846248273}
   m_Layer: 0
   m_Name: CookwareBasePrefab(Clone)
   m_TagString: Untagged
@@ -6753,6 +6754,21 @@ Transform:
   - {fileID: 614400288}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &846248273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846248270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9f25dac40c41248a63e7194533e456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecipeStructures: []
+  IngredientQuantitiesHandle:
+    ingredientQuantities: []
 --- !u!1001 &865334686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8161,6 +8177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1031077168}
   - component: {fileID: 1031077167}
+  - component: {fileID: 1031077169}
   m_Layer: 0
   m_Name: CookwareBasePrefab(Clone) (1)
   m_TagString: Untagged
@@ -8210,6 +8227,21 @@ Transform:
   - {fileID: 1672971349}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1031077169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031077166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9f25dac40c41248a63e7194533e456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecipeStructures: []
+  IngredientQuantitiesHandle:
+    ingredientQuantities: []
 --- !u!1001 &1040483245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11729,7 +11761,7 @@ MonoBehaviour:
     type: 3}
   Recipes: {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}
   food_mat: {fileID: 2100000, guid: 4ab30c1ef828ea74fbff2187caaf556e, type: 2}
-  recipeDatabase: {fileID: 0}
+  recipeDatabase: {fileID: 11400000, guid: 210fcd75e12d5dd4280ee50bf15fef7b, type: 2}
 --- !u!1 &1495096931
 GameObject:
   m_ObjectHideFlags: 0

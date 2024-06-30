@@ -52,7 +52,7 @@ public class Cookware : PickUpAbtract
             CookwareRecipeController.RefreshOrInsertFoodDetails(food.GetData());
         else
         {
-            if(food == null)
+            if (food == null)
             {
                 CookwareRecipeController.ResetData();
                 return;
@@ -63,7 +63,7 @@ public class Cookware : PickUpAbtract
 
     public void DiscardFood()
     {
-        if(FoodInPlates != null)
+        if (FoodInPlates != null)
         {
             FoodInPlates.Discard();
         }
@@ -80,7 +80,7 @@ public class Cookware : PickUpAbtract
     {
         if (type == CookwareType.Plate)
         {
-            if(food == null)
+            if (food == null)
             {
                 return true;
             }
@@ -124,53 +124,42 @@ public class Cookware : PickUpAbtract
 
     public void CombineFood(FoodData foodData)
     {
-        CookwareRecipeController.RefreshOrInsertFoodDetails(foodData);
-        var cookwareRecipes = CookwareRecipeController.GetRecipeList();
-        // cheking is math all food in recipeData
-        foreach (var matchedRecipe in cookwareRecipes)
-        {
-            if (matchedRecipe.isComplete) continue;
-            var recipeDataSO = matchedRecipe.Recipes;
-            var requiredIngredients = recipeDataSO.GetRequiredIngredients();
-
-            if (requiredIngredients.IsEqual(CookwareRecipeController.IngredientQuantitiesCollection))
-                if (CookwareRecipeController.IngredientQuantityCount == requiredIngredients.IngredientCount)
-                {
-                    FoodInPlates.SetData(recipeDataSO.FoodResult);
-                    FoodInPlates.SetModel();
-                    matchedRecipe.CompleteFood();
-                }
-        }
+        CookwareRecipeController.CombineFood(foodData, FoodInPlates);
     }
 
     public bool CanCombineWithCookware(Cookware cookware2)
     {
-        if (IsContainFoodInPlate() && cookware2.IsContainFoodInPlate())
-        {
-            // check can combine here
-            bool canCombine = true;
-            // check food in cookware 2 can put in cookware 1 ?
-            Debug.Log("On check 2 cookware");
-            foreach(var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
-            {
-                if (!CanPutFood(ingredientData.FoodData))
-                {
-                    Debug.Log("It cannot combine");
-                    canCombine = false;
-                    break;
-                }
-            }
-            if (canCombine)
-            {
-                foreach (var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
-                {
-                    CombineFood(ingredientData.FoodData);
-                }
-            }
+        if (!IsContainFoodInPlate() || !cookware2.IsContainFoodInPlate()) return false;
+        // check can combine here
+        // check food in cookware 2 can put in cookware 1 ?
+        Debug.Log("On check 2 cookware");
+        //bool canCombine = true;
 
-            return canCombine;
-        }
-        return false;
+        return CookwareRecipeController.CombineFood(cookware2.CookwareRecipeController, CanPutFood, FoodInPlates);
+        //foreach (var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
+        //{
+
+        //    if (!CanPutFood(ingredientData.FoodData))
+        //    {
+        //        Debug.Log("It cannot combine");
+        //        canCombine = false;
+        //        break;
+        //    }
+
+        //}
+        //// If all food data can combine, then combine it
+        //if (canCombine)
+        //{
+
+        //    // add each food data to this cookware 
+        //    foreach (var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
+        //    {
+        //        CombineFood(ingredientData.FoodData);
+        //    }
+
+        //}
+
+        //return canCombine;
     }
 
     [Serializable]

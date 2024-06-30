@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57cfbe429ab73af419687d40f3c05f86, type: 3}
   m_Name: Recipe_Test 1
   m_EditorClassIdentifier: 
-  foodResult: {fileID: 11400000, guid: fffc94b03e30e634f9e27c6a72cd1008, type: 2}
+  foodResult: {fileID: 11400000, guid: 836fd6a6bf4c23b41a42beb7468fe839, type: 2}
   recipeIngredient:
     ingredientQuantities:
     - foodData: {fileID: 11400000, guid: 644f677387257d34fbd051b05719463e, type: 2}

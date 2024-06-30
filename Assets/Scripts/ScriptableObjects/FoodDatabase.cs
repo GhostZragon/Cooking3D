@@ -78,7 +78,7 @@ public class FoodDatabase : ScriptableObject
             if (item.FoodType == foodType)
                 return item;
         }
-        Debug.LogError("Food not in database !!!",this);
+        Debug.LogError($"Food not in database !!!{foodState.ToString()} + {foodType.ToString()}",this);
         return null;
     }
     public bool CanTransitionToFoodState(Food food,FoodState foodStateWantToChange)
