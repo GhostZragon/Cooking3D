@@ -76,7 +76,7 @@ public class Cookware : PickUpAbtract
         return CookwareRecipeController.IngredientQuantityCount > 0;
     }
 
-    public bool CanSwapFood(Food food)
+    public bool CanSwapFood(Food food, bool isContainByPlate = false)
     {
         if (type == CookwareType.Plate)
         {
@@ -88,7 +88,7 @@ public class Cookware : PickUpAbtract
             return canPutFood;
         }
         var CanSwapFoodInCookware = cookwareManager.CanPutFoodInCookware(type, food);
-        return CanSwapFoodInCookware;
+        return CanSwapFoodInCookware || isContainByPlate;
     }
 
     public bool CanPutFood(FoodData foodData)
@@ -130,36 +130,11 @@ public class Cookware : PickUpAbtract
     public bool CanCombineWithCookware(Cookware cookware2)
     {
         if (!IsContainFoodInPlate() || !cookware2.IsContainFoodInPlate()) return false;
-        // check can combine here
-        // check food in cookware 2 can put in cookware 1 ?
+ 
         Debug.Log("On check 2 cookware");
-        //bool canCombine = true;
+   
 
         return CookwareRecipeController.CombineFood(cookware2.CookwareRecipeController, CanPutFood, FoodInPlates);
-        //foreach (var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
-        //{
-
-        //    if (!CanPutFood(ingredientData.FoodData))
-        //    {
-        //        Debug.Log("It cannot combine");
-        //        canCombine = false;
-        //        break;
-        //    }
-
-        //}
-        //// If all food data can combine, then combine it
-        //if (canCombine)
-        //{
-
-        //    // add each food data to this cookware 
-        //    foreach (var ingredientData in cookware2.CookwareRecipeController.GetCurrentFoodDataList())
-        //    {
-        //        CombineFood(ingredientData.FoodData);
-        //    }
-
-        //}
-
-        //return canCombine;
     }
 
     [Serializable]
