@@ -21,6 +21,8 @@ public class UIOrderManager : MonoBehaviour
     public UIOrderRecipe InitUIOrder()
     {
         var orderRecipe = UIOrderPool.Get();
+        orderRecipe.transform.SetParent(transform);
+        orderRecipe.transform.SetParent(holder);
         return orderRecipe;
     }
 

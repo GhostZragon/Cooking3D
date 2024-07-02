@@ -36,10 +36,12 @@ public partial class RecipeOrderHandle
 
         public void TriggerUIOrderRelease()
         {
+            Debug.Log("Hide");
             UIOrderRecipe.Hide();
         }
-        public void TriggerUIOrderGet()
+        public void TriggerUIOrderShow()
         {
+            Debug.Log("Show");
             UIOrderRecipe.Show();
         }
         public bool IsMatchingRecipe(Recipes recipes1)

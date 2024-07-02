@@ -12,11 +12,9 @@ public partial class RecipeOrderHandle : MonoBehaviour
     [SerializeField] private Recipes recipes;
     [SerializeField] private float orderTimeOut = 10f;
     [SerializeField] private float refreshRate = .1f;
-    private YieldInstruction delayInstruction;
-    private void Awake()
-    {
-        StartCoroutine(StartCounterInfinity());
-    }
+
+    private bool requestUpdate = false;
+
 
 
     [Button]
@@ -26,59 +24,70 @@ public partial class RecipeOrderHandle : MonoBehaviour
     }
     private void InitDict(Recipes newRecipe)
     {
-        //var uiRecipeOrder = UIOrderManager.instance.InitUIOrder();
-    
-        var recipeOrder = new RecipeOrder(newRecipe, UIOrderManager.instance.InitUIOrder());
-        recipeOrder.SetEnableUI(false);
-        recipeOrder.SetTimer(orderTimeOut);
-        //uiRecipeOrder.SetPopUpCallBack(() => OnPopUp(activeRecipeOrder));
-        //uiRecipeOrder.SetPopInCallback(() => OnPopIn(activeRecipeOrder));
+        var uiRecipeOrder = UIOrderManager.instance.InitUIOrder();
+
+        var activeRecipeOrder = new RecipeOrder(newRecipe, uiRecipeOrder);
+        activeRecipeOrder.SetEnableUI(false);
+        activeRecipeOrder.SetTimer(orderTimeOut);
+        uiRecipeOrder.SetPopUpDoneCallBack(() => OnPopUp(activeRecipeOrder));
+        uiRecipeOrder.SetUpdateLayoutCallback(() => OnPopIn(activeRecipeOrder));
         //activeRecipeOrder.recipes = recipeOrderItem;
-        newRecipeOrderList.Add(recipeOrder);
+        newRecipeOrderList.Add(activeRecipeOrder);
+        requestUpdate = true;
     }
-    private void OnPopUp(RecipeOrder recipeOrder)
+    private void OnPopUp(RecipeOrder activeRecipeOrder)
     {
-        Debug.Log("On pop up UI");
-        //RecipeOrderListOnShow.Add(activeRecipeOrder);
+        Debug.Log("Pop up callback");
+        RecipeOrderListOnShow.Add(activeRecipeOrder);
     }
-    private void OnPopIn(RecipeOrder recipeOrder)
+    private void OnPopIn(RecipeOrder activeRecipeOrder)
     {
-        Debug.Log("On pop in UI");
+        Debug.Log("Pop in callback");
+
         //activeRecipeOrder.TriggerUIOrderRelease();
     }
-    private IEnumerator StartCounterInfinity()
+
+
+    private void Update()
     {
-        delayInstruction = new WaitForSeconds(refreshRate);
+        ProcessPendingRecipeOrders();
+
+        ProcessActiveRecipeOrders();
+    }
+
+    private void ProcessActiveRecipeOrders()
+    {
+        if (RecipeOrderListOnShow.Count == 0) return;
+
+
         RecipeOrder activeRecipeOrder = null;
-
-        while (true)
+        for (int i = 0; i < RecipeOrderListOnShow.Count; i++)
         {
-            if (newRecipeOrderList.Count > 0)
+            activeRecipeOrder = RecipeOrderListOnShow[i];
+            activeRecipeOrder.Counter(refreshRate);
+            if (activeRecipeOrder.HasTimerEnded())
             {
-                foreach (var pendingRecipeOrder in newRecipeOrderList)
-                {
-                    // Call popup animaton here
-                    pendingRecipeOrder.SetEnableUI(true);
-                    RecipeOrderListOnShow.Add(pendingRecipeOrder);
-                }
-                newRecipeOrderList.Clear();
+                // Call incorrectly animation here
+                RemoveOrderFromList(activeRecipeOrder);
             }
+        }
+    }
 
-            for (int i = 0; i < RecipeOrderListOnShow.Count; i++)
+    private void ProcessPendingRecipeOrders()
+    {
+        if (requestUpdate == false) return;
+
+        if (newRecipeOrderList.Count > 0)
+        {
+            foreach (var pendingRecipeOrder in newRecipeOrderList)
             {
-                if(activeRecipeOrder == null)
-                {
-                    Debug.Log("This is null");
-                }
-                activeRecipeOrder = RecipeOrderListOnShow[i];
-                activeRecipeOrder.Counter(refreshRate);
-                if (activeRecipeOrder.HasTimerEnded())
-                {
-                    // Call incorrectly animation here
-                    RemoveOrder(activeRecipeOrder);
-                }
+                // Call popup animaton here
+                pendingRecipeOrder.SetEnableUI(true);
+                pendingRecipeOrder.TriggerUIOrderShow();
+                //RecipeOrderListOnShow.Add(pendingRecipeOrder);
+
             }
-            yield return delayInstruction;
+            newRecipeOrderList.Clear();
         }
     }
 
@@ -92,7 +101,7 @@ public partial class RecipeOrderHandle : MonoBehaviour
             if (recipeOrder.IsMatchingRecipe(recipes))
             {
                 // Correct animation
-                RemoveOrder(recipeOrder);
+                RemoveOrderFromList(recipeOrder);
                 match = true;
             }
 
@@ -100,11 +109,12 @@ public partial class RecipeOrderHandle : MonoBehaviour
         return match;
     }
 
-    private void RemoveOrder(RecipeOrder recipeOrder)
+    private void RemoveOrderFromList(RecipeOrder recipeOrder)
     {
         // Call popin animation here
         Debug.Log("Remove order in here");
         RecipeOrderListOnShow.Remove(recipeOrder);
         recipeOrder.TriggerUIOrderRelease();
     }
+
 }

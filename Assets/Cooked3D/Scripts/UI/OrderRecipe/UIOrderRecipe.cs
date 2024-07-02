@@ -17,8 +17,8 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
     [SerializeField] private CanvasGroup canvasGroup;
     public Action<UIOrderRecipe> OnCallback { get; set; }
 
-    private Action PopupAction;
-    private Action PopinAction;
+    private Action OnPopupComplete;
+    private Action UpdateLayoutCallback;
     private void Awake()
     {
         foodNameTxt = new List<TextMeshProUGUI>();
@@ -35,9 +35,10 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
             text.transform.SetParent(FoodTextGroupObject.transform, false);
             text.gameObject.SetActive(true);
             text.text = food.FoodData.name;
-            text.transform.localScale = Vector3.zero;
+            text.transform.localScale = Vector2.zero;
             foodNameTxt.Add(text);
         }
+        ResetToInitState();
     }
     public void UpdateFillValue(float value)
     {
@@ -53,19 +54,19 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
         OnCallback?.Invoke(this);
     }
 
-    public void SetPopUpCallBack(Action callback)
+    public void SetPopUpDoneCallBack(Action callback)
     {
-        PopupAction = callback;
+        OnPopupComplete = callback;
     }
 
-    public void SetPopInCallback(Action callback)
+    public void SetUpdateLayoutCallback(Action callback)
     {
-        PopinAction = callback;
+        UpdateLayoutCallback = callback;
     }
     [Button]
     public void Show()
     {
-        StartCoroutine(ShowCoroutine(1,Vector3.one,1));
+        StartCoroutine(ShowCoroutine());
     }
 
     [Button]
@@ -79,26 +80,36 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
     {
         container.transform.DOLocalMoveY(125, .5f).SetEase(Ease.OutBack).OnComplete(() =>
         {
-            container.localPosition = Vector3.zero;
-            recipeNameTxt.transform.localScale = Vector3.zero;
-            fillTimeImage.fillAmount = 0;
-            container.localScale = Vector3.zero;
+            //ResetToInitState();
+            UpdateLayoutCallback?.Invoke();
+            OnRelease();
         });
         yield return new WaitForSeconds(.1f);
         canvasGroup.DOFade(0, .2f);
     }
-    private IEnumerator ShowCoroutine(float fadeValue, Vector3 scale, float fillAmount)
+    private IEnumerator ShowCoroutine()
     {
+        yield return new WaitForSeconds(.2f);
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(container.DOScale(Vector3.one, .3f)).SetEase(Ease.OutBack);
+        sequence.Append(container.DOScale(Vector2.one, .3f)).SetEase(Ease.OutBack);
         //sequence.Append(container.DOShakeScale(.3f, .1f));
-        sequence.Join(canvasGroup.DOFade(fadeValue, .1f));
+        sequence.Join(canvasGroup.DOFade(1, .3f));
         sequence.Play();
         //yield return sequence.WaitForCompletion();
-        yield return new WaitForSeconds(.1f);
-        yield return recipeNameTxt.transform.DOScale(scale, .2f).SetEase(Ease.OutElastic).WaitForCompletion();
-        yield return fillTimeImage.DOFillAmount(fillAmount, .2f).SetEase(Ease.InOutCubic).WaitForCompletion();
-        PopupAction?.Invoke();
+        yield return new WaitForSeconds(.2f);
+        yield return recipeNameTxt.transform.DOScale(Vector2.one, .3f).SetEase(Ease.OutElastic).WaitForCompletion();
+        foreach(var item in foodNameTxt)
+        {
+            item.transform.DOScale(Vector2.one, .1f);
+        }
+        yield return fillTimeImage.DOFillAmount(1, .3f).SetEase(Ease.InOutCubic).WaitForCompletion();
+        OnPopupComplete?.Invoke();
     }
-
+    private void ResetToInitState()
+    {
+        container.localPosition = Vector2.zero;
+        recipeNameTxt.transform.localScale = Vector2.zero;
+        fillTimeImage.fillAmount = 0;
+        container.localScale = Vector2.zero;
+    }
 }
