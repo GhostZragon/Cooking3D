@@ -11,7 +11,6 @@ public partial class RecipeOrderHandle : MonoBehaviour
     [SerializeField] private List<RecipeOrder> newRecipeOrderList;
     [SerializeField] private Recipes recipes;
     [SerializeField] private float orderTimeOut = 10f;
-    [SerializeField] private float refreshRate = .1f;
 
     private bool requestUpdate = false;
 
@@ -64,7 +63,7 @@ public partial class RecipeOrderHandle : MonoBehaviour
         for (int i = 0; i < RecipeOrderListOnShow.Count; i++)
         {
             activeRecipeOrder = RecipeOrderListOnShow[i];
-            activeRecipeOrder.Counter(refreshRate);
+            activeRecipeOrder.Counter(Time.deltaTime);
             if (activeRecipeOrder.HasTimerEnded())
             {
                 // Call incorrectly animation here

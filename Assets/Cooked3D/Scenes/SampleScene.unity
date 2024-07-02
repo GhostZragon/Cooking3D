@@ -12521,8 +12521,7 @@ MonoBehaviour:
   RecipeOrderListOnShow: []
   newRecipeOrderList: []
   recipes: {fileID: 11400000, guid: a9d26a53b92a1c54bb9fe2de047595df, type: 2}
-  orderTimeOut: 50
-  refreshRate: 0.1
+  orderTimeOut: 15
 --- !u!4 &1609804685
 Transform:
   m_ObjectHideFlags: 0

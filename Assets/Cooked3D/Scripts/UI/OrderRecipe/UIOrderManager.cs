@@ -26,6 +26,9 @@ public class UIOrderManager : MonoBehaviour
         return orderRecipe;
     }
 
+
+
+
     private TextMeshProUGUI CreateText()
     {
         return Instantiate(foodNeedTxtPrefab, transform);
