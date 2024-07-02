@@ -25,7 +25,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     private void Awake()
     {
         BoxCollider = GetComponent<BoxCollider>();
-        //StartCoroutine(SpawnTest());
+        StartCoroutine(SpawnTest());
     }
     private void Start()
     {

@@ -25,8 +25,8 @@ public class UnityPool<PoolObj> where PoolObj : MonoBehaviour, PoolCallback<Pool
         {
             pool.Release(_poolObj);
         };
-        Debug.Log(poolObj.name);
-        Debug.Log(pool.CountInactive);
+        //Debug.Log(poolObj.name);
+        //Debug.Log(pool.CountInactive);
         return poolObj;
     }
 

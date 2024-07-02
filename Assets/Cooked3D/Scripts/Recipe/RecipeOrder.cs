@@ -34,17 +34,20 @@ public partial class RecipeOrderHandle
             CountDownTime = maxTimer;
         }
 
-        public void RemoveUI()
+        public void TriggerUIOrderRelease()
         {
-            UIOrderRecipe.OnRelease();
+            UIOrderRecipe.Hide();
         }
-
-        public bool IsMatchRecipe(Recipes recipes1)
+        public void TriggerUIOrderGet()
+        {
+            UIOrderRecipe.Show();
+        }
+        public bool IsMatchingRecipe(Recipes recipes1)
         {
             return recipes == recipes1;
         }
 
-        public bool IsTimeOut()
+        public bool HasTimerEnded()
         {
             return CountDownTime <= 0;
         }
