@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57cfbe429ab73af419687d40f3c05f86, type: 3}
-  m_Name: Recipe_Test
+  m_Name: Recipe_FullBuger
   m_EditorClassIdentifier: 
-  foodResult: {fileID: 11400000, guid: fffc94b03e30e634f9e27c6a72cd1008, type: 2}
+  foodResult: {fileID: 11400000, guid: a3d36b0a63bf6f84cb525686ea8d5c8a, type: 2}
   recipeIngredient:
     ingredientQuantities:
     - foodData: {fileID: 11400000, guid: 644f677387257d34fbd051b05719463e, type: 2}
       amount: 1
-    - foodData: {fileID: 11400000, guid: 21d34a7d41ac3be40abd897e21d8307b, type: 2}
+    - foodData: {fileID: 11400000, guid: fffc94b03e30e634f9e27c6a72cd1008, type: 2}
       amount: 1

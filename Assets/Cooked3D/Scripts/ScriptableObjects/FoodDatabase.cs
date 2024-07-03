@@ -14,11 +14,8 @@ public class FoodDatabase : ScriptableObject
     private void CreateFoodData()
     {
 
-        var mySo = ScriptableObject.CreateInstance<FoodData>();
-        mySo.FoodState = FoodState;
-        mySo.FoodType = FoodType;
 
-// #if UNITY_EDITOR
+        // #if UNITY_EDITOR
         var name = FoodState.ToString() + "_" + FoodType.ToString();
         var fullPath = path + $"/{FoodState.ToString()}/" + name + ".asset";
         Debug.Log(fullPath);
@@ -27,6 +24,9 @@ public class FoodDatabase : ScriptableObject
             Debug.LogWarning("Duplicate asset");
             return;
         }
+        var mySo = ScriptableObject.CreateInstance<FoodData>();
+        mySo.FoodState = FoodState;
+        mySo.FoodType = FoodType;
 
         mySo.name = name;
 
@@ -34,28 +34,21 @@ public class FoodDatabase : ScriptableObject
         UnityEditor.AssetDatabase.SaveAssets();
         AddToList(FoodState, mySo);
 
-// #endif
+        // #endif
     }
 
     private void AddToList(FoodState foodState, FoodData foodData)
     {
-        switch (foodState)
+        if(foodDictData.TryGetValue(foodState,out var list))
         {
-            case FoodState.Raw:
-                RawFood.Add(foodData);
-                break;
-            case FoodState.Slice:
-                SliceFood.Add(foodData);
-                break;
-            case FoodState.Cooked:
-                CookedFood.Add(foodData);
-                break;
+            list.Add(foodData);
         }
     }
 
-    [SerializeField,Expandable] List<FoodData> RawFood;
+    [SerializeField, Expandable] List<FoodData> RawFood;
     [SerializeField, Expandable] List<FoodData> SliceFood;
     [SerializeField, Expandable] List<FoodData> CookedFood;
+    [SerializeField, Expandable] List<FoodData> MixxedFood;
     private Dictionary<FoodState, List<FoodData>> foodDictData;
 
     private void OnEnable()
@@ -66,7 +59,9 @@ public class FoodDatabase : ScriptableObject
             {
                 { FoodState.Raw, RawFood },
                 { FoodState.Slice, SliceFood },
-                { FoodState.Cooked, CookedFood }
+                { FoodState.Cooked, CookedFood },
+                {FoodState.Mixed,MixxedFood }
+
             };
         }
     }
@@ -78,17 +73,17 @@ public class FoodDatabase : ScriptableObject
             if (item.FoodType == foodType)
                 return item;
         }
-        Debug.LogError($"Food not in database !!!{foodState.ToString()} + {foodType.ToString()}",this);
+        Debug.LogError($"Food not in database !!!{foodState.ToString()} + {foodType.ToString()}", this);
         return null;
     }
-    public bool CanTransitionToFoodState(Food food,FoodState foodStateWantToChange)
+    public bool CanTransitionToFoodState(Food food, FoodState foodStateWantToChange)
     {
         // check foodType is contain
         if (!foodDictData.TryGetValue(foodStateWantToChange, out var list)) return false;
-        foreach(var _foodData in list)
+        foreach (var _foodData in list)
         {
             // make sure food have same food type in list with key is "Food State"
-            if(_foodData.FoodType == food.GetFoodType() && _foodData.CanFoodChangeState(food))
+            if (_foodData.FoodType == food.GetFoodType() && _foodData.CanFoodChangeState(food))
             {
                 return true;
             }

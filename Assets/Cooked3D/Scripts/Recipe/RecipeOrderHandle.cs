@@ -14,8 +14,7 @@ public partial class RecipeOrderHandle : MonoBehaviour
 
     private bool requestUpdate = false;
 
-
-
+    
     [Button]
     private void Testing()
     {
@@ -23,14 +22,22 @@ public partial class RecipeOrderHandle : MonoBehaviour
     }
     private void InitDict(Recipes newRecipe)
     {
-        var uiRecipeOrder = UIOrderManager.instance.InitUIOrder();
-
+        var uiRecipeOrder = ServiceLocator.Current.Get<UIOrderManager>().InitUIOrder();
+        if(uiRecipeOrder == null)
+        {
+            Debug.LogError("UI Order manager pool get UI recipe order null");
+            return;
+        } 
         var activeRecipeOrder = new RecipeOrder(newRecipe, uiRecipeOrder);
+        
         activeRecipeOrder.SetEnableUI(false);
         activeRecipeOrder.SetTimer(orderTimeOut);
+        
         uiRecipeOrder.SetPopUpDoneCallBack(() => OnPopUp(activeRecipeOrder));
         uiRecipeOrder.SetUpdateLayoutCallback(() => OnPopIn(activeRecipeOrder));
+        
         //activeRecipeOrder.recipes = recipeOrderItem;
+        
         newRecipeOrderList.Add(activeRecipeOrder);
         requestUpdate = true;
     }

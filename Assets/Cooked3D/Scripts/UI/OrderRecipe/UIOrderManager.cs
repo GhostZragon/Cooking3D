@@ -1,21 +1,41 @@
 ﻿using NaughtyAttributes;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class UIOrderManager : MonoBehaviour
+public abstract class ServiceInstaller<T> : MonoBehaviour , ServiceLocator.IGameService
 {
-    public static UIOrderManager instance;
+    protected virtual void Register()
+    {
+        var type = typeof(T);
+        ServiceLocator.Current.Register(GetService());
+    }
+    protected abstract ServiceLocator.IGameService GetService();
+}
+
+[DefaultExecutionOrder(-99)]
+public class UIOrderManager : MonoBehaviour, ServiceLocator.IGameService
+{
+    //public static UIOrderManager instance;
     private UnityPool<UIOrderRecipe> UIOrderPool;
-    public IObjectPool<TextMeshProUGUI> textPool;
+    private IObjectPool<TextMeshProUGUI> textPool;
     [SerializeField] private UIOrderRecipe uIOrderRecipePrefab;
     [SerializeField] private TextMeshProUGUI foodNeedTxtPrefab;
     [SerializeField] private Transform holder;
+    [SerializeField] private Transform textHolderPool;
+    [SerializeField] private Transform uiHolderPool;
+  
+
     private void Awake()
     {
-        instance = this;
         textPool = new ObjectPool<TextMeshProUGUI>(CreateText, OnGet, OnRelease, DestroyText, true, 10);
         UIOrderPool = new UnityPool<UIOrderRecipe>(uIOrderRecipePrefab, 5, holder);
+        ServiceLocator.Current.Register(this);
+    }
+    private void OnDestroy()
+    {
+        ServiceLocator.Current.Unregister(this);
     }
     [Button]
     public UIOrderRecipe InitUIOrder()
@@ -40,10 +60,21 @@ public class UIOrderManager : MonoBehaviour
     private void OnRelease(TextMeshProUGUI text)
     {
         text.gameObject.SetActive(false);
-        text.transform.SetParent(transform, false);
+        text.transform.SetParent(textHolderPool, false);
     }
     private void DestroyText(TextMeshProUGUI text)
     {
         Destroy(text.gameObject);
     }
+
+    public void ReleaseTextToPool(TextMeshProUGUI text)
+    {
+        textPool.Release(text);
+    }
+
+    public TextMeshProUGUI GetTextFromPool()
+    {
+        return textPool.Get();
+    }
+
 }
