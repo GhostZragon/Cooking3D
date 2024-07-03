@@ -2,9 +2,9 @@ using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoodManager : MonoBehaviour
+public class FoodManager : ServiceInstaller<FoodManager>, ServiceLocator.IGameService
 {
-    public static FoodManager instance;
+    //public static FoodManager instance;
     private const string mat_Name = "restaurantbits_mat";
 
     [SerializeField] private FoodDatabase FoodDatabase;
@@ -15,12 +15,11 @@ public class FoodManager : MonoBehaviour
     
     private UnityPool<Food> foodPoolObject;
 
-
-
-    private void Awake()
+    protected override void CustomAwake()
     {
-        instance = this;
+        base.CustomAwake();
         foodPoolObject = new UnityPool<Food>(foodPrefab, 5, transform);
+
     }
 
     private void OnValidate()

@@ -31,7 +31,8 @@ public class UITextPopupHandle : UIWorldSpaceItem<UITextPopup>
 
     private void ShowText(Vector3 position,string text,Color color)
     {
-        UITextPopup UITextPopup = GetFromPool(position);
+        UITextPopup UITextPopup = GetFromPool();
+        UITextPopup.SetStandPosition(position);
         UITextPopup.transform.localPosition = position;
         UITextPopup.SetText(text, color);
         UITextPopup.DoLocalAnimation();

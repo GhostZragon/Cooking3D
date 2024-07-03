@@ -11,26 +11,8 @@ public class UIFoodProcessBarManager : UIWorldSpaceItem<UIFoodProcessBar>
         base.Awake();
         instance = this;
     }
-    public UIFoodProcessBar GetUIElement(Vector3 position)
+    public UIFoodProcessBar GetUIElement()
     {
-        return GetFromPool(position);
-    }
-}
-public class UIWorldSpaceItem<T> : MonoBehaviour where T : UIWorldSpace, PoolCallback<T>
-{
-    public UnityPool<T> pool;
-    public T uiItemPrefab;
-    public int size = 5;
-
-    protected virtual void Awake()
-    {
-        pool = new UnityPool<T>(uiItemPrefab, size, transform);
-    }
-    
-    protected virtual T GetFromPool(Vector3 position)
-    {
-        var worldSpaceUIElement = pool.Get();
-        worldSpaceUIElement.SetStandPosition(position);
-        return worldSpaceUIElement;
+        return GetFromPool();
     }
 }

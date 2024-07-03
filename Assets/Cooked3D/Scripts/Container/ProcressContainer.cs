@@ -9,13 +9,15 @@ public interface IOnDoAction
 
 public class ProcressContainer : HolderAbstract, IOnDoAction
 {
+    [Header("References")]
     [SerializeField] private FoodState foodStateWantToChange;
     [SerializeField] private CookwareType cookwareCanPut;
+    [Header("Settings")]
     [SerializeField] private bool canTimer;
     [SerializeField] private bool isProcessItem;
     [SerializeField] private float timer;
     [SerializeField] private float timeToConvert = 1;
-
+    [Header("UI")]
     [SerializeField] private UIFoodProcessBar uiProcessBar;
 
     [SerializeField] private bool infinityConvert;
@@ -90,7 +92,8 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         if (uiProcessBar != null || isProcessItem) yield break;
         Debug.Log("Start coroutine");
         isProcessItem = true;
-        uiProcessBar = UIFoodProcessBarManager.instance.GetUIElement(placeTransform.position);
+        uiProcessBar = UIFoodProcessBarManager.instance.GetUIElement();
+        uiProcessBar.SetStandPosition(placeTransform.position);
         bool CanSetModel = true;
         while (timer <= timeToConvert)
         {

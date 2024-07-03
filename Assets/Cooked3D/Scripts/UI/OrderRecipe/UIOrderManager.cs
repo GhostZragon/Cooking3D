@@ -4,18 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public abstract class ServiceInstaller<T> : MonoBehaviour , ServiceLocator.IGameService
-{
-    protected virtual void Register()
-    {
-        var type = typeof(T);
-        ServiceLocator.Current.Register(GetService());
-    }
-    protected abstract ServiceLocator.IGameService GetService();
-}
-
-[DefaultExecutionOrder(-99)]
-public class UIOrderManager : MonoBehaviour, ServiceLocator.IGameService
+public class UIOrderManager : ServiceInstaller<UIOrderManager>, ServiceLocator.IGameService
 {
     //public static UIOrderManager instance;
     private UnityPool<UIOrderRecipe> UIOrderPool;
@@ -27,16 +16,13 @@ public class UIOrderManager : MonoBehaviour, ServiceLocator.IGameService
     [SerializeField] private Transform uiHolderPool;
   
 
-    private void Awake()
+    protected override void CustomAwake()
     {
+        base.CustomAwake();
         textPool = new ObjectPool<TextMeshProUGUI>(CreateText, OnGet, OnRelease, DestroyText, true, 10);
         UIOrderPool = new UnityPool<UIOrderRecipe>(uIOrderRecipePrefab, 5, holder);
-        ServiceLocator.Current.Register(this);
     }
-    private void OnDestroy()
-    {
-        ServiceLocator.Current.Unregister(this);
-    }
+
     [Button]
     public UIOrderRecipe InitUIOrder()
     {

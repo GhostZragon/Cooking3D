@@ -26,11 +26,10 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     {
         BoxCollider = GetComponent<BoxCollider>();
         StartCoroutine(SpawnTest());
-    }
-    private void Start()
-    {
-        foodManager = FoodManager.instance;
-    }
+        foodManager = ServiceLocator.Current.Get<FoodManager>();
+
+    }   
+
 
     private IEnumerator SpawnTest()
     {

@@ -6,11 +6,11 @@ public class FoodProcess : BaseProcess<Food,FoodState>
     private FoodManager foodManager;
     public FoodProcess()
     {
-        foodManager = FoodManager.instance;
+        foodManager = ServiceLocator.Current.Get<FoodManager>();
     }
     public override void ApplyFoodStateChange(Food food, FoodState foodStateWantToChange)
     {
-        var foodData = FoodManager.instance.GetFoodData(food.GetFoodType(), foodStateWantToChange);
+        var foodData = foodManager.GetFoodData(food.GetFoodType(), foodStateWantToChange);
         if (foodData == null) return;
         food.SetData(foodData);
         food.SetModel();

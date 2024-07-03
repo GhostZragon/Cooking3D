@@ -4,9 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class CookwareManager : MonoBehaviour
+public partial class CookwareManager : ServiceInstaller<CookwareManager> ,ServiceLocator.IGameService
 {
-    public static CookwareManager instance;
     [SerializeField] private Material cookwareMat;
     [SerializeField] private Cookware cookwarePrefab;
     [SerializeField] private bool scanWhenStart;
@@ -14,15 +13,15 @@ public partial class CookwareManager : MonoBehaviour
     public Dictionary<CookwareType, CookwareLimit> cookwareLitmitDict;
     public Cookware[] cookwareInGames;
     private FoodManager foodManager;
-    private void Awake()
+    protected override void CustomAwake()
     {
-        instance = this;
+        base.CustomAwake();
         InitCookwareLimit();
         CountingCookwareInGame();
     }
     private void Start()
     {
-        foodManager = FoodManager.instance;
+        foodManager = ServiceLocator.Current.Get<FoodManager>();
         cookwareInGames = FindObjectsOfType<Cookware>();
     }
     private void CountingCookwareInGame()

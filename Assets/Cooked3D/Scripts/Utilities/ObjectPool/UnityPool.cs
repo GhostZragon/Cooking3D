@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Pool;
-
 public class UnityPool<PoolObj> where PoolObj : MonoBehaviour, PoolCallback<PoolObj>
 {
     protected IObjectPool<PoolObj> pool;

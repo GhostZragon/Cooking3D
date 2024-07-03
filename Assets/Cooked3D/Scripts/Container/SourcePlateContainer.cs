@@ -11,7 +11,7 @@ public class SourcePlateContainer : MonoBehaviour, IHolder
         cookwareDropdown.AddListener(OnValueChange);
         cookwareDropdown.SetCookwareType((int)cookwareType);
 
-        cookwareManager = CookwareManager.instance;
+        cookwareManager = ServiceLocator.Current.Get<CookwareManager>();
     }
 
     public void ExchangeItems(HolderAbstract player)

@@ -26,8 +26,8 @@ public class Cookware : PickUpAbtract
     }
     private void Start()
     {
-        cookwareManager = CookwareManager.instance;
-        foodManager = FoodManager.instance;
+        cookwareManager = ServiceLocator.Current.Get<CookwareManager>();
+        foodManager = ServiceLocator.Current.Get<FoodManager>();
     }
     public Food GetFood()
     {
