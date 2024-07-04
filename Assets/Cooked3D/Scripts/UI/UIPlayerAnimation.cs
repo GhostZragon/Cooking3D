@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CookwareDropdownHandle : MonoBehaviour
+public class UIPlayerAnimation : MonoBehaviour
 {
     // BeginTimer is called before the first frame update
     void Start()

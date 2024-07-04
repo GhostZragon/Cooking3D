@@ -32,7 +32,7 @@ public class LookAtObjectAnimationRigging : MonoBehaviour
     private void RunCoroutine(float value)
     {
         weightValue = value;
-        StopAllCoroutines(); // Stop any running coroutine before starting a new one
+        StopAllCoroutines(); // StopTimer any running coroutine before starting a new one
         StartCoroutine(StartWeightLerp());
     }
 

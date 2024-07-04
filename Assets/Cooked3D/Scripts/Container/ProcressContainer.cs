@@ -92,7 +92,7 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
     private IEnumerator StartConvertNonCookwareFood(Action callback)
     {
         if (uiProcessBar != null || isProcessItem) yield break;
-        Debug.Log("Start coroutine");
+        Debug.Log("BeginTimer coroutine");
         isProcessItem = true;
         uiProcessBar = UIFoodProcessBarManager.instance.GetUIElement();
         uiProcessBar.SetStandPosition(placeTransform.position);

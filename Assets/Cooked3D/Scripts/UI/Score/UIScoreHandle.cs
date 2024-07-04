@@ -16,6 +16,7 @@ public class UIScoreHandle : ServiceInstaller<UIScoreHandle>, ServiceLocator.IGa
         base.CustomAwake();
         coinImage = GetComponentInChildren<Image>();
         coinText = GetComponentInChildren<TextMeshProUGUI>();
+        UpdateCoinText(0);
     }
     [Button]
     private void Test()

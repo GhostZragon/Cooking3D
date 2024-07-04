@@ -11,10 +11,8 @@ public class UIStartMenu : MonoBehaviour
     private Button optionsButton;
     private Button exitButton;
 
-    public Color colorPointerEnter;
-    public Color colorPointerExit;
 
-
+    public bool showUI = false;
     private void Awake()
     {
         UIDocument = GetComponent<UIDocument>();
@@ -24,40 +22,16 @@ public class UIStartMenu : MonoBehaviour
         exitButton = root.Q<Button>("Button_Exit");
 
         //InitializeButtonEffects();
-        colorPointerExit = playButton.style.backgroundColor.value;
+
+        playButton.clicked += PlayButton_clicked;
+
     }
 
-    private void InitializeButtonEffects()
+    private void PlayButton_clicked()
     {
-        AddButtonEffect(playButton);
-        AddButtonEffect(optionsButton);
-        AddButtonEffect(exitButton);
     }
 
-    private void AddButtonEffect(Button button)
+    private void PlayButton_onClick()
     {
-        button.RegisterCallback<PointerEnterEvent>(OnButtonPointerEnter);
-        button.RegisterCallback<PointerOutEvent>(OnButtonPointerExit);
-    }
-    private bool onRotate = false;
-    private void OnButtonPointerEnter(PointerEnterEvent evt)
-    {
-        if (evt.target is Button button)
-        {
-            var value = onRotate ? 3f : -3f;
-            button.style.backgroundColor = colorPointerEnter;
-            button.style.rotate = new StyleRotate(new Rotate(value));
-            button.style.scale = new StyleScale(new Scale(Vector2.one * 1.1f));
-            onRotate = !onRotate;
-        }
-    }
-    private void OnButtonPointerExit(PointerOutEvent evt)
-    {
-        if (evt.target is Button button)
-        {
-            button.style.backgroundColor = colorPointerExit;
-            button.style.rotate = new StyleRotate(new Rotate(0f));
-            button.style.scale = new StyleScale(new Scale(Vector2.one * 1));
-        }
     }
 }

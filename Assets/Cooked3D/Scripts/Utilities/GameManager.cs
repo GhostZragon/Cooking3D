@@ -1,21 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [DefaultExecutionOrder(-150)]
-public class GameManager : ServiceInstaller<GameManager>,ServiceLocator.IGameService
+public class GameManager : MonoBehaviour
 {
     public int score = 0;
     private Camera mainCam;
     GameTimer gameTimer;
-    protected override void CustomAwake()
+    public static Action<ScoreGrade, Vector3> AddScore;
+    protected void Awake()
     {
-        base.CustomAwake();
         ServiceLocator.Initiailze();
         mainCam = Camera.main;
     }
+    private void OnEnable()
+    {
+        AddScore += _AddScore;
+    }
+    private void OnDisable()
+    {
+        AddScore -= _AddScore;
+    }
 
-
-    public void AddScore(ScoreGrade scoreGrade, Vector3 popupPosition)
+    private void _AddScore(ScoreGrade scoreGrade, Vector3 popupPosition)
     {
         var value = 0;
         Color popupColor = Color.white;
@@ -44,9 +52,13 @@ public class GameManager : ServiceInstaller<GameManager>,ServiceLocator.IGameSer
 
         score += value;
         ServiceLocator.Current.Get<UIScoreHandle>().UpdateCoinText(score);
-        popupPosition = mainCam.WorldToScreenPoint(popupPosition);
         // Trigger the score popup with the appropriate color
         UITextPopupHandle.ShowTextAction?.Invoke(popupPosition, $"+{value}", popupColor);
+    }
+
+    public void StartGame()
+    {
+        GameTimer.StartCounter?.Invoke();
     }
 }
 public enum ScoreGrade

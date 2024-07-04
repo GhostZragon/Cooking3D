@@ -35,7 +35,7 @@ public class CustomerContainer : Container
         {
             if (orderProcessor.Check(recipeList[0].Recipes,out var scoreGrade))
             {
-                ServiceLocator.Current.Get<GameManager>().AddScore(scoreGrade,placeTransform.position);
+                GameManager.AddScore(scoreGrade,placeTransform.position);
 
                 player.DiscardCookware();
                 return true;

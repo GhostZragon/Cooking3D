@@ -46,7 +46,9 @@ public partial class RecipeOrderProcessor
         }
         public bool IsMatchingRecipe(Recipes recipes1)
         {
+            UIOrderRecipe.ShowYesTick();
             return recipes == recipes1;
+
         }
 
         public bool HasTimerEnded()
