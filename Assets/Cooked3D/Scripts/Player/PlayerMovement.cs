@@ -7,9 +7,14 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
     [SerializeField] private float speed = 5;
+
+    private Animator animator;
+
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
     }
     public void Move(Vector3 direction)
     {
@@ -18,7 +23,14 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogWarning("CharacterController is null", gameObject);
             return;
         }
-
+        if(direction == Vector3.zero)
+        {
+            animator.ResetTrigger("Moving");
+        }
+        else
+        {
+            animator.SetTrigger("Moving");
+        }
         controller.Move(direction.normalized * speed * Time.deltaTime);
         Rotate(direction);
     }
