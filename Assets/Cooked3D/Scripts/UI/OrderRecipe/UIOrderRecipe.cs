@@ -9,11 +9,11 @@ using UnityEngine.UI;
 
 public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
 {
+    [SerializeField] private Transform container;
+    [SerializeField] private GameObject FoodTextGroupObject;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TextMeshProUGUI recipeNameTxt;
     [SerializeField] private Image fillTimeImage;
-    [SerializeField] private GameObject FoodTextGroupObject;
-    [SerializeField] private Transform container;
     [SerializeField] private Image YesTickImage;
     [SerializeField] private List<TextMeshProUGUI> foodNameTxt;
     public Action<UIOrderRecipe> OnCallback { get; set; }
@@ -71,12 +71,12 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
         transform.DOKill();
     }
 
-    public void SetPopUpDoneCallBack(Action callback)
+    public void SetCreationAnimationCallback(Action callback)
     {
         OnPopupComplete = callback;
     }
 
-    public void SetUpdateLayoutCallback(Action callback)
+    public void SetDeletionAnimationCallback(Action callback)
     {
         UpdateLayoutCallback = callback;
     }

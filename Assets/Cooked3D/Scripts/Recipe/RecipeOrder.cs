@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public partial class RecipeOrderHandle
+public partial class RecipeOrderProcessor
 {
     [Serializable]
     public class RecipeOrder

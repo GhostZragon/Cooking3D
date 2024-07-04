@@ -241,11 +241,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958427b912317fb40a0bfceac2949312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  container: {fileID: 8980227075796758962}
+  FoodTextGroupObject: {fileID: 2794036842549023233}
   canvasGroup: {fileID: 5202718308045512314}
   recipeNameTxt: {fileID: 8395057101043235216}
   fillTimeImage: {fileID: 2550461288084672041}
-  FoodTextGroupObject: {fileID: 2794036842549023233}
-  container: {fileID: 8980227075796758962}
   YesTickImage: {fileID: 7269535914278220378}
   foodNameTxt: []
   showYesTick: 1
@@ -355,10 +355,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 46.95
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -406,7 +406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 927417449700929715}
-  - component: {fileID: 3058618367511791462}
+  - component: {fileID: 4005943507102526785}
   m_Layer: 0
   m_Name: FoodGroup
   m_TagString: Untagged
@@ -430,10 +430,10 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -34.25}
-  m_SizeDelta: {x: 0, y: -68.5}
+  m_AnchoredPosition: {x: -0.29998, y: -34.25}
+  m_SizeDelta: {x: -30.2, y: -68.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3058618367511791462
+--- !u!114 &4005943507102526785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2794036842549023233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -450,15 +450,13 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 150, y: 35}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &4050102178006702411
 GameObject:
   m_ObjectHideFlags: 0

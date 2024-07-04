@@ -9,11 +9,12 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     [SerializeField] private FoodType FoodType;
     [SerializeField] private int maxCount = 5;
     [SerializeField] private float timer;
+    [SerializeField] private List<Food> foodInCrate = new List<Food>();
 
     private BoxCollider BoxCollider;
-    private float timeToSpawn = 1;
-    [SerializeField] private List<Food> foodInCrate = new List<Food>();
     private FoodManager foodManager;
+
+    private float timeToSpawn = 1;
     public void ExchangeItems(HolderAbstract player)
     {
         if (foodInCrate.Count == 0) return;
@@ -37,7 +38,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
         {
             if (NeedSpawnItem() == false) break;
             SpawnFood();
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.1f);
         }
     }
 

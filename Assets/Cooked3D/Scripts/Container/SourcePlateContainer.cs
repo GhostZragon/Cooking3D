@@ -2,14 +2,11 @@ using UnityEngine;
 public class SourcePlateContainer : MonoBehaviour, IHolder
 {
     [SerializeField] private CookwareType cookwareType;
-    [SerializeField] private CookwareDropdown cookwareDropdown;
-
     private CookwareManager cookwareManager;
-
+    private static int plateCount = 3;
     private void Start()
     {
-        cookwareDropdown.AddListener(OnValueChange);
-        cookwareDropdown.SetCookwareType((int)cookwareType);
+
 
         cookwareManager = ServiceLocator.Current.Get<CookwareManager>();
     }
@@ -19,13 +16,23 @@ public class SourcePlateContainer : MonoBehaviour, IHolder
         if (cookwareType == CookwareType.None) return;
         if (player.IsContainFood() || player.IsContainCookware()) return;
         //Debug.Log("GetFromPool plate");
+
+
         var cookware = cookwareManager.GetCookware(cookwareType);
         
+        if(cookware.GetCookwareType() == CookwareType.Plate)
+        {
+            cookware.SetOnPlateDiscardCallback(OnDiscardDisk);
+            plateCount++;
+        }
+
         player.SetItem(cookware);
     }
-    private void OnValueChange(int i)
+
+    private void OnDiscardDisk()
     {
-        if (i is < 0 or > 4) return;
-        cookwareType = (CookwareType)i;
+        plateCount--;
     }
+
+
 }

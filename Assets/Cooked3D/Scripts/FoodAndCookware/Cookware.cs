@@ -18,6 +18,8 @@ public class Cookware : PickUpAbtract
     [SerializeField] private List<CookwareModel> listModel;
     [SerializeField] private CookwareRecipeHandle CookwareRecipeController;
 
+    private event Action OnPlateDiscardCallback;
+
     private CookwareManager cookwareManager;
     private FoodManager foodManager;
     private void Awake()
@@ -33,7 +35,10 @@ public class Cookware : PickUpAbtract
     {
         return FoodInPlates;
     }
-
+    public void SetOnPlateDiscardCallback(Action callback)
+    {
+        OnPlateDiscardCallback = callback;
+    }
     public void Swap(Food food)
     {
         // if(food.GetCurrentFoodState() == FoodState.Raw) return;
@@ -128,6 +133,7 @@ public class Cookware : PickUpAbtract
     public override void Discard()
     {
         DiscardFood();
+        OnPlateDiscardCallback?.Invoke();
         Destroy(gameObject);
     }
 
