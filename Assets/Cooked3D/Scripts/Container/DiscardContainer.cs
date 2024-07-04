@@ -4,6 +4,15 @@ public class DiscardContainer : MonoBehaviour, IHolder
 {
     public void ExchangeItems(HolderAbstract player)
     {
-        player.DiscardFood();
+        if (player.IsContainFood())
+        {
+            player.DiscardFood();
+
+        }
+        else if (player.IsContainCookware())
+        {
+            player.DiscardCookware();
+
+        }
     }
 }

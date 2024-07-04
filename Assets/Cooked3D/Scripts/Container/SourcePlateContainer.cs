@@ -1,38 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-public class SourcePlateContainer : MonoBehaviour, IHolder
+
+public class SourcePlateContainer : SourceCookwareContainer
 {
-    [SerializeField] private CookwareType cookwareType;
-    private CookwareManager cookwareManager;
-    private static int plateCount = 3;
-    private void Start()
+    private int plateCount = 4;
+    private int maxPlateCount = 4;
+    [SerializeField] private GameObject[] plateObjModel;
+    public override void ExchangeItems(HolderAbstract player)
     {
+        if (plateCount == 0)
+            return;
 
+        base.ExchangeItems(player);
+        AddCallback(player.GetCookware());
 
-        cookwareManager = ServiceLocator.Current.Get<CookwareManager>();
     }
 
-    public void ExchangeItems(HolderAbstract player)
+    private void AddCallback(Cookware cookware)
     {
-        if (cookwareType == CookwareType.None) return;
-        if (player.IsContainFood() || player.IsContainCookware()) return;
-        //Debug.Log("GetFromPool plate");
+        if (cookware == null) return;
 
-
-        var cookware = cookwareManager.GetCookware(cookwareType);
-        
-        if(cookware.GetCookwareType() == CookwareType.Plate)
+        if (cookware.GetCookwareType() == CookwareType.Plate)
         {
             cookware.SetOnPlateDiscardCallback(OnDiscardDisk);
-            plateCount++;
+            plateCount--;
+            UpdatePlateCount();
         }
-
-        player.SetItem(cookware);
     }
-
+    private void UpdatePlateCount()
+    {
+        for(int i = 0; i < maxPlateCount; i++)
+        {
+            if (plateObjModel[i].transform.GetSiblingIndex() < plateCount)
+            {
+                plateObjModel[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                plateObjModel[i].gameObject.SetActive(false);
+            }
+        }
+    }
     private void OnDiscardDisk()
     {
-        plateCount--;
+        plateCount++;
+        UpdatePlateCount();
     }
-
-
 }

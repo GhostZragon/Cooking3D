@@ -6,7 +6,13 @@ using UnityEngine;
 public class Container : HolderAbstract
 {
 #if UNITY_EDITOR
-    
+    private void OnEnable()
+    {
+        if(placeTransform == null)
+        {
+            LoadPlaceTransform();
+        }   
+    }
     [CanEditMultipleObjects][Button]protected virtual void LoadPlaceTransform()
     {
         if (placeTransform == null)

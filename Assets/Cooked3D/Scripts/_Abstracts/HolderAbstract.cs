@@ -160,11 +160,12 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         {
             GetCookware().DiscardFood();
         }
-        else if (IsContainFood())
+        else
         {
             item.Discard();
             SetItem(null);
         }
+
     }
     [Button]
     public void DiscardCookware()

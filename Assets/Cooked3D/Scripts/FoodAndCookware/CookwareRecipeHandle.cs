@@ -20,7 +20,6 @@ public partial class CookwareRecipeHandle : MonoBehaviour
     public int IngredientQuantityCount => IngredientQuantitiesHandle.IngredientCount;
     // using for checking food is in order
     private List<Recipes> completeRecipesList = new List<Recipes>();
-    private List<Recipes> CompleteRecipesList { get => completeRecipesList; }
     public void AddMatchListRecipe(List<Recipes> recipesList)
     {
         bool temp = false;

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class RecipeOrderProcessor : MonoBehaviour
+public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcessor>, ServiceLocator.IGameService
 {
     [Header("List")]
     [SerializeField] private List<RecipeOrder> RecipeOrderListOnShow = new List<RecipeOrder>();
@@ -21,6 +21,8 @@ public partial class RecipeOrderProcessor : MonoBehaviour
     // it mean when it start to couning time
     
     private bool requestUpdate = false;
+
+
     private void CreateAnimationCallback(RecipeOrder activeRecipeOrder)
     {
         Debug.Log("Pop up callback");
@@ -115,15 +117,18 @@ public partial class RecipeOrderProcessor : MonoBehaviour
         }
     }
 
-    public bool Check(Recipes recipes)
+    public bool Check(Recipes recipes, out ScoreGrade scoreGrade)
     {
         bool match = false;
+        scoreGrade = ScoreGrade.None;
         RecipeOrder recipeOrder = null;
         for (int i = 0; i < RecipeOrderListOnShow.Count; i++)
         {
             recipeOrder = RecipeOrderListOnShow[i];
+            scoreGrade = recipeOrder.GetScoreGradeOfTimer();
             if (recipeOrder.IsMatchingRecipe(recipes))
             {
+
                 // Correct animation
                 RemoveOrderFromList(recipeOrder);
                 match = true;

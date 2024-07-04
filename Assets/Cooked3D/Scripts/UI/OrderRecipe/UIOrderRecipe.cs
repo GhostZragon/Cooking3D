@@ -99,9 +99,9 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
             var yesTickTransform = YesTickImage.transform;
             YesTickImage.transform.localScale = Vector2.one * 2;
             YesTickImage.DOFade(0, 0);
-            YesTickImage.DOFade(1, .3f);
-            yield return yesTickTransform.DOScale(Vector2.one * 1, .3f).SetEase(Ease.OutBounce).WaitForCompletion();
-            yesTickTransform.DOScale(Vector2.one * 1.2f, .5f).SetEase(Ease.OutBounce);
+            YesTickImage.DOFade(1, .2f);
+            yield return yesTickTransform.DOScale(Vector2.one * 1, .2f).SetEase(Ease.OutBounce).WaitForCompletion();
+            yesTickTransform.DOScale(Vector2.one * 1.2f, .4f).SetEase(Ease.OutBounce);
             
             yield return new WaitForSeconds(.1f);
             yield return yesTickTransform.DOPunchRotation(new Vector3(0,0,10), 1.5f).SetEase(easeYesTickRotate).WaitForCompletion();
@@ -109,13 +109,18 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
             yield return new WaitForSeconds(.3f);
         }
         // Move panel by y asix
+        if(showYesTick == false)
+        {
+            //container.DOPunchScale(Vector2.one * .3f, .25f);
+            container.transform.DOPunchPosition(new Vector3(0, 10, 0), .25f, 10, 90);
+        }
         container.transform.DOLocalMoveY(125, .5f).SetEase(Ease.OutBack);
         // show yes tick control by game logic: Time out == false, give correct recipe == true
         
 
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.2f);
 
-        canvasGroup.DOFade(0, .2f).OnComplete(() =>
+        canvasGroup.DOFade(0, .3f).OnComplete(() =>
         {
             //ResetToInitState();
             UpdateLayoutCallback?.Invoke();

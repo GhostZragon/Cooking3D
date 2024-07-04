@@ -78,10 +78,12 @@ public class ProcressContainer : HolderAbstract, IOnDoAction
         
         if(type == ContainerType.Cookware && player.IsContainCookware() || type == ContainerType.All)
         {
+            Debug.Log("Have cookware");
             return player.GetCookware().GetCookwareType() == cookwareCanPut;
         }
         else if(type == ContainerType.Food && player.IsContainFood() || type == ContainerType.All)
         {
+            Debug.Log("Have food");
             return foodProcess.CanChangeFoodState(player.GetFood(), foodStateWantToChange);
         }
         return true;

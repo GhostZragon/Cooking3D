@@ -59,5 +59,26 @@ public partial class RecipeOrderProcessor
             UIOrderRecipe.gameObject.SetActive(enable);
         }
 
+        public ScoreGrade GetScoreGradeOfTimer()
+        {
+            float percentage = CountDownTime / MaxCountDownTime;
+
+            if (percentage >= 0.75f)
+            {
+                return ScoreGrade.High;
+            }
+            else if (percentage >= 0.5f)
+            {
+                return ScoreGrade.Medium;
+            }
+            else if (percentage > 0)
+            {
+                return ScoreGrade.Low;
+            }
+            else
+            {
+                return ScoreGrade.None;
+            }
+        }
     }
 }
