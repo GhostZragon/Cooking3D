@@ -3,7 +3,12 @@ guid: c1904fdcd196dfe4a95f941ad37c9f6b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: restaurant
+    second: {fileID: 2100000, guid: 4ab30c1ef828ea74fbff2187caaf556e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -44,10 +49,10 @@ ModelImporter:
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
-    importLights: 1
+    importLights: 0
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
-    swapUVChannels: 0
+    swapUVChannels: 1
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
