@@ -11,7 +11,7 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
     [SerializeField] private List<RecipeOrder> newRecipeOrderList;
     [Header("References")]
     [SerializeField] private RecipeDatabase recipeDatabase;
-    [SerializeField] private Recipes recipes; // current recipe of game level
+    //[SerializeField] private Recipes recipes; // current recipe of game level
     [Header("Settings")]
     [SerializeField] private float orderTimeOut = 10f;
     [SerializeField] private int orderCount = 0;
@@ -21,7 +21,7 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
     // it mean when it start to couning time
     
     private bool requestUpdate = false;
-
+ 
 
     private void CreateAnimationCallback(RecipeOrder activeRecipeOrder)
     {
@@ -41,7 +41,7 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
         {
             return;
         }
-
+        var recipes = recipeDatabase.GetRandomRecipe();
         InitDict(recipes);
     }
     public int GetOrderCount() => orderCount;
@@ -76,9 +76,19 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
 
     private void Update()
     {
+        CreateOrderByInput();
+
         ProcessPendingRecipeOrders();
 
         ProcessActiveRecipeOrders();
+    }
+    public KeyCode keycode;
+    private void CreateOrderByInput()
+    {
+        if (Input.GetKeyDown(keycode))
+        {
+            CreateOrder();
+        }
     }
 
     private void ProcessActiveRecipeOrders()
@@ -132,6 +142,7 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
                 // Correct animation
                 RemoveOrderFromList(recipeOrder);
                 match = true;
+                break;
             }
 
         }

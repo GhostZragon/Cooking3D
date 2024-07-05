@@ -5,52 +5,31 @@ using DG.Tweening;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-[RequireComponent(typeof(UIHoldWorldPosition))]
-public class UIWorldSpace : MonoBehaviour
-{
-    protected UIHoldWorldPosition UIHoldWorldPosition;
-
-    protected virtual void Awake()
-    {
-        UIHoldWorldPosition = GetComponent<UIHoldWorldPosition>();
-    }
-
-    public void SetStandPosition(Vector3 worldPosition)
-    {
-        if(UIHoldWorldPosition == null)
-        {
-            Debug.Log("null");
-            return;
-        }
-        UIHoldWorldPosition.SetStandPosition(worldPosition);
-    }
-
-}
 public class UITextPopup : UIWorldSpace, PoolCallback<UITextPopup>
 {
-    [SerializeField] private TextMeshProUGUI TextMeshProUGUI;
+    [SerializeField] private TextMeshProUGUI textUI;
     [SerializeField] private float yPos = 80;
     private bool isAnimated = false;
     private void OnEnable()
     {
         isAnimated = false;
-        TextMeshProUGUI.transform.localPosition = Vector3.zero;
+        textUI.transform.localPosition = Vector3.zero;
     }
     private void OnDisable()
     {
         transform.DOKill();
-        TextMeshProUGUI.transform.DOKill();
+        textUI.transform.DOKill();
     }
 
     protected override void Awake()
     {
         base.Awake();
-        TextMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
+        textUI = GetComponentInChildren<TextMeshProUGUI>();
     }
     public void SetText(string text,Color color)
     {
-        TextMeshProUGUI.text = text;
-        TextMeshProUGUI.color = color;
+        textUI.text = text;
+        textUI.color = color;
     }
     [Button]
     public void DoLocalAnimation()
@@ -59,9 +38,11 @@ public class UITextPopup : UIWorldSpace, PoolCallback<UITextPopup>
         {
             return;
         }
-
+        textUI.DOFade(1, 0);
+        textUI.transform.DOPunchScale(Vector2.one, .25f);
         isAnimated = true;
-        TextMeshProUGUI.transform.DOLocalMoveY(80, 1).OnComplete(() =>
+        textUI.DOFade(0, 1);
+        textUI.transform.DOLocalMoveY(80, 1).OnComplete(() =>
         {
             OnCallback?.Invoke(this);
         }).SetEase(Ease.Linear);

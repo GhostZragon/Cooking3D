@@ -8,6 +8,7 @@ public partial class CookwareRecipeHandle : MonoBehaviour
 {
     [SerializeField] private List<RecipeStructure> RecipeStructures;
     [SerializeField] private IngredientStockpile IngredientQuantitiesHandle;
+    private List<Recipes> completeRecipesList = new List<Recipes>();
 
     private void Awake()
     {
@@ -19,7 +20,6 @@ public partial class CookwareRecipeHandle : MonoBehaviour
     public int TotalRecipesCount => RecipeStructures.Count;
     public int IngredientQuantityCount => IngredientQuantitiesHandle.IngredientCount;
     // using for checking food is in order
-    private List<Recipes> completeRecipesList = new List<Recipes>();
     public void AddMatchListRecipe(List<Recipes> recipesList)
     {
         bool temp = false;

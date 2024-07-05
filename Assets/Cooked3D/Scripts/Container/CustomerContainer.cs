@@ -20,7 +20,7 @@ public class CustomerContainer : Container
             return;
         }
         base.ExchangeItems(player);
-        SpawnText("Thank you!",Color.green);
+        //SpawnText("Thank you!",Color.green);
         Debug.Log("On Swap");
     }
 

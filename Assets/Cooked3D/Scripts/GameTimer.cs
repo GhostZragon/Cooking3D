@@ -8,13 +8,14 @@ using UnityEngine;
 public class GameTimer : MonoBehaviour
 {
     [SerializeField] private int timer;
-    [SerializeField] private int endTime = 300;
+    [SerializeField] private int startTime = 300;
     YieldInstruction yieldWaitForSecond;
     public static Action<int> OnUpdateTimer;
     public static Action StartCounter;
     public static Action StopCounter;
     private void Awake()
     {
+        timer = startTime;
         yieldWaitForSecond = new WaitForSeconds(1);
     }
     private void OnEnable()
@@ -39,9 +40,9 @@ public class GameTimer : MonoBehaviour
     }
     private IEnumerator StartTimer()
     {
-        while(timer < endTime)
+        while(timer > 0)
         {
-            timer++;
+            timer--;
             OnUpdateTimer?.Invoke(timer);
             yield return yieldWaitForSecond;
         }
