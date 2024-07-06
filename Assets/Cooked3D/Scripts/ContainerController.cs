@@ -68,5 +68,17 @@ public class ContainerController : MonoBehaviour
         }
         return objParent;
     }
+    [Button]
+    private void AddPlaceTransform()
+    {
+        foreach(var item in holdersList)
+        {
+            if(item is Container)
+            {
+                var container = item as Container;
+                container.LoadPlaceTransform();
+            }
+        }
+    }
 }
 

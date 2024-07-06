@@ -13,7 +13,8 @@ public class Container : HolderAbstract
             LoadPlaceTransform();
         }   
     }
-    [CanEditMultipleObjects][Button]protected virtual void LoadPlaceTransform()
+    [CanEditMultipleObjects][Button]
+    public virtual void LoadPlaceTransform()
     {
         if (placeTransform == null)
         {
