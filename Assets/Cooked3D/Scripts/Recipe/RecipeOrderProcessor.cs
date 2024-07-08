@@ -35,24 +35,24 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
     }
 
     [Button]
-    public void CreateOrder()
+    public RecipeOrder CreateOrder()
     {
         if(orderCount > maxOrderCount)
         {
-            return;
+            return null;
         }
         var recipes = recipeDatabase.GetRandomRecipe();
-        InitDict(recipes);
+        return InitDict(recipes);
     }
     public int GetOrderCount() => orderCount;
 
-    private void InitDict(Recipes newRecipe)
+    private RecipeOrder InitDict(Recipes newRecipe)
     {
         var uiRecipeOrder = ServiceLocator.Current.Get<UIOrderManager>().InitUIOrder();
         if(uiRecipeOrder == null)
         {
             Debug.LogError("UI Order manager pool get UI recipe order null");
-            return;
+            return null;
         } 
         var activeRecipeOrder = new RecipeOrder(newRecipe, uiRecipeOrder);
         
@@ -69,7 +69,7 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
 
         orderCount++;
 
-
+        return activeRecipeOrder;
     }
 
 
@@ -130,15 +130,19 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
     public bool Check(Recipes recipes, out ScoreGrade scoreGrade)
     {
         bool match = false;
+        
         scoreGrade = ScoreGrade.None;
+        
         RecipeOrder recipeOrder = null;
+        
         for (int i = 0; i < RecipeOrderListOnShow.Count; i++)
         {
+           
             recipeOrder = RecipeOrderListOnShow[i];
             scoreGrade = recipeOrder.GetScoreGradeOfTimer();
+
             if (recipeOrder.IsMatchingRecipe(recipes))
             {
-
                 // Correct animation
                 RemoveOrderFromList(recipeOrder);
                 match = true;
@@ -154,7 +158,9 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
         // Call popin animation here
         Debug.Log("Remove order in here");
         RecipeOrderListOnShow.Remove(recipeOrder);
+        
         recipeOrder.TriggerUIOrderRelease();
+        
         orderCount--;
     }
 

@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using System;
 using UnityEngine;
 
-public abstract class HolderAbstract : MonoBehaviour, IHolder
+public abstract partial class HolderAbstract : MonoBehaviour, IHolder
 {
     [SerializeField] protected PickUpAbtract item;
     [SerializeField] protected Transform placeTransform;
@@ -19,49 +19,17 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(placeTransform.position, .2f);
     }
-    private Transform playerTransform;
     public virtual void ExchangeItems(HolderAbstract player)
     {
         // Debug.Log("On Swap");
-
-        var direction = GetNormalizedDirection(player.transform.position,transform.position);
-        angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg;
-        //Debug.Log("Before Angle :" + angle);
-        if (direction != Vector2.up && direction != Vector2.down)
-        {
-            angle -= 180;
-        }
-        //Debug.Log("Direction: " + direction);
+   
+  
         //Debug.Log("After Angle :" + angle );
         ExchangeManager.Exchange(this, player);
-    }
-    public float angle;
-    private static Vector2 GetNormalizedDirection(Vector3 playerPosition, Vector3 holderPosition)
-    {
-        var newPlayerPos = new Vector2(playerPosition.x, playerPosition.z);
-        var newHolderPos = new Vector2(holderPosition.x, holderPosition.z);
-        Vector2 direction = newPlayerPos - newHolderPos;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        if (angle >= -45 && angle < 45)
-        {
-            return Vector2.right;
-        }
-        else if (angle >= 45 && angle < 135)
-        {
-            return Vector2.up;
-        }
-        else if (angle >= 135 || angle < -135)
-        {
-            return Vector2.left;
-        }
-        else if (angle >= -135 && angle < -45)
-        {
-            return Vector2.down;
-        }
-
-        return Vector3.zero;
     }
+    public Vector2 direction;
+
     public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
     {
         var food1 = holder.GetFood();
@@ -150,7 +118,7 @@ public abstract class HolderAbstract : MonoBehaviour, IHolder
 
         if(item != null)
         {
-            item.transform.localRotation = Quaternion.Euler(0, angle, 0);
+            item.transform.rotation = Quaternion.LookRotation(direction);
         }
     }
 
