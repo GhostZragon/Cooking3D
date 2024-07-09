@@ -6,6 +6,7 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
 {
@@ -13,9 +14,12 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
     [SerializeField] private GameObject FoodTextGroupObject;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TextMeshProUGUI recipeNameTxt;
+    [Header("Image")]
     [SerializeField] private Image fillTimeImage;
     [SerializeField] private Image YesTickImage;
+    [SerializeField] private Image fadePanel;
     //[SerializeField] private List<TextMeshProUGUI> foodNameTxt;
+    [Header("List Food Icon")]
     [SerializeField] private List<UIPrepareFood> uIPrepareFoods;
     public Action<UIOrderRecipe> OnCallback { get; set; }
 
@@ -41,18 +45,19 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
         recipeNameTxt.text = recipes.name;
         var listFood = recipes.GetRequiredIngredients().GetIngredientQuantities();
         var foodNeedCount = recipes.FoodNeedCount;
-     
+
         foreach (var food in listFood)
         {
             var _UIPrepareFood = UIOrderManagerInstace.GetUIFood();
             if (_UIPrepareFood == null) continue;
-           
+
             _UIPrepareFood.transform.SetParent(FoodTextGroupObject.transform, false);
-           
+
             _UIPrepareFood.SetIcon(food.FoodData);
-            
+
             _UIPrepareFood.gameObject.SetActive(true);
             
+            uIPrepareFoods.Add(_UIPrepareFood);
             //_UIPrepareFood.transform.localScale = Vector2.zero;
         }
         ResetToInitState();
@@ -97,6 +102,7 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
     public Ease easeYesTickRotate;
     private IEnumerator HideCoroutine()
     {
+        fadePanel.DOFade(.7f, .3f);
         if (showYesTick)
         {
             var yesTickTransform = YesTickImage.transform;
@@ -105,21 +111,21 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
             YesTickImage.DOFade(1, .2f);
             yield return yesTickTransform.DOScale(Vector2.one * 1, .2f).SetEase(Ease.OutBounce).WaitForCompletion();
             yesTickTransform.DOScale(Vector2.one * 1.2f, .4f).SetEase(Ease.OutBounce);
-            
+
             yield return new WaitForSeconds(.1f);
-            yield return yesTickTransform.DOPunchRotation(new Vector3(0,0,10), 1.5f).SetEase(easeYesTickRotate).WaitForCompletion();
+            yield return yesTickTransform.DOPunchRotation(new Vector3(0, 0, 10), 1.5f).SetEase(easeYesTickRotate).WaitForCompletion();
             yield return yesTickTransform.DOScale(Vector2.one * .9f, .2f).WaitForCompletion();
             yield return new WaitForSeconds(.3f);
         }
         // GetInput panel by y asix
-        if(showYesTick == false)
+        if (showYesTick == false)
         {
             //container.DOPunchScale(Vector2.one * .3f, .25f);
             container.transform.DOPunchPosition(new Vector3(0, 10, 0), .25f, 10, 90);
         }
         container.transform.DOLocalMoveY(125, .5f).SetEase(Ease.OutBack);
         // show yes tick control by game logic: Time out == false, give correct recipe == true
-        
+
 
         yield return new WaitForSeconds(.2f);
 
@@ -136,23 +142,23 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
     private IEnumerator ShowCoroutine()
     {
         yield return new WaitForSeconds(.2f);
-        
+
         Sequence sequence = DOTween.Sequence();
         sequence.Append(container.DOScale(Vector2.one, .3f)).SetEase(Ease.OutBack);
-        
+
         //sequence.Append(container.DOShakeScale(.3f, .1f));
         sequence.Join(canvasGroup.DOFade(1, .3f));
         sequence.Play();
-        
+
         //yield return sequence.WaitForCompletion();
         yield return new WaitForSeconds(.2f);
         yield return recipeNameTxt.transform.DOScale(Vector2.one, .3f).SetEase(Ease.OutElastic).WaitForCompletion();
-        
-        foreach(var item in uIPrepareFoods)
+
+        foreach (var item in uIPrepareFoods)
         {
             item.transform.DOScale(Vector2.one, .1f);
         }
-        
+
         yield return fillTimeImage.DOFillAmount(1, .3f).SetEase(Ease.InOutCubic).WaitForCompletion();
 
         OnPopupComplete?.Invoke();
@@ -162,16 +168,20 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
         Debug.Log("Reset state");
         container.DOKill();
         container.localPosition = Vector2.zero;
-       
+
         recipeNameTxt.transform.localScale = Vector2.zero;
-        
+
         fillTimeImage.fillAmount = 0;
-        
+
+        fadePanel.DOFade(0, 0);
+
         container.localScale = Vector2.zero;
 
         YesTickImage.transform.localScale = Vector2.zero;
         Debug.Log("Container position: " + container.localPosition);
         showYesTick = false;
+
+
     }
 
     public void ShowYesTick() => showYesTick = true;
