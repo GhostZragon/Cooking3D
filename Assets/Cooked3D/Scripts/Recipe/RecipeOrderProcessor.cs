@@ -76,20 +76,11 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
 
     private void Update()
     {
-        CreateOrderByInput();
-
         ProcessPendingRecipeOrders();
 
         ProcessActiveRecipeOrders();
     }
-    public KeyCode keycode;
-    private void CreateOrderByInput()
-    {
-        if (Input.GetKeyDown(keycode))
-        {
-            CreateOrder();
-        }
-    }
+
 
     private void ProcessActiveRecipeOrders()
     {

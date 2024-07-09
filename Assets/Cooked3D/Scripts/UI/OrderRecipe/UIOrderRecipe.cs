@@ -108,7 +108,7 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
             yield return yesTickTransform.DOScale(Vector2.one * .9f, .2f).WaitForCompletion();
             yield return new WaitForSeconds(.3f);
         }
-        // Move panel by y asix
+        // GetInput panel by y asix
         if(showYesTick == false)
         {
             //container.DOPunchScale(Vector2.one * .3f, .25f);
