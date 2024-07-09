@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mesh: {fileID: 4300000, guid: e2e96986a3fe2fe4d83e762b8af6a81a, type: 2}
   foodState: 4
-  foodType: 0
+  foodType: 20
   foodStateList: 

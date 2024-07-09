@@ -78,7 +78,7 @@ public class FoodDatabase : ScriptableObject
     }
     public bool CanTransitionToFoodState(Food food, FoodState foodStateWantToChange)
     {
-        // check foodType is contain
+        // check foodState is contain
         if (!foodDictData.TryGetValue(foodStateWantToChange, out var list)) return false;
         foreach (var _foodData in list)
         {

@@ -5,12 +5,12 @@ using UnityEngine.Serialization;
 public enum FoodType
 {
     // Burger
-    None,
-    Tomato,
-    Chesse,
-    Buns,
-    BurgerMeet,
-    Steak
+    None = 0,
+    Tomato = 5,
+    Chesse = 10,
+    Buns = 15,
+    BurgerMeet = 20,
+    Steak = 25
 }
 
 
