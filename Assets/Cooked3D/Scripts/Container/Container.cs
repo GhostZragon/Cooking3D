@@ -1,11 +1,9 @@
 using NaughtyAttributes;
-using UnityEditor;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(ContainerSelect))]
 public class Container : HolderAbstract
 {
-#if UNITY_EDITOR
     private void OnEnable()
     {
         if(placeTransform == null)
@@ -13,7 +11,8 @@ public class Container : HolderAbstract
             LoadPlaceTransform();
         }   
     }
-    [CanEditMultipleObjects][Button]protected virtual void LoadPlaceTransform()
+    [Button]
+    public virtual void LoadPlaceTransform()
     {
         if (placeTransform == null)
         {
@@ -27,5 +26,4 @@ public class Container : HolderAbstract
         transform.tag = "Container";
         transform.gameObject.layer = 9;
     }
-#endif
 }

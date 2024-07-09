@@ -15,7 +15,7 @@ public class FoodDatabase : ScriptableObject
     {
 
 
-        // #if UNITY_EDITOR
+        #if UNITY_EDITOR
         var name = FoodState.ToString() + "_" + FoodType.ToString();
         var fullPath = path + $"/{FoodState.ToString()}/" + name + ".asset";
         Debug.Log(fullPath);
@@ -34,7 +34,7 @@ public class FoodDatabase : ScriptableObject
         UnityEditor.AssetDatabase.SaveAssets();
         AddToList(FoodState, mySo);
 
-        // #endif
+        #endif
     }
 
     private void AddToList(FoodState foodState, FoodData foodData)
@@ -78,7 +78,7 @@ public class FoodDatabase : ScriptableObject
     }
     public bool CanTransitionToFoodState(Food food, FoodState foodStateWantToChange)
     {
-        // check foodType is contain
+        // check foodState is contain
         if (!foodDictData.TryGetValue(foodStateWantToChange, out var list)) return false;
         foreach (var _foodData in list)
         {

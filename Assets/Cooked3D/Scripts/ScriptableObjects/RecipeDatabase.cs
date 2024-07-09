@@ -17,7 +17,7 @@ public class RecipeDatabase : ScriptableObject
         var index = UnityEngine.Random.Range(0, recipes.Count);
         return recipes[index];
     }
-
+#if UNITY_EDITOR
     [Button]
     private void LoadRecipeInAsset()
     {
@@ -27,4 +27,6 @@ public class RecipeDatabase : ScriptableObject
     {
         LoadRecipeInAsset();
     }
+
+#endif
 }

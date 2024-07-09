@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public static class MAnimator
 {
@@ -32,4 +33,17 @@ public static class MAnimator
     /// </summary>
     public static void HarshPlay(this Animator animator, string animation, int layer = -1)
         => animator.Play(animation, layer, 0);
+
+    private static YieldInstruction yieldFrame = new WaitForEndOfFrame();
+    public static IEnumerator PlayAndWait(this Animator animator, string animation, float speed)
+    {
+        animator.Play(animation);
+        yield return yieldFrame;
+        // Get the length of the animation
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float animationLength = stateInfo.length;
+        Debug.Log("Animation time: "+animationLength);
+        // Wait for the animation to complete
+        yield return new WaitForSeconds(animationLength);
+    }
 }

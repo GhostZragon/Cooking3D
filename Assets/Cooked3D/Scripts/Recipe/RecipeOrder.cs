@@ -10,7 +10,7 @@ public partial class RecipeOrderProcessor
         [SerializeField] UIOrderRecipe UIOrderRecipe;
         [SerializeField] float MaxCountDownTime;
         [SerializeField] float CountDownTime;
-
+        public Action CallbackCompleteOrder;
         public RecipeOrder(Recipes _recipes, UIOrderRecipe _uiOrderRecipe)
         {
             recipes = _recipes;
@@ -38,12 +38,15 @@ public partial class RecipeOrderProcessor
         {
             Debug.Log("Hide");
             UIOrderRecipe.Hide();
+            CallbackCompleteOrder?.Invoke();
         }
         public void TriggerUIOrderShow()
         {
             Debug.Log("Show");
             UIOrderRecipe.Show();
         }
+
+
         public bool IsMatchingRecipe(Recipes recipes1)
         {
             UIOrderRecipe.ShowYesTick();

@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,26 @@ public class NPCAnimator : MonoBehaviour
     public readonly static string SitChairStandUp = "Sit_Chair_StandUp";
     public readonly static string Walking = "Walking_A";
 
-    public Animator animator;
+    private Animator animator;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
-    
+    [Button]
+    private void Test()
+    {
+        PlayAnim(Walking);
+    }
+
+    public void PlayAnim(string animName)
+    {
+        Debug.Log("Animator NPC play animation name: " + animName);
+        MAnimator.HarshPlay(animator, animName);
+    }
+    public void WaitPlay(string animName)
+    {
+        Debug.Log("Animator NPC play animation name: " + animName);
+        MAnimator.WaitPlay(animator, animName,.2f);
+    }
 }

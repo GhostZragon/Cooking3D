@@ -17,10 +17,9 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
     }
-    public void Move(Vector3 direction)
+    public void GetInput(Vector3 direction)
     {
-   
-        if(direction == Vector3.zero)
+        if (direction == Vector3.zero)
         {
             animator.ResetTrigger("Moving");
         }
@@ -29,11 +28,11 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Moving");
         }
 
-        Vector3 move = direction.normalized * speed * Time.fixedDeltaTime;
+        Vector3 move = direction.normalized * speed * Time.deltaTime;
         controller.Move(move);
         Rotate(direction);
     }
-
+  
     private void Rotate(Vector3 direction)
     {
         if (direction == Vector3.zero)

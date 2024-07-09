@@ -15,7 +15,8 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
     [SerializeField] private TextMeshProUGUI recipeNameTxt;
     [SerializeField] private Image fillTimeImage;
     [SerializeField] private Image YesTickImage;
-    [SerializeField] private List<TextMeshProUGUI> foodNameTxt;
+    //[SerializeField] private List<TextMeshProUGUI> foodNameTxt;
+    [SerializeField] private List<UIPrepareFood> uIPrepareFoods;
     public Action<UIOrderRecipe> OnCallback { get; set; }
 
     private Action OnPopupComplete;
@@ -27,7 +28,8 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
 
     private void Awake()
     {
-        foodNameTxt = new List<TextMeshProUGUI>();
+        //foodNameTxt = new List<TextMeshProUGUI>();
+        uIPrepareFoods = new List<UIPrepareFood>();
         UIOrderManagerInstace = ServiceLocator.Current.Get<UIOrderManager>();
         if (UIOrderManagerInstace == null)
         {
@@ -42,15 +44,16 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
      
         foreach (var food in listFood)
         {
-            //var text = UIOrderManager.instance.textPool.Get();
-            var text = UIOrderManagerInstace.GetTextFromPool();
-            if (text == null) continue;
-            text.transform.SetParent(FoodTextGroupObject.transform, false);
-            text.gameObject.SetActive(true);
-            text.text = food.FoodData.name;
-            text.transform.localScale = Vector2.zero;
+            var _UIPrepareFood = UIOrderManagerInstace.GetUIFood();
+            if (_UIPrepareFood == null) continue;
            
-            foodNameTxt.Add(text);
+            _UIPrepareFood.transform.SetParent(FoodTextGroupObject.transform, false);
+           
+            _UIPrepareFood.SetIcon(food.FoodData);
+            
+            _UIPrepareFood.gameObject.SetActive(true);
+            
+            //_UIPrepareFood.transform.localScale = Vector2.zero;
         }
         ResetToInitState();
     }
@@ -61,12 +64,12 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
     public void OnRelease()
     {
 
-        foreach (var text in foodNameTxt)
+        foreach (var item in uIPrepareFoods)
         {
-            UIOrderManagerInstace.ReleaseTextToPool(text);
+            item.OnRelease();
         }
-       
-        foodNameTxt.Clear();
+
+        uIPrepareFoods.Clear();
         OnCallback?.Invoke(this);
         transform.DOKill();
     }
@@ -108,7 +111,7 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
             yield return yesTickTransform.DOScale(Vector2.one * .9f, .2f).WaitForCompletion();
             yield return new WaitForSeconds(.3f);
         }
-        // Move panel by y asix
+        // GetInput panel by y asix
         if(showYesTick == false)
         {
             //container.DOPunchScale(Vector2.one * .3f, .25f);
@@ -145,7 +148,7 @@ public class UIOrderRecipe : MonoBehaviour, PoolCallback<UIOrderRecipe>
         yield return new WaitForSeconds(.2f);
         yield return recipeNameTxt.transform.DOScale(Vector2.one, .3f).SetEase(Ease.OutElastic).WaitForCompletion();
         
-        foreach(var item in foodNameTxt)
+        foreach(var item in uIPrepareFoods)
         {
             item.transform.DOScale(Vector2.one, .1f);
         }

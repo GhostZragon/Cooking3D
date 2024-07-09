@@ -25,6 +25,6 @@ public class Player : MonoBehaviour
 
     private void Move(Vector2 movementVector)
     {
-        playerMovement.Move(new Vector3(movementVector.x,0,movementVector.y));
+        playerMovement.GetInput(new Vector3(movementVector.x,0,movementVector.y));
     }
 }

@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 180703311335173306}
   - component: {fileID: 778369934136711356}
+  - component: {fileID: 8787466367266715504}
   m_Layer: 0
   m_Name: CookwareBasePrefab
   m_TagString: Untagged
@@ -89,14 +90,22 @@ MonoBehaviour:
     Model: {fileID: 6610124331673201146}
   - type: 3
     Model: {fileID: 4898165632892008191}
-  foodDatas: []
-  listTest:
-  - foodData: {fileID: 0}
-    amount: 0
-  - foodData: {fileID: 0}
-    amount: 0
-  CookwareRecipeHandle:
-    RecipeStructures: []
+  CookwareRecipeController: {fileID: 0}
+--- !u!114 &8787466367266715504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9090444326153488760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9f25dac40c41248a63e7194533e456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecipeStructures: []
+  IngredientQuantitiesHandle:
+    ingredientQuantities: []
 --- !u!1001 &2900587769308415528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -208,7 +217,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b063400cba4cb9e44827a7d8fef993a3,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b063400cba4cb9e44827a7d8fef993a3,
         type: 3}
@@ -218,7 +227,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b063400cba4cb9e44827a7d8fef993a3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b063400cba4cb9e44827a7d8fef993a3,
         type: 3}
@@ -233,7 +242,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b063400cba4cb9e44827a7d8fef993a3,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b063400cba4cb9e44827a7d8fef993a3,
         type: 3}

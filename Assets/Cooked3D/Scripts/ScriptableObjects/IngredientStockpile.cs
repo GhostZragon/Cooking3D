@@ -89,7 +89,7 @@ public class IngredientStockpile
         return this.ingredientQuantities;
     }
 
-    internal void UpdateOldFoodData(FoodData newFoodData, FoodData oldFoodData)
+    public void UpdateOldFoodData(FoodData newFoodData, FoodData oldFoodData)
     {
         foreach(var food in ingredientQuantities)
         {

@@ -8,19 +8,23 @@ public class UIOrderManager : ServiceInstaller<UIOrderManager>, ServiceLocator.I
 {
     //public static UIOrderManager instance;
     private UnityPool<UIOrderRecipe> UIOrderPool;
-    private IObjectPool<TextMeshProUGUI> textPool;
+    //private IObjectPool<TextMeshProUGUI> textPool;
     [SerializeField] private UIOrderRecipe uIOrderRecipePrefab;
     [SerializeField] private TextMeshProUGUI foodNeedTxtPrefab;
     [SerializeField] private Transform holder;
     [SerializeField] private Transform textHolderPool;
     [SerializeField] private Transform uiHolderPool;
-  
 
+    private UnityPool<UIPrepareFood> UIPrepareFoodPool;
+    public UIPrepareFood UIPrepareFoodPrefab;
+    public IconManager iconManager;
     protected override void CustomAwake()
     {
         base.CustomAwake();
-        textPool = new ObjectPool<TextMeshProUGUI>(CreateText, OnGet, OnRelease, DestroyText, true, 10);
+        //textPool = new ObjectPool<TextMeshProUGUI>(CreateText, OnGet, OnRelease, DestroyText, true, 10);
         UIOrderPool = new UnityPool<UIOrderRecipe>(uIOrderRecipePrefab, 5, holder);
+
+        UIPrepareFoodPool = new UnityPool<UIPrepareFood>(UIPrepareFoodPrefab, 20, holder);
     }
 
     [Button]
@@ -32,35 +36,13 @@ public class UIOrderManager : ServiceInstaller<UIOrderManager>, ServiceLocator.I
         return orderRecipe;
     }
 
-
-
-
-    private TextMeshProUGUI CreateText()
+    public IconManager GetIconManager()
     {
-        return Instantiate(foodNeedTxtPrefab, transform);
-    }
-    private void OnGet(TextMeshProUGUI text)
-    {
-        text.gameObject.SetActive(true);
-    }
-    private void OnRelease(TextMeshProUGUI text)
-    {
-        text.gameObject.SetActive(false);
-        text.transform.SetParent(textHolderPool, false);
-    }
-    private void DestroyText(TextMeshProUGUI text)
-    {
-        Destroy(text.gameObject);
+        return iconManager;
     }
 
-    public void ReleaseTextToPool(TextMeshProUGUI text)
+    public UIPrepareFood GetUIFood()
     {
-        textPool.Release(text);
+        return UIPrepareFoodPool.Get();
     }
-
-    public TextMeshProUGUI GetTextFromPool()
-    {
-        return textPool.Get();
-    }
-
 }

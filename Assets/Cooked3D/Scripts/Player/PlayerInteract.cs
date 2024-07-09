@@ -121,7 +121,8 @@ public class PlayerInteract : MonoBehaviour
             var cookware = playerHolder.GetCookware();
             if (cookware != null)
             {
-                cookware.transform.localRotation = Quaternion.identity;
+                var dir = transform.position - cookware.transform.position;
+                cookware.transform.rotation = Quaternion.LookRotation(dir);
             }
         }
     }

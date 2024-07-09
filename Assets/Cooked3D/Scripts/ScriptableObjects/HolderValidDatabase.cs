@@ -12,12 +12,5 @@ public class HolderValidDatabase : ScriptableObject
     public bool cookwareValidAll;
     public bool foodStateValidAll;
     public bool foodTypeValidAll;
-    private void LoadAllFoodData()
-    {
-    }
-    [Button]
-    private void LoadAllFoodPrefab()
-    {
-        FoodDatas = LoadAssetHeplder.GetListTypeInAssets<FoodData>();
-    }
+
 }

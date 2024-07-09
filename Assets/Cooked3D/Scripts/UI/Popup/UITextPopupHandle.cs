@@ -21,14 +21,6 @@ public class UITextPopupHandle : UIWorldSpaceItem<UITextPopup>
         ShowTextAction -= ShowText;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShowText(transform.position, "GetUIElement", Color.red);
-        }
-    }
-
     private void ShowText(Vector3 position,string text,Color color)
     {
         UITextPopup UITextPopup = GetFromPool();

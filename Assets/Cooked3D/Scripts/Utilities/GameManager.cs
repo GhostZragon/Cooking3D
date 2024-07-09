@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private Camera mainCam;
     GameTimer gameTimer;
     public static Action<ScoreGrade, Vector3> AddScore;
+
     protected void Awake()
     {
         ServiceLocator.Initiailze();
@@ -35,15 +36,15 @@ public class GameManager : MonoBehaviour
                 popupColor = Color.gray;
                 break;
             case ScoreGrade.Low:
-                value = 50;
+                value = 2;
                 popupColor = Color.yellow;
                 break;
             case ScoreGrade.Medium:
-                value = 100;
+                value = 3;
                 popupColor = Color.green;
                 break;
             case ScoreGrade.High:
-                value = 150;
+                value = 5;
                 popupColor = Color.blue;
                 break;
             default:

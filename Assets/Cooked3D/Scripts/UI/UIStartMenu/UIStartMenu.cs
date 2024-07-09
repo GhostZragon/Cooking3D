@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -25,13 +25,32 @@ public class UIStartMenu : MonoBehaviour
 
         playButton.clicked += PlayButton_clicked;
 
+        exitButton.clicked += ExitButton_clicked;
+        Show(true);
     }
 
+    private void ExitButton_clicked()
+    {
+        Application.Quit();
+    }
+
+    public void Show(bool enable)
+    {
+        UIDocument.enabled = enable;
+    }
     private void PlayButton_clicked()
     {
+        Show(false);
+        EventManager.GameLoop.StartGame?.Invoke();
     }
 
-    private void PlayButton_onClick()
+}
+public static class EventManager
+{
+    public static class GameLoop
     {
+        public static Action StartGame;
+        public static Action EndGame;
+        public static Action ResetGame;
     }
 }

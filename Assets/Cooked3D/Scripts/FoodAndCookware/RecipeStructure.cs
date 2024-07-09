@@ -12,14 +12,5 @@ public partial class CookwareRecipeHandle
         {
             isComplete = true;
         }
-        public override bool Equals(object obj)
-        {
-            if(obj is Recipes)
-            {
-
-                return Recipes == obj as Recipes;
-            }
-            return false;
-        }
     }
 }
