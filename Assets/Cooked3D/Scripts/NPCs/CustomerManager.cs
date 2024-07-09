@@ -9,12 +9,18 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private NPCsTable freeTable;
     private UnityPool<Customer> customerPool;
     private float timer;
+
+    private IGameControl IGameControl;
+
     private void Awake()
     {
         customerPool = new UnityPool<Customer>(CustomerPrefab, 5, null);
+        IGameControl = ServiceLocator.Current.Get<GameControl>();
     }
     private void Update()
     {
+        if (IGameControl.canSpawnCustomer == false) return;
+
         if (freeTable.IsHaveTable)
         {
             if (timer < .5f)

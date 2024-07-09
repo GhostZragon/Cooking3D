@@ -14,6 +14,8 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     private BoxCollider BoxCollider;
     private FoodManager foodManager;
 
+    private IGameControl IgameControl;
+
     private float timeToSpawn = 1;
     public void ExchangeItems(HolderAbstract player)
     {
@@ -26,24 +28,15 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     private void Awake()
     {
         BoxCollider = GetComponent<BoxCollider>();
-        StartCoroutine(SpawnTest());
         foodManager = ServiceLocator.Current.Get<FoodManager>();
-
+        IgameControl = ServiceLocator.Current.Get<GameControl>();
     }   
 
 
-    private IEnumerator SpawnTest()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            if (NeedSpawnItem() == false) break;
-            SpawnFood();
-            yield return new WaitForSeconds(.1f);
-        }
-    }
-
     private void Update()
     {
+        if (IgameControl.canSpawnFood == false) return;
+
         if (NeedSpawnItem())
         {
             timer = 0;

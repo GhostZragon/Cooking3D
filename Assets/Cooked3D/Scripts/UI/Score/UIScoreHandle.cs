@@ -6,31 +6,35 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIScoreHandle : ServiceInstaller<UIScoreHandle>, ServiceLocator.IGameService
+public class UIScoreHandle : MonoBehaviour,ServiceLocator.IGameService
 {
-    private Image coinImage;
-    private TextMeshProUGUI coinText;
+    [SerializeField] private Image coinImage;
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private Color textScaleColor;
+    
     private bool isCall = false;
-    protected override void CustomAwake()
+    
+    private void Awake()
     {
-        base.CustomAwake();
-        coinImage = GetComponentInChildren<Image>();
-        coinText = GetComponentInChildren<TextMeshProUGUI>();
         coinText.text = "0";
     }
+    
     [Button]
     private void Test()
     {
-        UpdateCoinText(0);
+        UpdateCoinText(40000);
     }
+    
     public void UpdateCoinText(int value)
     {
         coinText.transform.DOKill();
-        coinText.transform.DOScale(Vector2.one * 1.2f, .25f).SetLoops(2, LoopType.Yoyo);
-        coinText.transform.DOShakePosition(2f, new Vector3(10, 0, 0), 10, 90, false, true).OnComplete(() =>
+        coinText.DOColor(textScaleColor, .15f);
+        coinText.transform.DOScale(Vector3.one * 1.3f,.1f).OnComplete(() =>
         {
-            coinText.transform.DOScale(Vector2.one, .25f);
-        });
+            coinText.transform.DOScale(Vector2.one, .1f);
+            coinText.DOColor(Color.white, .1f);
+        }); ;
+
         coinText.text = value.ToString();
     }
 }

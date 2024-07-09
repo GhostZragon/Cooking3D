@@ -38,6 +38,11 @@ public class UIOrderManager : ServiceInstaller<UIOrderManager>, ServiceLocator.I
 
     public IconManager GetIconManager()
     {
+        if (iconManager == null)
+        {
+            Debug.LogError("Icon Manager is null", gameObject);
+        }
+
         return iconManager;
     }
 

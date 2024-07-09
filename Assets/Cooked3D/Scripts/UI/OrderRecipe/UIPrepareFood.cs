@@ -8,18 +8,20 @@ using UnityEngine.UI;
 
 public class UIPrepareFood : MonoBehaviour, PoolCallback<UIPrepareFood>
 {
-    public Image foodImg;
-    public Image subIcon;
+    [SerializeField] private Image foodImg;
+    [SerializeField] private Image subIcon;
     public Action<UIPrepareFood> OnCallback { get; set; }
-
+    private IconManager iconManager;
     public void OnRelease()
     {
         OnCallback?.Invoke(this);
     }
-
-    internal void SetIcon(FoodData foodData)
+    private void Awake()
     {
-        var iconManager = ServiceLocator.Current.Get<UIOrderManager>().GetIconManager();
+        iconManager = ServiceLocator.Current.Get<UIOrderManager>().GetIconManager();
+    }
+    public void SetIcon(FoodData foodData)
+    {
         foodImg.sprite = iconManager.GetIcon(foodData.FoodType);
         OnShow(foodImg);
         subIcon.sprite = iconManager.GetIcon(foodData.FoodState);

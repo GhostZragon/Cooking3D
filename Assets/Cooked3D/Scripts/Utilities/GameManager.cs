@@ -1,3 +1,5 @@
+using Cinemachine;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,62 +7,33 @@ using UnityEngine;
 [DefaultExecutionOrder(-150)]
 public class GameManager : MonoBehaviour
 {
-    public int score = 0;
-    private Camera mainCam;
-    GameTimer gameTimer;
-    public static Action<ScoreGrade, Vector3> AddScore;
+    [SerializeField] private CameraManager cameraManager;
+    [SerializeField] GameControl gameControl;
+
 
     protected void Awake()
     {
+        gameControl = new GameControl();
+        gameControl.canSpawnFood = false;
+        gameControl.canGetInput = false;
+        gameControl.canSpawnCustomer = false;
+
+
         ServiceLocator.Initiailze();
-        mainCam = Camera.main;
-    }
-    private void OnEnable()
-    {
-        AddScore += _AddScore;
+
+        ServiceLocator.Current.Register(gameControl);
     }
     private void OnDisable()
     {
-        AddScore -= _AddScore;
+
+        ServiceLocator.Current.Unregister(gameControl);
     }
-
-    private void _AddScore(ScoreGrade scoreGrade, Vector3 popupPosition)
-    {
-        var value = 0;
-        Color popupColor = Color.white;
-
-        switch (scoreGrade)
-        {
-            case ScoreGrade.None:
-                value = 0;
-                popupColor = Color.gray;
-                break;
-            case ScoreGrade.Low:
-                value = 2;
-                popupColor = Color.yellow;
-                break;
-            case ScoreGrade.Medium:
-                value = 3;
-                popupColor = Color.green;
-                break;
-            case ScoreGrade.High:
-                value = 5;
-                popupColor = Color.blue;
-                break;
-            default:
-                break;
-        }
-
-        score += value;
-        ServiceLocator.Current.Get<UIScoreHandle>().UpdateCoinText(score);
-        // Trigger the score popup with the appropriate color
-        UITextPopupHandle.ShowTextAction?.Invoke(popupPosition, $"+{value}", popupColor);
-    }
-
-    public void StartGame()
-    {
-        GameTimer.StartCounter?.Invoke();
-    }
+}
+public class GameControl : IGameControl,ServiceLocator.IGameService
+{
+    public bool canSpawnFood { get; set; }
+    public bool canSpawnCustomer { get; set; }
+    public bool canGetInput { get; set; }
 }
 public enum ScoreGrade
 {
@@ -68,4 +41,10 @@ public enum ScoreGrade
     Low,
     Medium,
     High
+}
+public interface IGameControl
+{
+    bool canSpawnFood { get; set; }
+    bool canSpawnCustomer { get; set; }
+    bool canGetInput { get; set; }
 }
