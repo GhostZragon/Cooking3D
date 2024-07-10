@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] GameControl gameControl;
 
-
     protected void Awake()
     {
         gameControl = new GameControl();
