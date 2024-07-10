@@ -9,7 +9,7 @@ public class DiscardContainer : MonoBehaviour, IHolder
             player.DiscardFood();
 
         }
-        else if (player.IsContainCookware())
+        else if (player.IsContainCookware() && player.GetCookware().GetCookwareType() == CookwareType.Plate)
         {
             player.DiscardCookware();
 

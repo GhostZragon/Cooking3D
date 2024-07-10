@@ -10,8 +10,7 @@ public partial class CookwareManager : ServiceInstaller<CookwareManager> ,Servic
     [SerializeField] private Cookware cookwarePrefab;
     [SerializeField] private bool scanWhenStart;
 
-    public Dictionary<CookwareType, CookwareLimit> cookwareLitmitDict;
-    public Cookware[] cookwareInGames;
+    [SerializeField] private Dictionary<CookwareType, CookwareLimit> cookwareLitmitDict;
     private FoodManager foodManager;
     protected override void CustomAwake()
     {
@@ -22,7 +21,6 @@ public partial class CookwareManager : ServiceInstaller<CookwareManager> ,Servic
     private void Start()
     {
         foodManager = ServiceLocator.Current.Get<FoodManager>();
-        cookwareInGames = FindObjectsOfType<Cookware>();
     }
     private void CountingCookwareInGame()
     {
