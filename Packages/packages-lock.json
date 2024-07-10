@@ -249,6 +249,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dmitry-ivashenko.statefului": {
+      "version": "https://github.com/dmitry-ivashenko/StatefulUI.git?path=Assets/Plugins/StatefulUI",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8d665b428d2fca23c985ad5bf3cf735b39798891"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

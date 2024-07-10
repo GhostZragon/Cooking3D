@@ -16,7 +16,7 @@ public class CameraManager : MonoBehaviour
     }
     private void Start()
     {
-        Invoke(nameof(ChangeToGameplayCamera),1);
+        //Invoke(nameof(ChangeToGameplayCamera),1);
     }
     [Button]
     public void ChangeToGameplayCamera()

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [DefaultExecutionOrder(-150)]
-public class GameManager : MonoBehaviour
+public class CookedManager : MonoBehaviour
 {
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] GameControl gameControl;
@@ -26,8 +26,13 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+
+    }
     private void StartGame()
     {
+        return;
         gameControl.canSpawnFood = true;
         gameControl.canGetInput = true;
         gameControl.canSpawnCustomer = true;
