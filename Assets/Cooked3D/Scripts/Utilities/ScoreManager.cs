@@ -4,7 +4,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static Action<ScoreGrade, Vector3> AddScore;
-
+    public static Action<int> OnChangeScore;
     public int score;
     private void OnEnable()
     {
@@ -42,7 +42,7 @@ public class ScoreManager : MonoBehaviour
         }
 
         score += value;
-        ServiceLocator.Current.Get<UIScoreHandle>().UpdateCoinText(score);
+        OnChangeScore?.Invoke(score);
         // Trigger the score popup with the appropriate color
         UITextPopupHandle.ShowTextAction?.Invoke(popupPosition, $"+{value}", popupColor);
     }

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIScoreHandle : MonoBehaviour,ServiceLocator.IGameService
+public class UIScoreHandle : MonoBehaviour
 {
     [SerializeField] private Image coinImage;
     [SerializeField] private TextMeshProUGUI coinText;
@@ -17,8 +17,12 @@ public class UIScoreHandle : MonoBehaviour,ServiceLocator.IGameService
     private void Awake()
     {
         coinText.text = "0";
+        ScoreManager.OnChangeScore += UpdateCoinText;
     }
-    
+    private void OnDisable()
+    {
+        ScoreManager.OnChangeScore -= UpdateCoinText;
+    }
     [Button]
     private void Test()
     {
