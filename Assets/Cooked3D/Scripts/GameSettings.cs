@@ -10,7 +10,14 @@ public class GameSettings : MonoBehaviour
     private void Start()
     {
         //Application.targetFrameRate = 60;
-
+        //if (Application.isMobilePlatform)
+        //{
+        //    Application.targetFrameRate = 30;
+        //}
+        //else
+        //{
+        //    Application.targetFrameRate = 60;
+        //}
         //QualitySettings.vSyncCount = 0;
     }
     void Update()

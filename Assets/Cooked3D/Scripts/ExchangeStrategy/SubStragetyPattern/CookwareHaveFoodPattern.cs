@@ -38,17 +38,36 @@ public partial class ExchangeCookwarePattern
                 return;
 
             }
-            SwapFood(cookware1, cookware2);
+            else if (cookware2.CanCombineWithCookware(cookware1))
+            {
+                cookware1.DiscardFood();
+                return;
 
+            }
             Debug.Log("This is same type of cookware");
-
+            SwapFood(cookware1, cookware2);
         }
         private void SwapFood(Cookware cookware1, Cookware cookware2)
         {
             var food1 = cookware1.GetFood();
             var food2 = cookware2.GetFood();
-            cookware1.Swap(food2);
-            cookware2.Swap(food1);
+            if (food1 != null && cookware2.CanSwapFood(food1))
+            {
+                cookware2.Swap(food1);
+            }
+            else
+            {
+                cookware2.Swap(food1);
+            }
+            if (food2 != null && cookware1.CanSwapFood(food2))
+            {
+                cookware1.Swap(food2);
+            }
+            else
+            {
+                cookware1.Swap(food2);
+            }
+            //cookware1.Swap(food2);
         }
     }
 }

@@ -94,7 +94,7 @@ public partial class CookwareRecipeHandle : MonoBehaviour
 
     public bool IsFoodInRecipeMatch(FoodData foodData)
     {
-        if (TotalRecipesCount == 0) return true;
+        if (TotalRecipesCount == 0) return false;
         foreach (var currentRecipeStructure in RecipeStructures)
         {
             if (currentRecipeStructure.isComplete) continue;

@@ -92,6 +92,7 @@ public class Cookware : PickUpAbtract
             var canPutFood = CanPutFood(food.GetData());
             return canPutFood;
         }
+        
         var CanSwapFoodInCookware = cookwareManager.CanPutFoodInCookware(type, food);
         return CanSwapFoodInCookware || isContainByPlate;
     }

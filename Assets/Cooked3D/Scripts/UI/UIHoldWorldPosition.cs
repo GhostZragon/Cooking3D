@@ -18,9 +18,14 @@ public class UIHoldWorldPosition : MonoBehaviour
     {
         StandPosition = position;
     }
-    private void Update()
+ 
+    private int interval = 3;
+    void Update()
     {
-        transform.position = mainCam.WorldToScreenPoint(StandPosition + offsetScreen);
-    }
+        if (Time.frameCount % interval == 0)
+        {
+            transform.position = mainCam.WorldToScreenPoint(StandPosition + offsetScreen);
 
+        }
+    }
 }
