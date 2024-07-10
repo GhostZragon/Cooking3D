@@ -22,10 +22,21 @@ public class GameManager : MonoBehaviour
         ServiceLocator.Initiailze();
 
         ServiceLocator.Current.Register(gameControl);
+
+        cameraManager.callback += StartGame;
+
     }
+
+    private void StartGame()
+    {
+        gameControl.canSpawnFood = true;
+        gameControl.canGetInput = true;
+        gameControl.canSpawnCustomer = true;
+    }
+
     private void OnDisable()
     {
-
+        cameraManager.callback -= StartGame;
         ServiceLocator.Current.Unregister(gameControl);
     }
 }

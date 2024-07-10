@@ -67,7 +67,7 @@ public partial class CookwareManager : ServiceInstaller<CookwareManager> ,Servic
         return cookware;
     }
 
-    internal bool CanPutFoodInCookware(CookwareType type, Food food)
+    public bool CanPutFoodInCookware(CookwareType type, Food food)
     {
         if (food == null) return true;
         if (type == CookwareType.Pan)
