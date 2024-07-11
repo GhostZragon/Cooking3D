@@ -358,8 +358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9cdae522402af4b917276c5a155483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPointerEnter: {r: 0.7921569, g: 0.71160036, b: 0.2117647, a: 1}
-  colorPointerExit: {r: 1, g: 1, b: 1, a: 1}
+  yesNoPopUp: {fileID: 0}
+  startGameButton: {fileID: 0}
+  ButtonHolder: {fileID: 0}
 --- !u!1 &1314307968
 GameObject:
   m_ObjectHideFlags: 0
