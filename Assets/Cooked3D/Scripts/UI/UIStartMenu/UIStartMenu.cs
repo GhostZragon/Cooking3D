@@ -8,12 +8,11 @@ public class UIStartMenu : MonoBehaviour
     public GameObject ButtonHolder;
 
 
-    private void Awake()
+    private void Start()
     {
         yesNoPopUp.gameObject.SetActive(false);
 
         startGameButton.gameObject.SetActive(true);
-
 
         startGameButton.exitButton.onClick.AddListener(ShowExitYesNoPopUp);
     }

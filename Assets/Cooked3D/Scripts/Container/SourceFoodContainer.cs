@@ -62,7 +62,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     private Food GetFoodInList()
     {
         var food = foodInCrate[foodInCrate.Count - 1];
-        food.SetStateRb_Col(false, 1f);
+        food.SetStateRb_Col(false);
         foodInCrate.Remove(food);
         return food;
     }
@@ -74,7 +74,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
         food.Init();
         food.SetToParentAndPosition(transform);
         food.transform.localPosition = GetRandomSpawnsPosition();
-        food.SetStateRb_Col(true, .7f);
+        food.SetStateRb_Col(true);
         return food;
     }
 

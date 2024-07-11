@@ -18,14 +18,18 @@ public class UIYesNoPopup : StatefulView
     public Action NoCallback;
     private void Awake()
     {
-        yesNoHeaderText = GetText(TextRole.YesNoHeader).TMP;
-        yesButton = GetButton(ButtonRole.Yes);
-        noButton = GetButton(ButtonRole.No);
-
+        GetReferences();
         yesButton.onClick.AddListener(OnYesClick);
         noButton.onClick.AddListener(OnNoClick);
     }
 
+    public void GetReferences()
+    {
+        yesNoHeaderText = GetText(TextRole.YesNoHeader).TMP;
+        yesButton = GetButton(ButtonRole.Yes);
+        noButton = GetButton(ButtonRole.No);
+
+    }
     public void Show(string header)
     {
         gameObject.SetActive(true);

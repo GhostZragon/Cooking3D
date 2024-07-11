@@ -33,14 +33,14 @@ public class ContainerSelect : MonoBehaviour, ITriggerProcress
     [Button]
     public void SetNormal()
     {
-        mesh.material = normalMat;
+        mesh.sharedMaterial = normalMat;
         OnTrigger = false;
     }
 
     [Button]
     public void SetSelect()
     {
-        mesh.material = selectMat;
+        mesh.sharedMaterial = selectMat;
         OnTrigger = true;
     }
 }

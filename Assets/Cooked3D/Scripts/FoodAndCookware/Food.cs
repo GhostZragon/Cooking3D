@@ -49,7 +49,7 @@ public class Food : PickUpAbtract, PoolCallback<Food>
 
     public void Init()
     {
-        SetStateRb_Col(false, .7f);
+        SetStateRb_Col(false);
     }
 
     public void SetData(FoodData data)
@@ -69,7 +69,7 @@ public class Food : PickUpAbtract, PoolCallback<Food>
         return foodData.FoodType;
     }
 
-    public void SetStateRb_Col(bool enable, float scaleRatio = 1)
+    public void SetStateRb_Col(bool enable)
     {
         meshCollider.enabled = enable;
 
@@ -78,7 +78,7 @@ public class Food : PickUpAbtract, PoolCallback<Food>
         rb.angularVelocity = Vector3.zero;
 
         transform.rotation = Quaternion.Euler(0, 0, 0);
-        transform.localScale = Vector3.one * scaleRatio;
+        //transform.localScale = Vector3.one * scaleRatio;
     }
 
 
