@@ -2,55 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 [Serializable]
 public class IngredientStockpile
 {
     [SerializeField] private List<IngredientQuantity> ingredientQuantities = new();
+    private Dictionary<FoodData, IngredientQuantity> ingredientQuantityDict;
+
+    public IngredientStockpile()
+    {
+        ingredientQuantityDict = ingredientQuantities.ToDictionary(iq => iq.FoodData);
+    }
 
     public int GetCountOfFoodData(FoodData foodData)
     {
-        foreach (var item in ingredientQuantities)
-            if (item.FoodData == foodData)
-                return item.Amount;
-
-        return 0;
+        return ingredientQuantityDict.TryGetValue(foodData, out var ingredientQuantity) ? ingredientQuantity.Amount : 0;
     }
 
     public int IngredientCount => ingredientQuantities.Count;
 
     public bool ContainsFoodDataWithCount(FoodData foodData, int currentCount)
     {
-        return ingredientQuantities.Any(item => item.FoodData == foodData && currentCount < item.Amount);
+        return ingredientQuantityDict.TryGetValue(foodData, out var ingredientQuantity) && currentCount < ingredientQuantity.Amount;
     }
 
     public bool ContainsFoodData(FoodData foodData)
     {
-        return ingredientQuantities.Any(item => item.FoodData == foodData);
+        return ingredientQuantityDict.ContainsKey(foodData);
     }
 
     public void SetFirstIngredientFoodData(FoodData foodData)
     {
-        ingredientQuantities[0].SetFoodData(foodData);
+        if (ingredientQuantities.Count > 0)
+        {
+            ingredientQuantities[0].SetFoodData(foodData);
+            ingredientQuantityDict[foodData] = ingredientQuantities[0];
+        }
     }
 
     public void Add(FoodData foodData)
     {
         var ingredientQuantity = new IngredientQuantity(foodData, 1);
         ingredientQuantities.Add(ingredientQuantity);
+        ingredientQuantityDict[foodData] = ingredientQuantity;
     }
 
     public void ResetIngredientQuantities()
     {
         ingredientQuantities.Clear();
+        ingredientQuantityDict.Clear();
     }
 
     public void IncreaseCount(FoodData foodData, int v)
     {
-        foreach (var item in ingredientQuantities)
-            if (item.FoodData == foodData)
-                item.SetAmount(item.Amount + v);
+        if (ingredientQuantityDict.TryGetValue(foodData, out var ingredientQuantity))
+        {
+            ingredientQuantity.SetAmount(ingredientQuantity.Amount + v);
+        }
     }
 
     public bool IsEqual(IngredientStockpile ingredientQuantitiesCollection)
@@ -74,30 +82,21 @@ public class IngredientStockpile
 
     private bool ContainsExactFoodDataCount(FoodData foodData, int count)
     {
-        var isFound = false;
-        foreach (var item in ingredientQuantities)
-            if (Equals(item.FoodData, foodData) && item.Amount == count)
-            {
-                isFound = true;
-                break;
-            }
-
-        return isFound;
+        return ingredientQuantityDict.TryGetValue(foodData, out var ingredientQuantity) && ingredientQuantity.Amount == count;
     }
+
     public List<IngredientQuantity> GetIngredientQuantities()
     {
-        return this.ingredientQuantities;
+        return ingredientQuantities;
     }
 
     public void UpdateOldFoodData(FoodData newFoodData, FoodData oldFoodData)
     {
-        foreach(var food in ingredientQuantities)
+        if (ingredientQuantityDict.TryGetValue(oldFoodData, out var ingredientQuantity))
         {
-            if(food.FoodData == oldFoodData)
-            {
-                food.SetFoodData(newFoodData);
-                break;
-            }
+            ingredientQuantity.SetFoodData(newFoodData);
+            ingredientQuantityDict.Remove(oldFoodData);
+            ingredientQuantityDict[newFoodData] = ingredientQuantity;
         }
     }
 }

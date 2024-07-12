@@ -37,6 +37,7 @@ public class FoodManager : ServiceInstaller<FoodManager>, ServiceLocator.IGameSe
 
     public Food GetFoodInstantiate(FoodType foodType, FoodState foodState)
     {
+
         var food = foodPoolObject.Get();
         var foodData = FoodDatabase.GetFoodData(foodState, foodType);
         
@@ -62,7 +63,12 @@ public class FoodManager : ServiceInstaller<FoodManager>, ServiceLocator.IGameSe
     {
         return FoodDatabase.GetFoodData(foodState, foodType);
     }
-
+    /// <summary>
+    /// Checking is food data is inside some recipe then return list of recipe
+    /// </summary>
+    /// <param name="foodData"></param>
+    /// <param name="listRecipeValid"></param>
+    /// <returns></returns>
     public bool IsFoodInRecipe(FoodData foodData, out List<Recipes> listRecipeValid)
     {
         listRecipeValid = new List<Recipes>();

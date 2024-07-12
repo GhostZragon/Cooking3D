@@ -46,7 +46,7 @@ public partial class ExchangeCookwareAndFoodPattern
             Food targetFood = holder2.GetFood();
             Food foodInCookware = targetCookware.GetFood();
             Debug.LogWarning("TODO: Combine food feature here");
-            // checking food and cookware lis food ?
+            //Checking if food can add in to plate then add it, if not swap it if it can
             if (targetCookware.CanPutFood(targetFood.GetData()))
             {
                 Debug.Log("Put food");

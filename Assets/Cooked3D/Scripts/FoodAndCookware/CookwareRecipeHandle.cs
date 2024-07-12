@@ -19,7 +19,11 @@ public partial class CookwareRecipeHandle : MonoBehaviour
     public IngredientStockpile IngredientQuantitiesCollection => IngredientQuantitiesHandle;
     public int TotalRecipesCount => RecipeStructures.Count;
     public int IngredientQuantityCount => IngredientQuantitiesHandle.IngredientCount;
-    // using for checking food is in order
+   
+    /// <summary>
+    /// Add list of recipe to valid future food
+    /// </summary>
+    /// <param name="recipesList"></param>
     public void AddMatchListRecipe(List<Recipes> recipesList)
     {
         bool temp = false;
@@ -91,7 +95,11 @@ public partial class CookwareRecipeHandle : MonoBehaviour
     {
         return IngredientQuantitiesCollection.GetIngredientQuantities();
     }
-
+    /// <summary>
+    /// Checking food data is inside valid list recipe
+    /// </summary>
+    /// <param name="foodData"></param>
+    /// <returns></returns>
     public bool IsFoodInRecipeMatch(FoodData foodData)
     {
         if (TotalRecipesCount == 0) return false;

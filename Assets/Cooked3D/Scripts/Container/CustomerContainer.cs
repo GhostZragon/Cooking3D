@@ -23,11 +23,15 @@ public class CustomerContainer : Container
         //SpawnText("Thank you!",Color.green);
         Debug.Log("On Swap");
     }
-
+    /// <summary>
+    /// Checking can give food to player 
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     private bool CanDeliverFood(HolderAbstract player)
     {
-        if (player.IsContainFoodInCookware() == false && allowNotContainFood == false) return false;
-        if (player.GetCookwareType() != CookwareType.Plate && allowNotContainFood == false) return false;
+        if (player.IsContainFoodInCookware() == false) return false; // if hold food then return false
+        if (player.GetCookwareType() != CookwareType.Plate) return false; // if not hold plate, return false
         //var food = player.GetCookware().GetFood();
         var cookware = player.GetCookware();
         var recipeList = cookware.GetComponent<CookwareRecipeHandle>().GetRecipeList();
