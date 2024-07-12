@@ -29,7 +29,10 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
 
     }
     public Vector2 direction;
-
+    /// <summary>
+    /// swap food in cookware to another cookware
+    /// </summary>
+    /// <param name="holder"></param>
     public void SwapFoodAndCookwareOneWay(HolderAbstract holder)
     {
         var food1 = holder.GetFood();
@@ -52,7 +55,10 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
             cookware.Swap(food);
         }
     }
-
+    /// <summary>
+    /// Swap coookware of 2 holder, including null
+    /// </summary>
+    /// <param name="holder"></param>
     public void SwapCookwareTwoWay(HolderAbstract holder)
     {
         var cookware1 = holder.GetCookware();
@@ -71,7 +77,10 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
 
         }
     }
-
+    /// <summary>
+    /// Swap food of 2 holder, including null
+    /// </summary>
+    /// <param name="holder"></param>
     public void SwapFoodTwoWay(HolderAbstract holder)
     {
 
@@ -83,12 +92,21 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
             SetItem(food1);
         }
     }
-
+    /// <summary>
+    /// Checking type of container can hold food
+    /// </summary>
+    /// <param name="food"></param>
+    /// <returns></returns>
     public bool CanHoldFood(Food food)
     {
         if (CanHoldType(ContainerType.Food) == false) return false;
         return true;
     }
+    /// <summary>
+    /// Checking type of container can hold cookware
+    /// </summary>
+    /// <param name="cookware"></param>
+    /// <returns></returns>
     public bool CanContainCookware(Cookware cookware)
     {
         if (CanHoldType(ContainerType.Cookware) == false) return false;
@@ -99,12 +117,18 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
     {
         return type == _Type || type == ContainerType.All;
     }
-   
+    /// <summary>
+    /// Checking is have cookware and have food in cookware
+    /// </summary>
+    /// <returns></returns>
     public bool IsContainFoodInCookware()
     {
         return GetCookware() != null && GetCookware().IsContainFoodInPlate();
     }
-
+    /// <summary>
+    /// Add references if item to holder and reset position/parent to new holder
+    /// </summary>
+    /// <param name="newItem"></param>
     public void SetItem(PickUpAbtract newItem)
     {
         ResetItem(newItem);
@@ -115,13 +139,15 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
         
         newItem?.SetToParentAndPosition(placeTransform);
         item = newItem;
-
+        // reset rotation
         if(item != null)
         {
             item.transform.rotation = Quaternion.LookRotation(direction);
         }
     }
-
+    /// <summary>
+    /// Discard food in cookware first, then discard food
+    /// </summary>
     public void DiscardFood()
     {
         if (IsContainFoodInCookware())
@@ -135,6 +161,9 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
         }
 
     }
+    /// <summary>
+    /// Discard cookware and food inside
+    /// </summary>
     [Button]
     public void DiscardCookware()
     {
@@ -145,7 +174,10 @@ public abstract partial class HolderAbstract : MonoBehaviour, IHolder
         }
     }
 
-
+    /// <summary>
+    /// return type of cookware, return none when cookware is null
+    /// </summary>
+    /// <returns></returns>
     public CookwareType GetCookwareType()
     {
         var cookware = GetCookware();

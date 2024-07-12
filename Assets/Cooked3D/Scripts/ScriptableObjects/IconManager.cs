@@ -6,8 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="Icon Manager",menuName = "ScriptableObjects/Icon Manager")]
 public class IconManager : ScriptableObject
 {
-    public List<FoodIcon> foodTypes;
-    public List<FoodStateIcon> cookwareIcon;
+    [SerializeField] private List<FoodIcon> foodTypes;
+    [SerializeField] private List<FoodStateIcon> cookwareIcon;
+    /// <summary>
+    /// Get sprite of what state of food, like Cooked, Slice
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public Sprite GetIcon(FoodState type)
     {
         foreach (var item in cookwareIcon)
@@ -17,6 +22,11 @@ public class IconManager : ScriptableObject
         }
         return null;
     }
+    /// <summary>
+    /// Get sprite of food icon
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public Sprite GetIcon(FoodType type)
     {
         foreach(var item in foodTypes)
