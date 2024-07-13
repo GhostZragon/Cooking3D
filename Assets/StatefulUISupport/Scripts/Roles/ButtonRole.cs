@@ -8,5 +8,6 @@ public enum ButtonRole
     Exit = -736432874,
     Yes = -1273337393,
     No = 1496915101,
+    Options = 1511584348,
 
 }

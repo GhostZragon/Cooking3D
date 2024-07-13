@@ -14,11 +14,19 @@ public class UIStartMenu : MonoBehaviour
 
         startGameButton.gameObject.SetActive(true);
 
-        startGameButton.exitButton.onClick.AddListener(ShowExitYesNoPopUp);
+        startGameButton.exitButton.btn.onClick.AddListener(ShowExitYesNoPopUp);
+        startGameButton.ScaleBtn(Vector3.zero, 0, 0);
+        Invoke(nameof(Test), 1f);
     }
-
+    private void Test()
+    {
+        startGameButton.ScaleBtn(Vector3.one, .25f, .1f);
+    }
     private void ShowExitYesNoPopUp()
     {
         yesNoPopUp.Show("You want to exit !!!");
     }
+
+
 }
+
