@@ -31,14 +31,23 @@ public class Cookware : PickUpAbtract
         cookwareManager = ServiceLocator.Current.Get<CookwareManager>();
         foodManager = ServiceLocator.Current.Get<FoodManager>();
     }
+
     public Food GetFood()
     {
         return FoodInPlates;
     }
+    /// <summary>
+    /// Add call back when plate is discard
+    /// </summary>
+    /// <param name="callback"></param>
     public void SetOnPlateDiscardCallback(Action callback)
     {
         OnPlateDiscardCallback = callback;
     }
+    /// <summary>
+    /// Add food to cookware
+    /// </summary>
+    /// <param name="food"></param>
     public void Swap(Food food)
     {
         // if(food.GetCurrentFoodState() == FoodState.Raw) return;
@@ -50,7 +59,11 @@ public class Cookware : PickUpAbtract
 
         HandleFoodAddition(food);
     }
-
+        
+    /// <summary>
+    /// Add food to stock
+    /// </summary>
+    /// <param name="food"></param>
     private void HandleFoodAddition(Food food)
     {
         if (CookwareRecipeController.IngredientQuantityCount == 0)
@@ -75,15 +88,25 @@ public class Cookware : PickUpAbtract
 
         CookwareRecipeController.ResetData();
     }
-
+    /// <summary>
+    /// Checking have any food data in stock
+    /// </summary>
+    /// <returns></returns>
     public bool IsContainFoodInPlate()
     {
         return CookwareRecipeController.IngredientQuantityCount > 0;
     }
-
+    
+    /// <summary>
+    /// Use for general case for all cookware type
+    /// </summary>
+    /// <param name="food"></param>
+    /// <param name="isContainByPlate"></param>
+    /// <returns></returns>
     public bool CanSwapFood(Food food, bool isContainByPlate = false)
     {
-        if (type == CookwareType.Plate)
+        
+        if (type == CookwareType.Plate) // if cookware is plate, need to check that food is valid to some recipe
         {
             if (food == null)
             {
@@ -92,13 +115,19 @@ public class Cookware : PickUpAbtract
             var canPutFood = CanPutFood(food.GetData());
             return canPutFood;
         }
-        
+        // checking that cookware can hold that food 
         var CanSwapFoodInCookware = cookwareManager.CanPutFoodInCookware(type, food);
         return CanSwapFoodInCookware || isContainByPlate;
     }
-
+   
+    /// <summary>
+    /// Use for case need to check food can combine or add in (PLATE)
+    /// </summary>
+    /// <param name="foodData"></param>
+    /// <returns></returns>
     public bool CanPutFood(FoodData foodData)
     {
+        // if this plate is empty then create a list of recipe valid with that food data
         if (CookwareRecipeController.IngredientQuantityCount == 0)
         {
             if (foodManager.IsFoodInRecipe(foodData, out var recipeMath) == false)
@@ -124,7 +153,10 @@ public class Cookware : PickUpAbtract
     {
         return type;
     }
-
+    /// <summary>
+    /// Update model of cookware
+    /// </summary>
+    /// <param name="newType"></param>
     public void SetCookwareType(CookwareType newType)
     {
         type = newType;

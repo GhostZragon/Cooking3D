@@ -27,6 +27,7 @@ public class Customer : MonoBehaviour, PoolCallback<Customer>
         animator = GetComponentInChildren<Animator>();
 
         Setup();
+
     }
 
     private void Setup()
@@ -81,7 +82,7 @@ public class Customer : MonoBehaviour, PoolCallback<Customer>
         yield return new WaitUntil(() => agent.remainingDistance == 0);
         
         GetOut();
-
+        agent.isStopped = true;
         OnCallback?.Invoke(this);
         Debug.Log("return to pool");
     }

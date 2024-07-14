@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NpcChair : MonoBehaviour
 {
@@ -7,10 +8,11 @@ public class NpcChair : MonoBehaviour
     [SerializeField] private Transform sitTransform;
     private NPCsTable npcTable;
     public Action OnChangeStateAction;
-
+    public NavMeshObstacle navMeshObstacle;
     private void Awake()
     {
         npcTable = GetComponentInParent<NPCsTable>();
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
     }
 
     public Vector3 GetSitPosition()

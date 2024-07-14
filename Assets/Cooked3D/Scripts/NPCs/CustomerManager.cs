@@ -23,7 +23,7 @@ public class CustomerManager : MonoBehaviour
 
         if (freeTable.IsHaveTable)
         {
-            if (timer < .5f)
+            if (timer < 2)
             {
                 timer += Time.deltaTime;
             }

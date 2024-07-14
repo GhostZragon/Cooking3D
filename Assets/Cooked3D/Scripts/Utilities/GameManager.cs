@@ -32,7 +32,6 @@ public class CookedManager : MonoBehaviour
     }
     private void StartGame()
     {
-        return;
         gameControl.canSpawnFood = true;
         gameControl.canGetInput = true;
         gameControl.canSpawnCustomer = true;

@@ -10,7 +10,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     [SerializeField] private int maxCount = 5;
     [SerializeField] private float timer;
     [SerializeField] private List<Food> foodInCrate = new List<Food>();
-
+    private AudioSource audioSource;
     private BoxCollider BoxCollider;
     private FoodManager foodManager;
 
@@ -20,8 +20,11 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     public void ExchangeItems(HolderAbstract player)
     {
         if (foodInCrate.Count == 0) return;
-        if (player.IsContainFood() || player.IsContainCookware()) return;
+        if (player.IsContainFood()) return;
+
+        var cookware = player.GetCookware();
         player.SetItem(GetFoodInList());
+        audioSource.Play();
         // Debug.Log("Set food to player");
     }
 
@@ -30,6 +33,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
         BoxCollider = GetComponent<BoxCollider>();
         foodManager = ServiceLocator.Current.Get<FoodManager>();
         IgameControl = ServiceLocator.Current.Get<GameControl>();
+        audioSource = GetComponent<AudioSource>();
     }   
 
 
@@ -37,7 +41,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     {
         if (IgameControl.canSpawnFood == false) return;
 
-        if (NeedSpawnItem())
+        if (timer >= timeToSpawn && foodInCrate.Count < maxCount)
         {
             timer = 0;
             SpawnFood();
@@ -48,7 +52,6 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
             timer += Time.deltaTime;
         }
     }
-    private bool NeedSpawnItem() => timer >= timeToSpawn && foodInCrate.Count < maxCount;
 
     [Button]
     private void SpawnFood()
@@ -61,6 +64,8 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     }
     private Food GetFoodInList()
     {
+        if (foodInCrate.Count == 0) return null;
+
         var food = foodInCrate[foodInCrate.Count - 1];
         food.SetStateRb_Col(false);
         foodInCrate.Remove(food);
@@ -69,8 +74,16 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
 
     private Food CreateFood()
     {
+        if(FoodType == FoodType.None)
+        {
+            Debug.LogWarning("This food container is null", gameObject);
+            return null;
+        }
+
         var food = foodManager.GetFoodInstantiate(FoodType, FoodState.Raw);
+        
         if(food == null) return null;
+        
         food.Init();
         food.SetToParentAndPosition(transform);
         food.transform.localPosition = GetRandomSpawnsPosition();
