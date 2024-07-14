@@ -523,6 +523,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIGameMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 1544588112993949008, guid: 84f0cb46dd6a9e44fb84e8409b420fcf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1893443451462478930, guid: 84f0cb46dd6a9e44fb84e8409b420fcf,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -648,10 +653,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1082488453}
-    - target: {fileID: 5457131192563783872, guid: 84f0cb46dd6a9e44fb84e8409b420fcf,
+    - target: {fileID: 5798349321479597799, guid: 84f0cb46dd6a9e44fb84e8409b420fcf,
         type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -4.000061
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6860272830781290298, guid: 84f0cb46dd6a9e44fb84e8409b420fcf,
         type: 3}
@@ -672,6 +677,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201276360288613596, guid: 84f0cb46dd6a9e44fb84e8409b420fcf,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974051897877636415, guid: 84f0cb46dd6a9e44fb84e8409b420fcf,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

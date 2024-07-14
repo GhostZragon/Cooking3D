@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public CinemachineVirtualCamera gameplayCamera;
-    public CinemachineVirtualCamera startGameCamera;
+    [SerializeField] private CinemachineVirtualCamera gameplayCamera;
+    [SerializeField] private CinemachineVirtualCamera startGameCamera;
     public Action callback;
     private void Awake()
     {

@@ -17,6 +17,10 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
     [SerializeField] private int orderCount = 0;
     [SerializeField] private int maxOrderCount = 5;
 
+    [Header("Sound")]
+    [SerializeField] private AudioSource correctSound;
+    [SerializeField] private AudioSource failSound;
+    [SerializeField] private AudioSource createOrderSound;
     // two action use for callback when final animation of recipe is run done,
     // it mean when it start to couning time
     
@@ -68,6 +72,8 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
         requestUpdate = true;
 
         orderCount++;
+
+        createOrderSound.Play();
 
         return activeRecipeOrder;
     }
@@ -135,6 +141,7 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
             if (recipeOrder.IsMatchingRecipe(recipes))
             {
                 // Correct animation
+                correctSound.Play();
                 RemoveOrderFromList(recipeOrder);
                 match = true;
                 break;
@@ -146,6 +153,7 @@ public partial class RecipeOrderProcessor : ServiceInstaller<RecipeOrderProcesso
 
     private void RemoveOrderFromList(RecipeOrder recipeOrder)
     {
+        failSound.Play();
         // Call popin animation here
         Debug.Log("Remove order in here");
         RecipeOrderListOnShow.Remove(recipeOrder);

@@ -19,7 +19,15 @@ public class UIStartGameButton : StatefulView
         exitButton = GetButton(ButtonRole.Exit).GetComponent<CustomButton>();
         listButton = GetComponentsInChildren<CustomButton>().ToList();
 
+        playButton.btn.onClick.AddListener(StartGame);
+
     }
+
+    private void StartGame()
+    {
+
+    }
+
     [Button]
     private void Show()
     {
