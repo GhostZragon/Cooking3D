@@ -10,7 +10,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
     [SerializeField] private int maxCount = 5;
     [SerializeField] private float timer;
     [SerializeField] private List<Food> foodInCrate = new List<Food>();
-
+    private AudioSource audioSource;
     private BoxCollider BoxCollider;
     private FoodManager foodManager;
 
@@ -23,11 +23,8 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
         if (player.IsContainFood()) return;
 
         var cookware = player.GetCookware();
-        if (cookware != null 
-            && cookware.IsContainFoodInPlate() == false )
-        {
-        }
         player.SetItem(GetFoodInList());
+        audioSource.Play();
         // Debug.Log("Set food to player");
     }
 
@@ -36,6 +33,7 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
         BoxCollider = GetComponent<BoxCollider>();
         foodManager = ServiceLocator.Current.Get<FoodManager>();
         IgameControl = ServiceLocator.Current.Get<GameControl>();
+        audioSource = GetComponent<AudioSource>();
     }   
 
 

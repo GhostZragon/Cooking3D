@@ -13,7 +13,6 @@ public class ContainerSelect : MonoBehaviour, ITriggerProcress
     [SerializeField] private Material selectMat;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private bool testSelect;
-
     public bool OnTrigger { get; set; }
 
     private void OnValidate()
