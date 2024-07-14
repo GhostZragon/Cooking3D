@@ -28,6 +28,34 @@ MonoBehaviour:
   rounded:
     m_OverrideState: 1
     m_Value: 1
+--- !u!114 &-547777727612088781
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
+  m_Name: ColorAdjustments
+  m_EditorClassIdentifier: 
+  active: 1
+  postExposure:
+    m_OverrideState: 1
+    m_Value: 0
+  contrast:
+    m_OverrideState: 0
+    m_Value: 0
+  colorFilter:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 0.8452287, b: 0.7877358, a: 1}
+  hueShift:
+    m_OverrideState: 1
+    m_Value: 8
+  saturation:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,6 +74,7 @@ MonoBehaviour:
   - {fileID: 422396863671919352}
   - {fileID: 4767024098972593508}
   - {fileID: 4436593355042138650}
+  - {fileID: -547777727612088781}
 --- !u!114 &422396863671919352
 MonoBehaviour:
   m_ObjectHideFlags: 3
