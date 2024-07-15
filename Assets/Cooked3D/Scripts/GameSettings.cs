@@ -9,16 +9,16 @@ public class GameSettings : MonoBehaviour
     private float deltaTime = 0.0f;
     private void Start()
     {
-        //Application.targetFrameRate = 60;
-        //if (Application.isMobilePlatform)
-        //{
-        //    Application.targetFrameRate = 30;
-        //}
-        //else
-        //{
-        //    Application.targetFrameRate = 60;
-        //}
-        //QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        if (Application.isMobilePlatform)
+        {
+            Application.targetFrameRate = 30;
+        }
+        else
+        {
+            Application.targetFrameRate = 60;
+        }
+        QualitySettings.vSyncCount = 0;
     }
     void Update()
     {

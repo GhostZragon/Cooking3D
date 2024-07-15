@@ -76,7 +76,7 @@ public class Food : PickUpAbtract, PoolCallback<Food>
         rb.useGravity = enable;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
+        transform.localScale = Vector3.one;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         //transform.localScale = Vector3.one * scaleRatio;
     }
