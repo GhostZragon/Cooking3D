@@ -11,7 +11,11 @@ public class Recipes : ScriptableObject
     [SerializeField] private IngredientStockpile recipeIngredient;
     public bool IsContain(FoodData foodDataNeedToCheck)
     {
-        if (foodDataNeedToCheck == null) return false;
+        if (foodDataNeedToCheck == null)
+        {
+            Debug.Log("Food on checking is null");
+            return false;
+        }
         return recipeIngredient.ContainsFoodData(foodDataNeedToCheck);
     }
     public bool IsContainWithCount(FoodData foodDataNeedToCheck,int count)

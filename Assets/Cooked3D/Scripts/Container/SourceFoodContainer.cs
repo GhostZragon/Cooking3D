@@ -23,7 +23,14 @@ public class SourceFoodContainer : MonoBehaviour, IHolder
         if (player.IsContainFood()) return;
 
         var cookware = player.GetCookware();
-        player.SetItem(GetFoodInList());
+        if (cookware != null && cookware.CanPutFood(foodInCrate[0].GetData()))
+        {
+            cookware.Swap(GetFoodInList());
+        }
+        else
+        {
+            player.SetItem(GetFoodInList());
+        }
         audioSource.Play();
         // Debug.Log("Set food to player");
     }

@@ -81,7 +81,14 @@ public class FoodManager : ServiceInstaller<FoodManager>, ServiceLocator.IGameSe
         {
             if (recipe.IsContain(foodData))
             {
+                Debug.Log("Contain food data");
                 listRecipeValid.Add(recipe);
+            }
+            else
+            {
+                Debug.Log("Checking ...");
+                Debug.Log($"{recipe.name} does not have {foodData.name}");
+
             }
         }
         return listRecipeValid.Count > 0;

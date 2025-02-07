@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Cooking3D.sln"
+    "dotnet.defaultSolution": "Cooking3D.sln",
+    "dotnet.preferCSharpExtension": true
 }

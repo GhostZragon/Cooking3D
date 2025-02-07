@@ -5,6 +5,8 @@ public class SourceCookwareContainer : MonoBehaviour, IHolder
     private CookwareManager cookwareManager;
     private void Start()
     {
+        tag = "Container";
+        gameObject.layer = LayerMask.NameToLayer("Container");
         cookwareManager = ServiceLocator.Current.Get<CookwareManager>();
     }
 

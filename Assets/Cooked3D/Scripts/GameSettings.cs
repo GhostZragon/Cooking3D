@@ -7,17 +7,9 @@ public class GameSettings : MonoBehaviour
 {
     public TextMeshProUGUI fpsText;
     private float deltaTime = 0.0f;
-    private void Start()
+    private void Awake()
     {
         Application.targetFrameRate = 60;
-        if (Application.isMobilePlatform)
-        {
-            Application.targetFrameRate = 30;
-        }
-        else
-        {
-            Application.targetFrameRate = 60;
-        }
         QualitySettings.vSyncCount = 0;
     }
     void Update()
