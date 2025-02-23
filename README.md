@@ -6,7 +6,7 @@
 # **Project Overview**  
 
 ## **Game Description**  
-This is a cooking simulation game where players collect ingredients, cook dishes, and deliver orders to earn rewards. The game focuses on resource management, strategic decision-making, and time efficiency. Players will interact with various game mechanics to prepare food and fulfill NPC orders within a dynamic environment.  
+ is a strategic time-management game where players collect ingredients, cook dishes, and deliver orders to earn rewards. The game emphasizes resource management, strategic decision-making, and efficiency.
 ## In game screenshot
 ![Unity_vustUqjv9t](https://github.com/user-attachments/assets/76dea8eb-e037-40cf-abe0-ae0fad76fb81)
 ## Demo Video
